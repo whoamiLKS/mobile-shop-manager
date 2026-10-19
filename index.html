@@ -111,11 +111,11 @@
           <div>
             <div class="flex items-center justify-between mb-1">
               <label class="font-bold text-slate-700" data-i18n="admin_pin_label">Master Admin PIN</label>
-              <span class="text-[10px] text-indigo-600 font-semibold cursor-pointer" id="btn-admin-demo-hint">Default PIN: 1234</span>
+              
             </div>
             <div class="relative">
               <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400"></i>
-              <input id="auth-admin-pin" type="password" required value="1234" placeholder="Enter Admin PIN (1234)" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <input id="auth-admin-pin" type="password" required value="" placeholder="Enter Master Admin PIN" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
               <button type="button" id="btn-toggle-admin-pin" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
                 <i class="fa-solid fa-eye text-xs"></i>
               </button>
@@ -156,12 +156,12 @@
                   <i class="fa-solid fa-key text-[10px]"></i>
                   <span data-i18n="forgot_pin_link">Forgot PIN?</span>
                 </button>
-                <span class="text-[10px] text-indigo-600 font-semibold cursor-pointer" id="btn-owner-demo-hint">Demo: 1234</span>
+                
               </div>
             </div>
             <div class="relative">
               <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400"></i>
-              <input id="auth-owner-pin" type="password" required value="1234" placeholder="Enter Store PIN" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <input id="auth-owner-pin" type="password" required value="" placeholder="Enter Store PIN" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
               <button type="button" id="btn-toggle-owner-pin" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
                 <i class="fa-solid fa-eye text-xs"></i>
               </button>
@@ -273,33 +273,7 @@
         </form>
       </div>
 
-      <!-- 1-Click Instant Demo Login Buttons -->
-      <div class="pt-3 border-t border-slate-100 space-y-2">
-        <div class="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-wider">
-          <span data-i18n="demo_quick_title">Instant 1-Click Access</span>
-          <span class="text-indigo-600 font-medium lowercase" data-i18n="demo_click_role">tap any role</span>
-        </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-          <button onclick="quickAuthAdmin()" class="p-2.5 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl text-left transition group">
-            <div class="font-black text-purple-900 truncate group-hover:text-purple-700 flex items-center gap-1">
-              <i class="fa-solid fa-crown text-amber-500 text-[10px]"></i> Super Admin
-            </div>
-            <div class="text-[10px] text-purple-600" data-i18n="demo_admin_sub">Full Control</div>
-          </button>
-          <button onclick="quickAuthOwner('store-01')" class="p-2.5 bg-indigo-50/70 hover:bg-indigo-100 border border-indigo-200 rounded-xl text-left transition group">
-            <div class="font-extrabold text-indigo-900 truncate group-hover:text-indigo-700">Apex Mobile</div>
-            <div class="text-[10px] text-indigo-600">Fadi Khoury &bull; Owner</div>
-          </button>
-          <button onclick="quickAuthOwner('store-02')" class="p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-left transition group">
-            <div class="font-extrabold text-slate-800 truncate group-hover:text-slate-900">Cedar Cell</div>
-            <div class="text-[10px] text-slate-500">Ahmad M. &bull; Owner</div>
-          </button>
-          <button onclick="quickAuthOwner('store-03')" class="p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-left transition group">
-            <div class="font-extrabold text-slate-800 truncate group-hover:text-slate-900">Phoenicia</div>
-            <div class="text-[10px] text-slate-500">Elie Daher &bull; Owner</div>
-          </button>
-        </div>
-      </div>
+
     </div>
   </div>
 
@@ -2634,6 +2608,9 @@
       if (!appState.auth) {
         appState.auth = { isAuthenticated: false, role: null, activeStoreId: appState.currentStoreId || 'store-01', adminPin: '1234' };
       }
+      // Always require authentication when opening or refreshing the page link
+      appState.auth.isAuthenticated = false;
+      appState.auth.role = null;
       if (!appState.auth.adminPin) {
         appState.auth.adminPin = '1234';
       }
@@ -2829,7 +2806,7 @@
         appState.repairs = JSON.parse(JSON.stringify(defaultInitialState.repairs));
       }
       if (!appState.auth) {
-        appState.auth = { isAuthenticated: true, activeStoreId: appState.currentStoreId || 'store-01' };
+        appState.auth = { isAuthenticated: false, role: null, activeStoreId: appState.currentStoreId || 'store-01', adminPin: '1234' };
       }
 
       renderAuthGateway();
@@ -4067,9 +4044,11 @@
         if (!appState.auth || !appState.auth.isAuthenticated) {
           overlay.classList.remove('hidden');
           if (closeBtn) closeBtn.classList.add('hidden');
+          document.body.classList.add('overflow-hidden');
         } else {
           overlay.classList.add('hidden');
           if (closeBtn) closeBtn.classList.remove('hidden');
+          document.body.classList.remove('overflow-hidden');
         }
       }
 
@@ -4098,6 +4077,11 @@
     window.lockTerminal = function() {
       if (!appState.auth) appState.auth = {};
       appState.auth.isAuthenticated = false;
+      appState.auth.role = null;
+      const adminPinEl = document.getElementById('auth-admin-pin');
+      if (adminPinEl) adminPinEl.value = '';
+      const ownerPinEl = document.getElementById('auth-owner-pin');
+      if (ownerPinEl) ownerPinEl.value = '';
       saveState();
       openAuthGateway();
       const msg = getLang() === 'ar'
@@ -4861,15 +4845,7 @@
       tabBtnOwner?.addEventListener('click', () => switchAuthTab('owner'));
       tabBtnReg?.addEventListener('click', () => switchAuthTab('register'));
 
-      // Demo PIN Hints
-      document.getElementById('btn-admin-demo-hint')?.addEventListener('click', () => {
-        document.getElementById('auth-admin-pin').value = '1234';
-        showToast('Filled default demo PIN: 1234');
-      });
-      document.getElementById('btn-owner-demo-hint')?.addEventListener('click', () => {
-        document.getElementById('auth-owner-pin').value = '1234';
-        showToast('Filled default demo PIN: 1234');
-      });
+
 
       // PIN Visibility Toggles
       document.getElementById('btn-toggle-admin-pin')?.addEventListener('click', () => {
