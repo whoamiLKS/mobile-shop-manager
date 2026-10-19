@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Apex Mobile & Whish Agent - Manager Suite</title>
+  <meta name="theme-color" content="#4f46e5" id="meta-theme-color">
+  <meta name="description" content="Commercial SaaS Back-Office, POS, Whish Money Agent & Repair Suite for Lebanese Mobile Shops">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Apex Mobile">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -39,6 +47,145 @@
     .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    html.dark .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+    html.dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
+
+    /* Comprehensive Dark Theme Overrides */
+    html.dark body {
+      background-color: #0b0f19 !important;
+      color: #e2e8f0 !important;
+    }
+    html.dark header,
+    html.dark aside#app-sidebar,
+    html.dark nav#mobile-bottom-nav {
+      background-color: #111827 !important;
+      border-color: #1e293b !important;
+    }
+    html.dark .bg-white {
+      background-color: #111827 !important;
+      color: #f1f5f9 !important;
+    }
+    html.dark .bg-slate-50,
+    html.dark .bg-slate-50\/80 {
+      background-color: #1e293b !important;
+      color: #e2e8f0 !important;
+    }
+    html.dark .bg-slate-100 {
+      background-color: #1e293b !important;
+      color: #cbd5e1 !important;
+    }
+    html.dark .bg-slate-200 {
+      background-color: #334155 !important;
+      color: #f1f5f9 !important;
+    }
+    html.dark .text-slate-900,
+    html.dark .text-slate-800 {
+      color: #f8fafc !important;
+    }
+    html.dark .text-slate-700,
+    html.dark .text-slate-600 {
+      color: #cbd5e1 !important;
+    }
+    html.dark .text-slate-500,
+    html.dark .text-slate-400 {
+      color: #94a3b8 !important;
+    }
+    html.dark .border-slate-200,
+    html.dark .border-slate-100,
+    html.dark .border-slate-300,
+    html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
+      border-color: #1f2937 !important;
+    }
+    html.dark input:not([type="checkbox"]):not([type="radio"]),
+    html.dark select,
+    html.dark textarea {
+      background-color: #0f172a !important;
+      border-color: #334155 !important;
+      color: #f8fafc !important;
+    }
+    html.dark input::placeholder,
+    html.dark textarea::placeholder {
+      color: #64748b !important;
+    }
+    html.dark tbody tr:hover {
+      background-color: rgba(30, 41, 59, 0.7) !important;
+    }
+    /* Tinted cards & badges in dark mode */
+    html.dark .bg-indigo-50,
+    html.dark .bg-indigo-50\/70,
+    html.dark .bg-indigo-50\/50,
+    html.dark .bg-indigo-50\/80 {
+      background-color: rgba(79, 70, 229, 0.18) !important;
+      border-color: rgba(99, 102, 241, 0.35) !important;
+      color: #c7d2fe !important;
+    }
+    html.dark .text-indigo-900,
+    html.dark .text-indigo-800,
+    html.dark .text-indigo-700 {
+      color: #a5b4fc !important;
+    }
+    html.dark .bg-amber-50,
+    html.dark .bg-amber-50\/70,
+    html.dark .bg-amber-50\/60,
+    html.dark .bg-amber-50\/80 {
+      background-color: rgba(217, 119, 6, 0.16) !important;
+      border-color: rgba(245, 158, 11, 0.35) !important;
+      color: #fde68a !important;
+    }
+    html.dark .text-amber-900,
+    html.dark .text-amber-800,
+    html.dark .text-amber-700 {
+      color: #fcd34d !important;
+    }
+    html.dark .bg-emerald-50,
+    html.dark .bg-emerald-50\/70,
+    html.dark .bg-emerald-50\/60,
+    html.dark .bg-emerald-50\/20 {
+      background-color: rgba(16, 185, 129, 0.16) !important;
+      border-color: rgba(16, 185, 129, 0.35) !important;
+      color: #a7f3d0 !important;
+    }
+    html.dark .text-emerald-950,
+    html.dark .text-emerald-900,
+    html.dark .text-emerald-800,
+    html.dark .text-emerald-700 {
+      color: #6ee7b7 !important;
+    }
+    html.dark .bg-rose-50,
+    html.dark .bg-rose-50\/90,
+    html.dark .bg-rose-50\/80,
+    html.dark .bg-rose-50\/70,
+    html.dark .bg-rose-50\/60 {
+      background-color: rgba(225, 29, 72, 0.16) !important;
+      border-color: rgba(244, 63, 94, 0.35) !important;
+      color: #fecdd3 !important;
+    }
+    html.dark .text-rose-900,
+    html.dark .text-rose-800,
+    html.dark .text-rose-700 {
+      color: #fda4af !important;
+    }
+    html.dark .bg-purple-50,
+    html.dark .bg-purple-50\/60 {
+      background-color: rgba(147, 51, 234, 0.18) !important;
+      border-color: rgba(168, 85, 247, 0.35) !important;
+      color: #e9d5ff !important;
+    }
+    html.dark .text-purple-950,
+    html.dark .text-purple-900,
+    html.dark .text-purple-800,
+    html.dark .text-purple-700 {
+      color: #d8b4fe !important;
+    }
+    html.dark .bg-blue-50,
+    html.dark .bg-blue-50\/60 {
+      background-color: rgba(37, 99, 235, 0.16) !important;
+      border-color: rgba(59, 130, 246, 0.35) !important;
+    }
+    html.dark .text-blue-900,
+    html.dark .text-blue-800 {
+      color: #93c5fd !important;
+    }
     @media print {
       body * { visibility: hidden; }
       #printable-receipt-modal, #printable-receipt-modal * { visibility: visible; }
@@ -52,12 +199,24 @@
   <!-- Full-Screen SaaS Auth & Terminal Lock Gateway -->
   <div id="auth-gateway-overlay" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full p-4 sm:p-7 space-y-4 sm:space-y-5 relative border border-slate-100 my-auto max-h-[94vh] overflow-y-auto custom-scrollbar">
-      <!-- Top Bar inside Auth Gateway: Language Switcher & Close Button -->
-      <div class="flex items-center justify-between">
-        <button type="button" onclick="toggleLanguage()" id="btn-lang-toggle-auth" class="bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-200 text-xs font-extrabold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-2xs">
-          <i class="fa-solid fa-globe text-indigo-600"></i>
-          <span id="lang-toggle-auth-label">عربي | EN</span>
-        </button>
+      <!-- Top Bar inside Auth Gateway: Language Switcher, Dark Theme & Install App -->
+      <div class="flex items-center justify-between gap-1.5 flex-wrap">
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <button type="button" onclick="toggleLanguage()" id="btn-lang-toggle-auth" class="bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-200 text-xs font-extrabold px-2.5 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-2xs">
+            <i class="fa-solid fa-globe text-indigo-600"></i>
+            <span id="lang-toggle-auth-label">عربي | EN</span>
+          </button>
+
+          <button type="button" onclick="toggleTheme()" id="btn-theme-toggle-auth" class="bg-slate-100 hover:bg-amber-50 text-slate-700 hover:text-amber-700 border border-slate-200 text-xs font-extrabold px-2.5 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-2xs" title="Toggle Dark / Light Theme">
+            <i id="theme-icon-auth" class="fa-solid fa-moon text-indigo-600"></i>
+            <span id="theme-label-auth" data-i18n="theme_dark">Dark</span>
+          </button>
+
+          <button type="button" onclick="triggerPwaInstall()" id="btn-pwa-install-auth" class="bg-gradient-to-r from-indigo-600 to-rose-600 hover:from-indigo-700 hover:to-rose-700 text-white text-xs font-extrabold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-download text-[11px]"></i>
+            <span data-i18n="btn_install_app">Install App</span>
+          </button>
+        </div>
 
         <button id="btn-close-auth-overlay" class="text-slate-400 hover:text-slate-600 text-lg font-bold p-1.5 rounded-lg hover:bg-slate-100 transition hidden" title="Return to Back-Office">
           <i class="fa-solid fa-xmark"></i>
@@ -255,11 +414,11 @@
           <div class="grid grid-cols-3 gap-2">
             <div>
               <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_usd">Opening USD ($)</label>
-              <input id="auth-reg-usd" type="number" min="0" value="1500" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold">
+              <input id="auth-reg-usd" type="number" min="0" value="0" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold">
             </div>
             <div>
               <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_float">Whish Float ($)</label>
-              <input id="auth-reg-float" type="number" min="0" value="2500" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-rose-700">
+              <input id="auth-reg-float" type="number" min="0" value="0" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-rose-700">
             </div>
             <div>
               <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_pin">Desired PIN</label>
@@ -302,6 +461,24 @@
       </div>
 
       <div class="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
+        <!-- Backup / Import Data Button in Top Header -->
+        <button type="button" onclick="openModal('modal-backup')" id="btn-nav-backup" class="cursor-pointer bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 text-[11px] sm:text-xs font-extrabold px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-2xs" title="Backup & Import All Data (JSON)">
+          <i class="fa-solid fa-database text-emerald-600"></i>
+          <span class="hidden md:inline" data-i18n="btn_backup_short">Backup / Import</span>
+        </button>
+
+        <!-- PWA Install App Button in Top Header -->
+        <button type="button" onclick="triggerPwaInstall()" id="btn-pwa-install-nav" class="cursor-pointer bg-gradient-to-r from-indigo-600 to-rose-600 hover:from-indigo-700 hover:to-rose-700 text-white text-[11px] sm:text-xs font-extrabold px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-xs" title="Install App on Phone or Computer">
+          <i class="fa-solid fa-download text-[11px]"></i>
+          <span class="hidden sm:inline" data-i18n="btn_install_short">Install</span>
+        </button>
+
+        <!-- Dark / Light Theme Toggle Button in Top Header -->
+        <button type="button" onclick="toggleTheme()" id="btn-theme-toggle-nav" class="cursor-pointer bg-slate-100 hover:bg-indigo-50 border border-slate-200 text-slate-800 text-[11px] sm:text-xs font-extrabold px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-2xs" title="Toggle Dark / Light Mode">
+          <i id="theme-icon-nav" class="fa-solid fa-moon text-indigo-600"></i>
+          <span id="theme-label-nav" class="hidden md:inline" data-i18n="theme_dark">Dark</span>
+        </button>
+
         <!-- Language Toggle Button in Top Header -->
         <button type="button" onclick="toggleLanguage()" id="btn-lang-toggle-nav" class="cursor-pointer bg-slate-100 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-slate-800 hover:text-indigo-700 text-[11px] sm:text-xs font-extrabold px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-2xs" title="Switch Language (English / العربية)">
           <i class="fa-solid fa-globe text-indigo-600"></i>
@@ -436,11 +613,14 @@
           <button id="btn-sidebar-lock" class="hover:text-amber-600 font-medium flex items-center gap-1" title="Lock Terminal">
             <i class="fa-solid fa-lock"></i> <span data-i18n="footer_lock">Lock</span>
           </button>
+          <button type="button" onclick="openModal('modal-backup')" id="btn-open-backup-modal" class="hover:text-emerald-600 font-bold flex items-center gap-1" title="Backup & Import Data">
+            <i class="fa-solid fa-database text-emerald-600"></i> <span data-i18n="footer_backup">Backup</span>
+          </button>
           <button id="btn-open-settings" class="hover:text-indigo-600 font-medium flex items-center gap-1">
             <i class="fa-solid fa-gear"></i> <span data-i18n="footer_settings">Settings</span>
           </button>
-          <button id="btn-reset-demo" class="hover:text-rose-600 font-medium flex items-center gap-1">
-            <i class="fa-solid fa-rotate-right"></i> <span data-i18n="footer_reset">Reset</span>
+          <button id="btn-reset-demo" class="hidden hover:text-amber-600 font-bold flex items-center gap-1 text-amber-600" title="Super Admin Only: Load Demo Data">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="footer_demo_admin">Demo Data</span>
           </button>
         </div>
       </div>
@@ -1236,6 +1416,15 @@
               <button id="btn-open-register-store" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2">
                 <i class="fa-solid fa-plus"></i> <span data-i18n="stores_btn_create_direct">Add Store Directly (Admin)</span>
               </button>
+              <button type="button" onclick="adminLoadDemoData()" id="btn-admin-load-demo" class="bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="btn_load_demo_admin">Load Demo Data (Admin Only)</span>
+              </button>
+              <button type="button" onclick="adminClearStoreData()" id="btn-admin-clear-data" class="bg-rose-600/90 hover:bg-rose-600 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                <i class="fa-solid fa-trash-can"></i> <span data-i18n="btn_clear_store_data">Clear Store Data (0)</span>
+              </button>
+              <button type="button" onclick="openModal('modal-backup')" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                <i class="fa-solid fa-database"></i> <span data-i18n="btn_backup_restore">Backup / Import All Data</span>
+              </button>
             </div>
           </div>
           <div class="absolute right-6 -bottom-4 opacity-10 pointer-events-none hidden md:block">
@@ -1515,7 +1704,10 @@
             <h2 class="text-xl font-bold text-slate-900">Financial Reports & Profit Statement</h2>
             <p class="text-xs text-slate-500">Complete Profit & Loss (P&L), Gross/Net Margins, Whish commissions, Operating expenses & Drawer Reconciliation.</p>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="openModal('modal-backup')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 text-xs font-bold px-3.5 py-2.5 rounded-xl transition flex items-center gap-1.5">
+              <i class="fa-solid fa-database text-indigo-600"></i> <span data-i18n="btn_backup_restore">Backup / Import All Data</span>
+            </button>
             <button id="btn-export-csv" class="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold px-3.5 py-2.5 rounded-xl transition flex items-center gap-1.5">
               <i class="fa-solid fa-file-csv text-emerald-600"></i> Export Ledger (CSV)
             </button>
@@ -2314,11 +2506,11 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Opening Cash USD ($)</label>
-            <input id="store-reg-usd" type="number" min="0" value="1500" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-bold">
+            <input id="store-reg-usd" type="number" min="0" value="0" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-bold">
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Opening Whish Float ($)</label>
-            <input id="store-reg-float" type="number" min="0" value="2500" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-bold text-rose-700">
+            <input id="store-reg-float" type="number" min="0" value="0" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-bold text-rose-700">
           </div>
         </div>
 
@@ -2466,37 +2658,164 @@
     </button>
   </nav>
 
+  <!-- Modal 13: Full Data Backup, Import / Restore & Admin Demo Data Control -->
+  <div id="modal-backup" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 space-y-4 border border-slate-200 text-xs max-h-[92vh] overflow-y-auto custom-scrollbar">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-indigo-600 text-white flex items-center justify-center text-lg shadow-sm">
+            <i class="fa-solid fa-database"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-slate-900" data-i18n="backup_modal_title">Backup & Import All Data</h3>
+            <p class="text-[11px] text-slate-500" data-i18n="backup_modal_sub">Export a complete JSON backup or restore all stores, stock, POS & Whish ledgers</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-backup')" class="text-slate-400 hover:text-slate-600 text-lg font-bold p-1">&times;</button>
+      </div>
+
+      <!-- 1. Export / Download Backup -->
+      <div class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-2xl space-y-2.5">
+        <div class="flex items-center justify-between">
+          <span class="font-extrabold text-emerald-950 flex items-center gap-1.5 text-xs">
+            <i class="fa-solid fa-file-arrow-down text-emerald-600 text-sm"></i>
+            <span data-i18n="backup_export_title">1. Export / Download Full Backup (.json)</span>
+          </span>
+          <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">100% Data</span>
+        </div>
+        <p class="text-[11px] text-emerald-800 leading-relaxed" data-i18n="backup_export_desc">
+          Save a complete copy of all data (phones, accessories, recharge cards, Whish transactions, repairs, expenses, sales, and store accounts) to your device.
+        </p>
+        <button type="button" onclick="exportFullBackupJSON()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-2.5 rounded-xl shadow-xs transition flex items-center justify-center gap-2 text-xs">
+          <i class="fa-solid fa-download"></i>
+          <span data-i18n="backup_export_btn">Download Full Backup File (.json)</span>
+        </button>
+      </div>
+
+      <!-- 2. Import / Restore Backup -->
+      <div class="p-4 bg-indigo-50/70 border border-indigo-200 rounded-2xl space-y-2.5">
+        <div class="flex items-center justify-between">
+          <span class="font-extrabold text-indigo-950 flex items-center gap-1.5 text-xs">
+            <i class="fa-solid fa-file-arrow-up text-indigo-600 text-sm"></i>
+            <span data-i18n="backup_import_title">2. Import / Restore Backup File (.json)</span>
+          </span>
+          <span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Restore</span>
+        </div>
+        <p class="text-[11px] text-indigo-800 leading-relaxed" data-i18n="backup_import_desc">
+          Select a previously exported .json backup file from your phone or computer to immediately restore all stores and records.
+        </p>
+        <input type="file" id="backup-json-file-input" accept=".json,application/json" class="block w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-extrabold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 bg-white border border-indigo-200 rounded-xl p-1.5 cursor-pointer">
+        <button type="button" onclick="importFullBackupJSON()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-2.5 rounded-xl shadow-xs transition flex items-center justify-center gap-2 text-xs">
+          <i class="fa-solid fa-upload"></i>
+          <span data-i18n="backup_import_btn">Import & Restore Selected Backup</span>
+        </button>
+      </div>
+
+      <!-- 3. Super Admin Exclusive Demo Data Controls (Hidden for Store Owners) -->
+      <div id="backup-admin-demo-section" class="hidden p-4 bg-amber-50/80 border border-amber-200 rounded-2xl space-y-2.5">
+        <div class="flex items-center justify-between">
+          <span class="font-extrabold text-amber-950 flex items-center gap-1.5 text-xs">
+            <i class="fa-solid fa-crown text-amber-600 text-sm"></i>
+            <span data-i18n="backup_admin_demo_title">3. Super Admin Only: Demo Data Control</span>
+          </span>
+          <span class="bg-amber-200 text-amber-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">Admin Exclusive</span>
+        </div>
+        <p class="text-[11px] text-amber-800 leading-relaxed" data-i18n="backup_admin_demo_desc">
+          All stores start with zero data by default. As Super Admin, only you have permission to populate the active store with sample demo data or reset it back to zero.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+          <button type="button" onclick="adminLoadDemoData()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold py-2.5 px-3 rounded-xl shadow-xs transition flex items-center justify-center gap-1.5 text-xs">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span data-i18n="btn_load_demo_admin">Load Demo Data</span>
+          </button>
+          <button type="button" onclick="adminClearStoreData()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 px-3 rounded-xl shadow-xs transition flex items-center justify-center gap-1.5 text-xs">
+            <i class="fa-solid fa-trash-can"></i>
+            <span data-i18n="btn_clear_store_data">Clear Store to Zero</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-slate-100 flex justify-end">
+        <button type="button" onclick="closeModal('modal-backup')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs" data-i18n="pwa_close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 12: Install App (PWA) Guide & One-Click Installer -->
+  <div id="modal-pwa-install" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 space-y-4 border border-slate-200 text-xs">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-rose-600 text-white flex items-center justify-center text-lg shadow-sm">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-slate-900" data-i18n="pwa_modal_title">Install Apex Mobile App</h3>
+            <p class="text-[11px] text-slate-500" data-i18n="pwa_modal_sub">Run as a standalone app on Android, iPhone, Windows & Mac</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-pwa-install')" class="text-slate-400 hover:text-slate-600 text-lg font-bold p-1">&times;</button>
+      </div>
+
+      <!-- Direct Install Button when browser prompt is ready -->
+      <div id="pwa-direct-install-box" class="hidden p-3.5 bg-indigo-50 border border-indigo-200 rounded-2xl space-y-2.5">
+        <p class="font-bold text-indigo-950" data-i18n="pwa_ready_desc">Your browser supports 1-click native installation!</p>
+        <button type="button" id="btn-pwa-native-prompt" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-2.5 rounded-xl shadow transition flex items-center justify-center gap-2 text-xs">
+          <i class="fa-solid fa-download"></i>
+          <span data-i18n="pwa_btn_install_now">Install Application Now</span>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-1.5">
+          <div class="font-extrabold text-slate-900 flex items-center gap-1.5">
+            <i class="fa-brands fa-android text-emerald-600 text-sm"></i>
+            <i class="fa-brands fa-chrome text-indigo-600 text-sm"></i>
+            <span data-i18n="pwa_android_title">Android / Desktop (Chrome & Edge)</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed" data-i18n="pwa_android_desc">
+            Tap the browser menu (⋮) at the top-right and select "Install App" or "Add to Home Screen", or click the Install icon in the address bar.
+          </p>
+        </div>
+
+        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-1.5">
+          <div class="font-extrabold text-slate-900 flex items-center gap-1.5">
+            <i class="fa-brands fa-apple text-slate-800 text-sm"></i>
+            <span data-i18n="pwa_ios_title">iPhone & iPad (Safari)</span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed" data-i18n="pwa_ios_desc">
+            1. Open this link in Safari.<br>
+            2. Tap the Share button <i class="fa-solid fa-arrow-up-from-bracket text-indigo-600 mx-0.5"></i> at the bottom.<br>
+            3. Scroll down and tap "Add to Home Screen".
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-slate-100 flex justify-end">
+        <button type="button" onclick="closeModal('modal-pwa-install')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs" data-i18n="pwa_close">Close</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
 
   <!-- Inline Core Script -->
   <script>
-    const STORAGE_KEY = 'apex_mobile_shop_data_v1';
+    const STORAGE_KEY = 'apex_mobile_shop_data_v2';
 
-    const defaultInitialState = {
-      currentStoreId: 'store-01',
-      stores: [
-        { id: 'store-01', name: 'Apex Mobile (Main Branch)', owner: 'Fadi Khoury', phone: '+961 71 892 410', city: 'Mount Lebanon', whishId: 'WH-84920', usdDrawer: 2420.00, lbpDrawer: 125000000, whishFloat: 3850.00 },
-        { id: 'store-02', name: 'Cedar Cell Beirut', owner: 'Ahmad Mansour', phone: '+961 70 345 678', city: 'Beirut - Hamra', whishId: 'WH-49210', usdDrawer: 1850.00, lbpDrawer: 95000000, whishFloat: 2900.00 },
-        { id: 'store-03', name: 'Phoenicia Phones Jounieh', owner: 'Elie Daher', phone: '+961 03 552 190', city: 'Jounieh', whishId: 'WH-72105', usdDrawer: 3100.00, lbpDrawer: 140000000, whishFloat: 4200.00 }
-      ],
+    // Sample Demo Dataset (Accessible ONLY to Super Admin on demand)
+    const DEMO_STORE_DATASET = {
+      drawers: {
+        usd: 2420.00,
+        lbp: 125000000,
+        whishFloat: 3850.00
+      },
       repairs: [
         { id: 'REP-501', date: '2026-10-19', customer: 'Ziad Salameh', phone: '+961 76 112 344', model: 'iPhone 13 Pro', issue: 'Broken Screen / OLED Display', passcode: '147258', condition: 'Cracked glass, frame scuffed', partCost: 55, totalEst: 85, status: 'In Progress', warranty: '30 Days Hardware Warranty' },
         { id: 'REP-502', date: '2026-10-19', customer: 'Maya Chemali', phone: '+961 03 891 223', model: 'iPhone 12', issue: 'Battery Replacement', passcode: '2580', condition: 'Clean body', partCost: 18, totalEst: 35, status: 'Ready for Pickup', warranty: '90 Days Battery Warranty' },
         { id: 'REP-503', date: '2026-10-18', customer: 'Karim Trad', phone: '+961 71 445 667', model: 'Samsung Galaxy A54', issue: 'Charging Port / Dock Flex', passcode: 'Pattern L', condition: 'Minor scratches', partCost: 12, totalEst: 28, status: 'Received / Diagnosing', warranty: '14 Days Operational Warranty' },
         { id: 'REP-504', date: '2026-10-18', customer: 'Nadine Boutros', phone: '+961 70 882 119', model: 'iPhone 14 Pro Max', issue: 'Back Glass Replacement', passcode: 'None', condition: 'Cracked back cover', partCost: 25, totalEst: 65, status: 'Delivered & Paid', warranty: '30 Days Hardware Warranty' }
       ],
-      settings: {
-        shopName: 'Apex Mobile & Whish Service Hub',
-        shopPhone: '+961 71 892 410',
-        exchangeRate: 89500,
-        aiApiKey: '',
-        aiModel: 'gemini-2.5-flash'
-      },
-      drawers: {
-        usd: 2420.00,
-        lbp: 125000000,
-        whishFloat: 3850.00
-      },
       phones: [
         { id: 'PH-101', brand: 'Apple', model: 'iPhone 15 Pro', storage: '256GB', color: 'Natural Titanium', condition: 'Brand New', battery: 100, imei: '359182049182741', cost: 980, sell: 1090, stock: 3 },
         { id: 'PH-102', brand: 'Samsung', model: 'Galaxy S24 Ultra', storage: '512GB', color: 'Titanium Black', condition: 'Brand New', battery: 100, imei: '358291048291024', cost: 1050, sell: 1180, stock: 2 },
@@ -2513,60 +2832,26 @@
         { id: 'AC-205', name: 'Joyroom 10,000mAh Magnetic Power Bank', category: 'Power Banks', brand: 'Joyroom', cost: 18.00, sell: 32.00, stock: 4 },
         { id: 'AC-206', name: 'AirPods Pro 2nd Gen (USB-C)', category: 'Audio & Earbuds', brand: 'Apple', cost: 180.00, sell: 215.00, stock: 4 }
       ],
-      auth: {
-        isAuthenticated: false, // Opens auth page on load
-        role: null, // 'admin' or 'owner'
-        activeStoreId: 'store-01',
-        adminPin: '1234'
-      },
-      storeRequests: [
-        {
-          id: 'REQ-101',
-          name: 'Tripoli Wireless Center',
-          owner: 'Marwan Haddad',
-          phone: '+961 70 889 123',
-          city: 'Tripoli',
-          whishId: 'WH-91823',
-          usdDrawer: 1500,
-          whishFloat: 2500,
-          pin: '4321',
-          requestedAt: '2026-10-19 14:15'
-        }
-      ],
-      pinResetRequests: [],
       cards: [
-        // Touch $ (Days & Credits)
         { id: 'RC-301', category: 'Touch $', provider: 'Touch', denomination: '$22.73 (30 Days + Credit)', cost: 21.50, sell: 23.50, stock: 24 },
         { id: 'RC-302', category: 'Touch $', provider: 'Touch', denomination: '$11.36 (30 Days + Credit)', cost: 10.80, sell: 12.00, stock: 15 },
         { id: 'RC-303', category: 'Touch $', provider: 'Touch', denomination: '$4.54 (7 Days + Credit)', cost: 4.30, sell: 5.00, stock: 30 },
         { id: 'RC-304', category: 'Touch $', provider: 'Touch', denomination: '$45.45 (60 Days + Credit)', cost: 43.50, sell: 47.00, stock: 8 },
-
-        // Touch Mobile Internet
         { id: 'RC-305', category: 'Touch Mobile Internet', provider: 'Touch', denomination: '15GB High-Speed Net', cost: 12.50, sell: 14.50, stock: 18 },
         { id: 'RC-306', category: 'Touch Mobile Internet', provider: 'Touch', denomination: '30GB High-Speed Net', cost: 18.00, sell: 21.00, stock: 12 },
         { id: 'RC-307', category: 'Touch Mobile Internet', provider: 'Touch', denomination: '5GB Web & Talk Plan', cost: 7.20, sell: 8.50, stock: 22 },
-
-        // Alfa $ (Days & Credits)
         { id: 'RC-308', category: 'Alfa $', provider: 'Alfa', denomination: '$22.73 (30 Days + Credit)', cost: 21.50, sell: 23.50, stock: 19 },
         { id: 'RC-309', category: 'Alfa $', provider: 'Alfa', denomination: '$15.15 (30 Days + Credit)', cost: 14.40, sell: 16.00, stock: 14 },
         { id: 'RC-310', category: 'Alfa $', provider: 'Alfa', denomination: '$7.58 (15 Days + Credit)', cost: 7.20, sell: 8.20, stock: 28 },
         { id: 'RC-311', category: 'Alfa $', provider: 'Alfa', denomination: '$3.79 (7 Days + Credit)', cost: 3.60, sell: 4.20, stock: 25 },
-
-        // Alfa Ushare (Data Sharing)
         { id: 'RC-312', category: 'Alfa Ushare', provider: 'Alfa', denomination: 'Alfa Ushare 20GB (Multi-line)', cost: 17.50, sell: 20.00, stock: 16 },
         { id: 'RC-313', category: 'Alfa Ushare', provider: 'Alfa', denomination: 'Alfa Ushare 40GB (Team & Family)', cost: 27.00, sell: 31.00, stock: 10 },
         { id: 'RC-314', category: 'Alfa Ushare', provider: 'Alfa', denomination: 'Alfa Ushare 100GB (Ultimate Team)', cost: 52.00, sell: 59.00, stock: 6 },
-
-        // Alfa Mobile Internet
         { id: 'RC-315', category: 'Alfa Mobile Internet', provider: 'Alfa', denomination: 'Alfa 10GB Mobile Internet', cost: 10.50, sell: 12.50, stock: 20 },
         { id: 'RC-316', category: 'Alfa Mobile Internet', provider: 'Alfa', denomination: 'Alfa 20GB Mobile Internet', cost: 15.00, sell: 17.50, stock: 15 },
         { id: 'RC-317', category: 'Alfa Mobile Internet', provider: 'Alfa', denomination: 'Alfa 50GB Mobile Internet', cost: 26.00, sell: 30.00, stock: 9 },
-
-        // Ogero DSL
         { id: 'RC-318', category: 'Ogero DSL', provider: 'Ogero', denomination: '100GB DSL Voucher', cost: 14.00, sell: 16.50, stock: 12 },
         { id: 'RC-319', category: 'Ogero DSL', provider: 'Ogero', denomination: '200GB DSL High-Speed', cost: 22.00, sell: 25.50, stock: 8 },
-
-        // Gaming & App Vouchers
         { id: 'RC-320', category: 'Gaming', provider: 'Gaming', denomination: 'PlayStation $10 USD Card', cost: 10.20, sell: 12.00, stock: 14 },
         { id: 'RC-321', category: 'Gaming', provider: 'Gaming', denomination: 'PUBG Mobile 325 UC Voucher', cost: 4.80, sell: 6.00, stock: 35 },
         { id: 'RC-322', category: 'Gaming', provider: 'Gaming', denomination: 'Apple iTunes $15 USD Card', cost: 15.30, sell: 17.50, stock: 11 }
@@ -2589,7 +2874,113 @@
       ]
     };
 
+    function createEmptyStoreData(usd = 0, lbp = 0, whishFloat = 0) {
+      return {
+        drawers: { usd: Number(usd || 0), lbp: Number(lbp || 0), whishFloat: Number(whishFloat || 0) },
+        phones: [],
+        accessories: [],
+        cards: [],
+        whishTransactions: [],
+        repairs: [],
+        expenses: [],
+        sales: []
+      };
+    }
+
+    // All stores start with ZERO data by default (Only Super Admin can inject Demo Data)
+    const defaultInitialState = {
+      currentStoreId: 'store-01',
+      stores: [
+        { id: 'store-01', name: 'Apex Mobile (Main Branch)', owner: 'Fadi Khoury', phone: '+961 71 892 410', city: 'Mount Lebanon', whishId: 'WH-84920', usdDrawer: 0, lbpDrawer: 0, whishFloat: 0, pin: '1234' },
+        { id: 'store-02', name: 'Cedar Cell Beirut', owner: 'Ahmad Mansour', phone: '+961 70 345 678', city: 'Beirut - Hamra', whishId: 'WH-49210', usdDrawer: 0, lbpDrawer: 0, whishFloat: 0, pin: '1234' },
+        { id: 'store-03', name: 'Phoenicia Phones Jounieh', owner: 'Elie Daher', phone: '+961 03 552 190', city: 'Jounieh', whishId: 'WH-72105', usdDrawer: 0, lbpDrawer: 0, whishFloat: 0, pin: '1234' }
+      ],
+      storeData: {
+        'store-01': createEmptyStoreData(0, 0, 0),
+        'store-02': createEmptyStoreData(0, 0, 0),
+        'store-03': createEmptyStoreData(0, 0, 0)
+      },
+      repairs: [],
+      settings: {
+        shopName: 'Apex Mobile (Main Branch)',
+        shopPhone: '+961 71 892 410',
+        exchangeRate: 89500,
+        aiApiKey: '',
+        aiModel: 'gemini-2.5-flash',
+        lang: 'en',
+        theme: 'light'
+      },
+      drawers: {
+        usd: 0,
+        lbp: 0,
+        whishFloat: 0
+      },
+      phones: [],
+      accessories: [],
+      auth: {
+        isAuthenticated: false,
+        role: null,
+        activeStoreId: 'store-01',
+        adminPin: '1234'
+      },
+      storeRequests: [],
+      pinResetRequests: [],
+      cards: [],
+      whishTransactions: [],
+      expenses: [],
+      sales: []
+    };
+
     let appState = null;
+
+    function syncActiveToStoreData() {
+      if (!appState || !appState.currentStoreId) return;
+      if (!appState.storeData) appState.storeData = {};
+      const sid = appState.currentStoreId;
+      appState.storeData[sid] = {
+        drawers: JSON.parse(JSON.stringify(appState.drawers || { usd: 0, lbp: 0, whishFloat: 0 })),
+        phones: JSON.parse(JSON.stringify(appState.phones || [])),
+        accessories: JSON.parse(JSON.stringify(appState.accessories || [])),
+        cards: JSON.parse(JSON.stringify(appState.cards || [])),
+        whishTransactions: JSON.parse(JSON.stringify(appState.whishTransactions || [])),
+        repairs: JSON.parse(JSON.stringify(appState.repairs || [])),
+        expenses: JSON.parse(JSON.stringify(appState.expenses || [])),
+        sales: JSON.parse(JSON.stringify(appState.sales || []))
+      };
+      const st = (appState.stores || []).find(s => s.id === sid);
+      if (st && appState.drawers) {
+        st.usdDrawer = Number(appState.drawers.usd || 0);
+        st.lbpDrawer = Number(appState.drawers.lbp || 0);
+        st.whishFloat = Number(appState.drawers.whishFloat || 0);
+      }
+    }
+
+    function loadStoreSnapshotIntoActive(storeId) {
+      if (!appState) return;
+      if (!appState.storeData) appState.storeData = {};
+      const st = (appState.stores || []).find(s => s.id === storeId);
+      if (!appState.storeData[storeId]) {
+        appState.storeData[storeId] = createEmptyStoreData(
+          st ? st.usdDrawer : 0,
+          st ? st.lbpDrawer : 0,
+          st ? st.whishFloat : 0
+        );
+      }
+      const snap = appState.storeData[storeId];
+      appState.currentStoreId = storeId;
+      appState.drawers = JSON.parse(JSON.stringify(snap.drawers || { usd: 0, lbp: 0, whishFloat: 0 }));
+      appState.phones = JSON.parse(JSON.stringify(snap.phones || []));
+      appState.accessories = JSON.parse(JSON.stringify(snap.accessories || []));
+      appState.cards = JSON.parse(JSON.stringify(snap.cards || []));
+      appState.whishTransactions = JSON.parse(JSON.stringify(snap.whishTransactions || []));
+      appState.repairs = JSON.parse(JSON.stringify(snap.repairs || []));
+      appState.expenses = JSON.parse(JSON.stringify(snap.expenses || []));
+      appState.sales = JSON.parse(JSON.stringify(snap.sales || []));
+      if (st) {
+        appState.settings.shopName = st.name;
+        appState.settings.shopPhone = st.phone;
+      }
+    }
 
     function loadState() {
       try {
@@ -2614,15 +3005,24 @@
       if (!appState.auth.adminPin) {
         appState.auth.adminPin = '1234';
       }
+      if (!appState.storeData) {
+        appState.storeData = {};
+      }
       (appState.stores || []).forEach(s => {
         if (!s.pin) s.pin = '1234';
+        if (!appState.storeData[s.id]) {
+          appState.storeData[s.id] = createEmptyStoreData(s.usdDrawer || 0, s.lbpDrawer || 0, s.whishFloat || 0);
+        }
       });
       if (!appState.settings) appState.settings = {};
       if (!appState.settings.lang) {
-        appState.settings.lang = 'en'; // Default English
+        appState.settings.lang = 'en';
+      }
+      if (!appState.settings.theme) {
+        appState.settings.theme = 'light';
       }
       if (!appState.storeRequests) {
-        appState.storeRequests = JSON.parse(JSON.stringify(defaultInitialState.storeRequests || []));
+        appState.storeRequests = [];
       }
       if (!appState.pinResetRequests) {
         appState.pinResetRequests = [];
@@ -2630,12 +3030,11 @@
       if (!appState.settings.aiModel) {
         appState.settings.aiModel = 'gemini-2.5-flash';
       }
-      if (!appState.cards || appState.cards.length <= 5) {
-        appState.cards = JSON.parse(JSON.stringify(defaultInitialState.cards));
-      }
+      loadStoreSnapshotIntoActive(appState.currentStoreId || 'store-01');
     }
 
     function saveState() {
+      syncActiveToStoreData();
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
       } catch (e) {
@@ -2697,7 +3096,7 @@
           data: {
             labels: ['Phones (New)', 'Phones (Used)', 'Accessories', 'Recharge Cards', 'Whish Comm.'],
             datasets: [{
-              data: [1090, 460, 185, 110, 48.2],
+              data: [0, 0, 0, 0, 0],
               backgroundColor: ['#4f46e5', '#818cf8', '#10b981', '#f59e0b', '#e11d48'],
               borderWidth: 2,
               borderColor: '#ffffff'
@@ -2727,13 +3126,13 @@
             datasets: [
               {
                 label: 'Sales Revenue ($)',
-                data: [1420, 1850, 1200, 2100, 2450, 2800, 1845],
+                data: [0, 0, 0, 0, 0, 0, 0],
                 backgroundColor: 'rgba(99, 102, 241, 0.7)',
                 borderRadius: 6
               },
               {
                 label: 'Gross Profit ($)',
-                data: [260, 310, 220, 390, 430, 490, 318.5],
+                data: [0, 0, 0, 0, 0, 0, 0],
                 backgroundColor: 'rgba(16, 185, 129, 0.8)',
                 borderRadius: 6
               }
@@ -2785,13 +3184,25 @@
       const whishComm = appState.whishTransactions.reduce((acc, t) => acc + (t.fee || 0), 0);
 
       categoryChart.data.datasets[0].data = [
-        phoneNewTotal || 750,
-        phoneUsedTotal || 450,
-        accTotal || 160,
-        cardTotal || 95,
-        whishComm || 48
+        phoneNewTotal,
+        phoneUsedTotal,
+        accTotal,
+        cardTotal,
+        whishComm
       ];
       categoryChart.update();
+
+      const todaySales = (appState.sales || []).reduce((sum, s) => sum + Number(s.total || 0), 0);
+      const todayProfit = (appState.sales || []).reduce((sum, s) => sum + Number(s.profit || 0), 0) + whishComm;
+      const hasDemo = (appState.phones || []).some(p => p.id === 'PH-101') && (appState.sales || []).some(s => s.id === 'INV-8401');
+      if (hasDemo) {
+        trendChart.data.datasets[0].data = [1420, 1850, 1200, 2100, 2450, 2800, todaySales];
+        trendChart.data.datasets[1].data = [260, 310, 220, 390, 430, 490, todayProfit];
+      } else {
+        trendChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0, todaySales];
+        trendChart.data.datasets[1].data = [0, 0, 0, 0, 0, 0, todayProfit];
+      }
+      trendChart.update();
       } catch(e) {
         console.warn('Chart update skipped:', e);
       }
@@ -3741,6 +4152,177 @@
     };
 
 
+    // ================= ADMIN-ONLY DEMO DATA & FULL BACKUP / IMPORT ENGINE =================
+    window.adminLoadDemoForStore = function(targetStoreId) {
+      if (!appState.auth || appState.auth.role !== 'admin') {
+        const err = getLang() === 'ar'
+          ? 'عذراً! فقط المدير العام (Super Admin) يحق له إضافة البيانات التجريبية (Demo Data).'
+          : 'Access Denied: Only the Super Admin can load Demo Data!';
+        showToast(err, 'error');
+        return;
+      }
+      const sid = targetStoreId || appState.currentStoreId || 'store-01';
+      syncActiveToStoreData();
+
+      if (!appState.storeData) appState.storeData = {};
+      appState.storeData[sid] = JSON.parse(JSON.stringify(DEMO_STORE_DATASET));
+
+      const st = (appState.stores || []).find(s => s.id === sid);
+      if (st) {
+        st.usdDrawer = DEMO_STORE_DATASET.drawers.usd;
+        st.lbpDrawer = DEMO_STORE_DATASET.drawers.lbp;
+        st.whishFloat = DEMO_STORE_DATASET.drawers.whishFloat;
+      }
+
+      if (sid === appState.currentStoreId) {
+        loadStoreSnapshotIntoActive(sid);
+      }
+
+      saveState();
+      closeModal('modal-backup');
+      const storeName = st ? st.name : sid;
+      const msg = getLang() === 'ar'
+        ? `تم تحميل البيانات التجريبية (Demo Data) بنجاح في متجر "${storeName}" بواسطة الـ Admin!`
+        : `Demo Data loaded into "${storeName}" by Super Admin!`;
+      showToast(msg);
+    };
+
+    window.adminLoadDemoData = function() {
+      window.adminLoadDemoForStore(appState.currentStoreId || 'store-01');
+    };
+
+    window.adminClearDataForStore = function(targetStoreId) {
+      if (!appState.auth || appState.auth.role !== 'admin') {
+        const err = getLang() === 'ar'
+          ? 'فقط الـ Super Admin يمكنه تصفير بيانات المتجر.'
+          : 'Only Super Admin can clear store data!';
+        showToast(err, 'error');
+        return;
+      }
+      const sid = targetStoreId || appState.currentStoreId || 'store-01';
+      syncActiveToStoreData();
+
+      if (!appState.storeData) appState.storeData = {};
+      appState.storeData[sid] = createEmptyStoreData(0, 0, 0);
+
+      const st = (appState.stores || []).find(s => s.id === sid);
+      if (st) {
+        st.usdDrawer = 0;
+        st.lbpDrawer = 0;
+        st.whishFloat = 0;
+      }
+
+      if (sid === appState.currentStoreId) {
+        loadStoreSnapshotIntoActive(sid);
+      }
+
+      saveState();
+      closeModal('modal-backup');
+      const storeName = st ? st.name : sid;
+      const msg = getLang() === 'ar'
+        ? `تم تصفير بيانات متجر "${storeName}" بالكامل (0 داتا).`
+        : `Cleared all data for "${storeName}" back to zero.`;
+      showToast(msg, 'info');
+    };
+
+    window.adminClearStoreData = function() {
+      window.adminClearDataForStore(appState.currentStoreId || 'store-01');
+    };
+
+    window.exportFullBackupJSON = function() {
+      syncActiveToStoreData();
+      const backupPayload = {
+        backupVersion: '2.0',
+        exportedAt: new Date().toISOString(),
+        app: 'Apex Mobile & Whish Agent Suite',
+        data: JSON.parse(JSON.stringify(appState))
+      };
+
+      const jsonStr = JSON.stringify(backupPayload, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `Apex_Mobile_Full_Backup_${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+
+      const msg = getLang() === 'ar'
+        ? 'تم تحميل ملف النسخة الاحتياطية الشاملة (.json) بنجاح!'
+        : 'Full system backup (.json) downloaded successfully!';
+      showToast(msg);
+    };
+
+    window.importFullBackupJSON = function() {
+      const fileInput = document.getElementById('backup-json-file-input');
+      if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        const err = getLang() === 'ar'
+          ? 'يرجى اختيار ملف النسخة الاحتياطية (.json) أولاً.'
+          : 'Please select a .json backup file first!';
+        showToast(err, 'error');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          const importedState = (parsed && parsed.data && parsed.data.stores) ? parsed.data : parsed;
+
+          if (!importedState || !Array.isArray(importedState.stores)) {
+            throw new Error('Invalid backup structure');
+          }
+
+          const currentAuth = appState.auth ? JSON.parse(JSON.stringify(appState.auth)) : { isAuthenticated: true, role: 'admin', activeStoreId: 'store-01', adminPin: '1234' };
+          appState = importedState;
+          appState.auth = currentAuth;
+
+          if (!appState.storeData) {
+            appState.storeData = {};
+          }
+          const targetSid = appState.currentStoreId || 'store-01';
+          if (!appState.storeData[targetSid] && (
+            (appState.phones && appState.phones.length > 0) ||
+            (appState.sales && appState.sales.length > 0) ||
+            (appState.cards && appState.cards.length > 0)
+          )) {
+            syncActiveToStoreData();
+          }
+
+          (appState.stores || []).forEach(s => {
+            if (!appState.storeData[s.id]) {
+              appState.storeData[s.id] = createEmptyStoreData(s.usdDrawer || 0, s.lbpDrawer || 0, s.whishFloat || 0);
+            }
+          });
+
+          loadStoreSnapshotIntoActive(appState.currentStoreId || 'store-01');
+          saveState();
+          fileInput.value = '';
+          closeModal('modal-backup');
+
+          if (typeof confetti === 'function') {
+            try { confetti({ particleCount: 55, spread: 60, origin: { y: 0.7 } }); } catch(e){}
+          }
+
+          const msg = getLang() === 'ar'
+            ? 'تم استيراد واسترجاع كافة البيانات من النسخة الاحتياطية بنجاح!'
+            : 'All data imported and restored from backup file successfully!';
+          showToast(msg);
+        } catch (err) {
+          console.error('Backup Import Error:', err);
+          const errMsg = getLang() === 'ar'
+            ? 'ملف النسخة الاحتياطية غير صالح. تأكد من اختيار ملف .json صحيح.'
+            : 'Invalid backup file! Please choose a valid Apex Mobile .json backup.';
+          showToast(errMsg, 'error');
+        }
+      };
+      reader.readAsText(file);
+    };
+
     // ================= BILINGUAL I18N (DEFAULT ENGLISH + ARABIC SWITCHER) =================
     const I18N_DICT = {
       en: {
@@ -3816,7 +4398,36 @@
         mob_whish: 'Whish',
         mob_repairs: 'Repairs',
         mob_phones: 'Stock',
-        mob_menu: 'Menu'
+        mob_menu: 'Menu',
+        theme_dark: 'Dark',
+        theme_light: 'Light',
+        btn_install_app: 'Install App',
+        btn_install_short: 'Install',
+        pwa_modal_title: 'Install Apex Mobile App',
+        pwa_modal_sub: 'Run as a standalone app on Android, iPhone, Windows & Mac',
+        pwa_ready_desc: 'Your browser supports 1-click native installation!',
+        pwa_btn_install_now: 'Install Application Now',
+        pwa_android_title: 'Android & Desktop (Chrome / Edge)',
+        pwa_android_desc: 'Tap the browser menu (⋮) and select "Install App" or click the Install icon in the address bar.',
+        pwa_ios_title: 'iPhone & iPad (Safari)',
+        pwa_ios_desc: 'Tap the Share button at the bottom of Safari, then select "Add to Home Screen".',
+        pwa_close: 'Got it',
+        btn_backup_short: 'Backup / Import',
+        footer_backup: 'Backup',
+        footer_demo_admin: 'Demo Data',
+        btn_load_demo_admin: 'Load Demo Data (Admin Only)',
+        btn_clear_store_data: 'Clear Store Data (0)',
+        btn_backup_restore: 'Backup / Import All Data',
+        backup_modal_title: 'Backup & Import All Data',
+        backup_modal_sub: 'Export a complete JSON backup or restore all stores, stock, POS & Whish ledgers',
+        backup_export_title: '1. Export / Download Full Backup (.json)',
+        backup_export_desc: 'Save a complete copy of all data (phones, accessories, recharge cards, Whish transactions, repairs, expenses, sales, and store accounts) to your device.',
+        backup_export_btn: 'Download Full Backup File (.json)',
+        backup_import_title: '2. Import / Restore Backup File (.json)',
+        backup_import_desc: 'Select a previously exported .json backup file from your phone or computer to immediately restore all stores and records.',
+        backup_import_btn: 'Import & Restore Selected Backup',
+        backup_admin_demo_title: '3. Super Admin Only: Demo Data Control',
+        backup_admin_demo_desc: 'All stores start with zero data by default. As Super Admin, only you have permission to populate the active store with sample demo data or reset it back to zero.'
       },
       ar: {
         auth_badge: 'النسخة التجارية SaaS • إدارة المحلات والوكلاء',
@@ -3891,7 +4502,36 @@
         mob_whish: 'Whish',
         mob_repairs: 'الصيانة',
         mob_phones: 'المخزون',
-        mob_menu: 'القائمة'
+        mob_menu: 'القائمة',
+        theme_dark: 'داكن',
+        theme_light: 'فاتح',
+        btn_install_app: 'تثبيت التطبيق',
+        btn_install_short: 'تثبيت',
+        pwa_modal_title: 'تثبيت تطبيق Apex Mobile',
+        pwa_modal_sub: 'يعمل كتطبيق مستقل على الهاتف والكمبيوتر',
+        pwa_ready_desc: 'متصفحك يدعم التثبيت المباشر بضغطة واحدة!',
+        pwa_btn_install_now: 'تثبيت التطبيق الآن',
+        pwa_android_title: 'أندرويد والكمبيوتر (Chrome / Edge)',
+        pwa_android_desc: 'اضغط على قائمة المتصفح (⋮) في الأعلى واختر "تثبيت التطبيق" (Install App) أو من شريط العنوان.',
+        pwa_ios_title: 'آيفون وآيباد (متصفح Safari)',
+        pwa_ios_desc: 'اضغط على زر المشاركة (Share) أسفل الشاشة ثم اختر "إضافة إلى الشاشة الرئيسية" (Add to Home Screen).',
+        pwa_close: 'حسناً',
+        btn_backup_short: 'نسخ احتياطي / استيراد',
+        footer_backup: 'نسخ احتياطي',
+        footer_demo_admin: 'داتا تجريبية',
+        btn_load_demo_admin: 'إضافة Demo Data (للأدمن فقط)',
+        btn_clear_store_data: 'تصفير بيانات المتجر (0)',
+        btn_backup_restore: 'نسخ احتياطي واستيراد البيانات',
+        backup_modal_title: 'النسخ الاحتياطي واستيراد كافة البيانات',
+        backup_modal_sub: 'تصدير نسخة احتياطية شاملة (.json) أو استرجاع بيانات جميع المحلات والمخزون والمبيعات',
+        backup_export_title: '1. تحميل نسخة احتياطية شاملة (Backup .json)',
+        backup_export_desc: 'احفظ نسخة كاملة من كل الداتا (الهواتف، الإكسسوارات، بطاقات التشريج، عمليات Whish، الصيانة، المصاريف، المبيعات، وحسابات المحلات) على جهازك.',
+        backup_export_btn: 'تحميل ملف النسخة الاحتياطية (.json)',
+        backup_import_title: '2. استيراد / استرجاع البيانات (Import .json)',
+        backup_import_desc: 'اختر ملف نسخة احتياطية (.json) محفوظ مسبقاً على هاتفك أو كمبيوترك لاسترجاع كافة البيانات فوراً.',
+        backup_import_btn: 'استيراد واسترجاع البيانات الآن',
+        backup_admin_demo_title: '3. خاص بالـ Super Admin فقط: التحكم بالـ Demo Data',
+        backup_admin_demo_desc: 'جميع المحلات تبدأ بدون أي داتا (صفر بيانات). فقط الـ Super Admin يحق له إضافة الداتا التجريبية (Demo Data) أو تصفيرها.'
       }
     };
 
@@ -3929,6 +4569,115 @@
       showToast(msg, 'info');
     };
 
+    // ================= DARK / LIGHT THEME ENGINE =================
+    function getTheme() {
+      return (appState && appState.settings && appState.settings.theme === 'dark') ? 'dark' : 'light';
+    }
+
+    function applyTheme() {
+      const isDark = getTheme() === 'dark';
+      const lang = getLang();
+      const dict = I18N_DICT[lang] || I18N_DICT.en;
+
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      const metaTheme = document.getElementById('meta-theme-color');
+      if (metaTheme) {
+        metaTheme.setAttribute('content', isDark ? '#0b0f19' : '#4f46e5');
+      }
+
+      const iconNav = document.getElementById('theme-icon-nav');
+      const labelNav = document.getElementById('theme-label-nav');
+      const iconAuth = document.getElementById('theme-icon-auth');
+      const labelAuth = document.getElementById('theme-label-auth');
+
+      if (iconNav) iconNav.className = isDark ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-indigo-600';
+      if (labelNav) labelNav.textContent = isDark ? dict.theme_light : dict.theme_dark;
+      if (iconAuth) iconAuth.className = isDark ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-indigo-600';
+      if (labelAuth) labelAuth.textContent = isDark ? dict.theme_light : dict.theme_dark;
+
+      if (typeof Chart !== 'undefined') {
+        Chart.defaults.color = isDark ? '#94a3b8' : '#64748b';
+        Chart.defaults.borderColor = isDark ? '#1e293b' : '#e2e8f0';
+        if (categoryChart) {
+          categoryChart.data.datasets[0].borderColor = isDark ? '#111827' : '#ffffff';
+          categoryChart.update();
+        }
+        if (trendChart) {
+          trendChart.update();
+        }
+      }
+    }
+
+    window.toggleTheme = function() {
+      if (!appState.settings) appState.settings = {};
+      appState.settings.theme = getTheme() === 'dark' ? 'light' : 'dark';
+      saveState();
+      const isDark = appState.settings.theme === 'dark';
+      const lang = getLang();
+      const msg = lang === 'ar'
+        ? (isDark ? 'تم تفعيل الوضع الداكن (Dark Mode)' : 'تم تفعيل الوضع الفاتح (Light Mode)')
+        : (isDark ? 'Dark Theme activated' : 'Light Theme activated');
+      showToast(msg, 'info');
+    };
+
+    // ================= PROGRESSIVE WEB APP (INSTALLABLE PWA) =================
+    let deferredPwaPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPwaPrompt = e;
+      const directBox = document.getElementById('pwa-direct-install-box');
+      if (directBox) directBox.classList.remove('hidden');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredPwaPrompt = null;
+      const directBox = document.getElementById('pwa-direct-install-box');
+      if (directBox) directBox.classList.add('hidden');
+      closeModal('modal-pwa-install');
+      const msg = getLang() === 'ar' ? 'تم تثبيت تطبيق Apex Mobile بنجاح على جهازك!' : 'Apex Mobile App installed successfully!';
+      showToast(msg);
+    });
+
+    window.triggerPwaInstall = async function() {
+      if (deferredPwaPrompt) {
+        try {
+          deferredPwaPrompt.prompt();
+          const { outcome } = await deferredPwaPrompt.userChoice;
+          if (outcome === 'accepted') {
+            deferredPwaPrompt = null;
+          }
+          return;
+        } catch (err) {
+          console.warn('PWA prompt error:', err);
+        }
+      }
+      openModal('modal-pwa-install');
+    };
+
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('#btn-pwa-native-prompt');
+      if (btn && deferredPwaPrompt) {
+        deferredPwaPrompt.prompt();
+        const { outcome } = await deferredPwaPrompt.userChoice;
+        if (outcome === 'accepted') {
+          deferredPwaPrompt = null;
+          closeModal('modal-pwa-install');
+        }
+      }
+    });
+
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
+
     // ================= SAAS AUTH GATEWAY & ROLE PERMISSIONS LOGIC =================
     function applyRolePermissions() {
       const role = appState.auth ? appState.auth.role : null;
@@ -3959,6 +4708,10 @@
         if (roleEl) roleEl.textContent = lang === 'ar' ? 'المدير العام • صلاحيات كاملة' : 'Platform Admin • All Stores Access';
 
         if (sidebarNavStores) sidebarNavStores.style.display = 'flex';
+        const btnDemoFooter = document.getElementById('btn-reset-demo');
+        if (btnDemoFooter) btnDemoFooter.classList.remove('hidden');
+        const backupAdminDemoSec = document.getElementById('backup-admin-demo-section');
+        if (backupAdminDemoSec) backupAdminDemoSec.classList.remove('hidden');
 
         if (btnSwitchStore) {
           btnSwitchStore.className = 'cursor-pointer bg-purple-50 border border-purple-200 hover:bg-purple-100 text-purple-950 text-[11px] sm:text-xs px-2 sm:px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-2xs';
@@ -4001,6 +4754,10 @@
         if (roleEl) roleEl.textContent = `Store Owner • ${storeName}`;
 
         if (sidebarNavStores) sidebarNavStores.style.display = 'none';
+        const btnDemoFooter = document.getElementById('btn-reset-demo');
+        if (btnDemoFooter) btnDemoFooter.classList.add('hidden');
+        const backupAdminDemoSec = document.getElementById('backup-admin-demo-section');
+        if (backupAdminDemoSec) backupAdminDemoSec.classList.add('hidden');
 
         if (btnSwitchStore) {
           btnSwitchStore.className = 'cursor-default bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px] sm:text-xs px-2 sm:px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-2xs';
@@ -4053,6 +4810,7 @@
       }
 
       applyLanguage();
+      applyTheme();
       applyRolePermissions();
     }
 
@@ -4106,12 +4864,8 @@
     window.quickAuthOwner = function(storeId) {
       const store = (appState.stores || []).find(s => s.id === storeId);
       if (!store) return;
-      appState.currentStoreId = storeId;
-      appState.settings.shopName = store.name;
-      appState.settings.shopPhone = store.phone;
-      appState.drawers.usd = store.usdDrawer;
-      appState.drawers.lbp = store.lbpDrawer;
-      appState.drawers.whishFloat = store.whishFloat;
+      syncActiveToStoreData();
+      loadStoreSnapshotIntoActive(storeId);
 
       if (!appState.auth) appState.auth = {};
       appState.auth.isAuthenticated = true;
@@ -4178,19 +4932,8 @@
       const store = (appState.stores || []).find(s => s.id === storeId);
       if (!store) return;
 
-      const prevStore = (appState.stores || []).find(s => s.id === appState.currentStoreId);
-      if (prevStore) {
-        prevStore.usdDrawer = appState.drawers.usd;
-        prevStore.lbpDrawer = appState.drawers.lbp;
-        prevStore.whishFloat = appState.drawers.whishFloat;
-      }
-
-      appState.currentStoreId = storeId;
-      appState.settings.shopName = store.name;
-      appState.settings.shopPhone = store.phone;
-      appState.drawers.usd = store.usdDrawer;
-      appState.drawers.lbp = store.lbpDrawer;
-      appState.drawers.whishFloat = store.whishFloat;
+      syncActiveToStoreData();
+      loadStoreSnapshotIntoActive(storeId);
 
       saveState();
       showToast(`Switched active shop to ${store.name}!`);
@@ -4204,6 +4947,9 @@
       const assignedPin = (pinInput && pinInput.value.trim()) ? pinInput.value.trim() : (req.pin || '1234');
 
       const newStoreId = 'store-' + ((appState.stores || []).length + 1).toString().padStart(2, '0');
+      const initUsd = Number(req.usdDrawer || 0);
+      const initLbp = initUsd * (appState.settings.exchangeRate || 89500);
+      const initFloat = Number(req.whishFloat || 0);
       const newStore = {
         id: newStoreId,
         name: req.name,
@@ -4211,12 +4957,14 @@
         phone: req.phone,
         city: req.city,
         whishId: req.whishId || ('WH-' + Math.floor(10000 + Math.random() * 90000)),
-        usdDrawer: Number(req.usdDrawer || 1500),
-        lbpDrawer: Number(req.usdDrawer || 1500) * (appState.settings.exchangeRate || 89500),
-        whishFloat: Number(req.whishFloat || 2500),
+        usdDrawer: initUsd,
+        lbpDrawer: initLbp,
+        whishFloat: initFloat,
         pin: assignedPin
       };
 
+      if (!appState.storeData) appState.storeData = {};
+      appState.storeData[newStoreId] = createEmptyStoreData(initUsd, initLbp, initFloat);
       appState.stores.push(newStore);
       appState.storeRequests.splice(reqIdx, 1);
       saveState();
@@ -4459,7 +5207,16 @@
             </div>
           </div>
 
-          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+          <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between gap-1.5">
+            <button onclick="adminLoadDemoForStore('${store.id}')" class="flex-1 bg-amber-100 hover:bg-amber-200 text-amber-900 font-extrabold text-[11px] py-1.5 px-2 rounded-lg transition flex items-center justify-center gap-1" title="Super Admin Only: Load Demo Data into this store">
+              <i class="fa-solid fa-wand-magic-sparkles text-amber-600"></i> ${lang === 'ar' ? 'إضافة Demo Data' : 'Load Demo Data'}
+            </button>
+            <button onclick="adminClearDataForStore('${store.id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-[11px] py-1.5 px-2.5 rounded-lg transition flex items-center justify-center gap-1" title="Clear this store's data to zero">
+              <i class="fa-solid fa-trash-can"></i> ${lang === 'ar' ? 'تصفير' : 'Clear'}
+            </button>
+          </div>
+
+          <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between">
             <span class="text-[11px] text-slate-400 font-mono">ID: ${store.id}</span>
             ${isActive ?
               '<span class="text-xs text-indigo-700 font-bold flex items-center gap-1"><i class="fa-solid fa-check"></i> Connected</span>' :
@@ -5103,18 +5860,21 @@
         const phone = document.getElementById('store-reg-phone').value.trim();
         const city = document.getElementById('store-reg-city').value.trim();
         const whishId = document.getElementById('store-reg-whish').value.trim() || 'WH-NEW';
-        const usdDrawer = Number(document.getElementById('store-reg-usd').value || 1000);
-        const whishFloat = Number(document.getElementById('store-reg-float').value || 2000);
+        const usdDrawer = Number(document.getElementById('store-reg-usd').value || 0);
+        const whishFloat = Number(document.getElementById('store-reg-float').value || 0);
         const pin = document.getElementById('store-reg-pin').value.trim() || '1234';
 
         const newStoreId = 'store-' + (appState.stores.length + 1).toString().padStart(2, '0');
+        const lbpDrawer = usdDrawer * (appState.settings.exchangeRate || 89500);
         const newStore = {
           id: newStoreId,
           name, owner, phone, city, whishId,
-          usdDrawer, lbpDrawer: usdDrawer * (appState.settings.exchangeRate || 89500),
+          usdDrawer, lbpDrawer,
           whishFloat, pin
         };
 
+        if (!appState.storeData) appState.storeData = {};
+        appState.storeData[newStoreId] = createEmptyStoreData(usdDrawer, lbpDrawer, whishFloat);
         appState.stores.push(newStore);
         saveState();
         closeModal('modal-register-store');
@@ -5837,10 +6597,8 @@
         showToast('Settings & Exchange rate updated successfully!');
       });
 
-      document.getElementById('btn-reset-demo').addEventListener('click', () => {
-        appState = JSON.parse(JSON.stringify(defaultInitialState));
-        saveState();
-        showToast('Demo store data reset to clean initial state!');
+      document.getElementById('btn-reset-demo')?.addEventListener('click', () => {
+        window.adminLoadDemoData();
       });
 
       // Smart Retail AI Advisors & Valuation Engine (Built-in)
