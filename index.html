@@ -50,57 +50,68 @@
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
   <!-- Full-Screen SaaS Auth & Terminal Lock Gateway -->
-  <div id="auth-gateway-overlay" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full p-6 sm:p-8 space-y-5 relative border border-slate-100 my-auto">
-      <!-- Close/Return Button (visible when terminal already unlocked) -->
-      <button id="btn-close-auth-overlay" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-xl font-bold p-1.5 rounded-lg hover:bg-slate-100 transition hidden" title="Return to Back-Office">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+  <div id="auth-gateway-overlay" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full p-4 sm:p-7 space-y-4 sm:space-y-5 relative border border-slate-100 my-auto max-h-[94vh] overflow-y-auto custom-scrollbar">
+      <!-- Top Bar inside Auth Gateway: Language Switcher & Close Button -->
+      <div class="flex items-center justify-between">
+        <button type="button" onclick="toggleLanguage()" id="btn-lang-toggle-auth" class="bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-200 text-xs font-extrabold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-2xs">
+          <i class="fa-solid fa-globe text-indigo-600"></i>
+          <span id="lang-toggle-auth-label">عربي | EN</span>
+        </button>
 
-      <div class="text-center space-y-2">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-700 to-rose-600 text-white flex items-center justify-center text-2xl mx-auto shadow-lg shadow-indigo-200">
+        <button id="btn-close-auth-overlay" class="text-slate-400 hover:text-slate-600 text-lg font-bold p-1.5 rounded-lg hover:bg-slate-100 transition hidden" title="Return to Back-Office">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="text-center space-y-1.5">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-700 to-rose-600 text-white flex items-center justify-center text-xl sm:text-2xl mx-auto shadow-lg shadow-indigo-200">
           <i class="fa-solid fa-mobile-screen-button"></i>
         </div>
         <div>
-          <span class="bg-indigo-100 text-indigo-800 text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+          <span class="bg-indigo-100 text-indigo-800 text-[10px] sm:text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider" data-i18n="auth_badge">
             Commercial SaaS Edition &bull; Multi-Tenant Terminals
           </span>
-          <h2 class="text-2xl font-black text-slate-900 mt-2">Apex Mobile & Whish Suite</h2>
-          <p class="text-xs text-slate-500 max-w-md mx-auto">
-            بوابة تسجيل الدخول والأمان لمحلات الهواتف ووكلاء Whish Money في لبنان
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-1.5" data-i18n="auth_title">Apex Mobile & Whish Suite</h2>
+          <p class="text-[11px] sm:text-xs text-slate-500 max-w-md mx-auto" data-i18n="auth_subtitle">
+            Secure back-office gateway for Lebanese mobile phone shops & authorized Whish Money agents.
           </p>
         </div>
       </div>
 
-      <!-- Auth Tabs: Admin vs Store Owner vs Onboard -->
-      <div class="flex items-center bg-slate-100 p-1 rounded-2xl text-xs font-bold gap-1">
-        <button id="auth-tab-btn-admin" class="flex-1 py-2.5 rounded-xl bg-white text-indigo-700 shadow-sm transition flex items-center justify-center gap-1.5 font-bold">
-          <i class="fa-solid fa-crown text-amber-500"></i> Super Admin (أنت)
+      <!-- Auth Tabs: Super Admin vs Store Owner vs Add Store Request -->
+      <div class="grid grid-cols-3 bg-slate-100 p-1 rounded-2xl text-[11px] sm:text-xs font-bold gap-1">
+        <button id="auth-tab-btn-admin" class="py-2 sm:py-2.5 px-1.5 rounded-xl bg-white text-indigo-700 shadow-sm transition flex items-center justify-center gap-1 font-bold">
+          <i class="fa-solid fa-crown text-amber-500"></i>
+          <span data-i18n="auth_tab_admin">Super Admin</span>
         </button>
-        <button id="auth-tab-btn-owner" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1.5 font-bold">
-          <i class="fa-solid fa-store text-indigo-600"></i> صاحب محل (Owner)
+        <button id="auth-tab-btn-owner" class="py-2 sm:py-2.5 px-1.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1 font-bold">
+          <i class="fa-solid fa-store text-indigo-600"></i>
+          <span data-i18n="auth_tab_owner">Store Owner</span>
         </button>
-        <button id="auth-tab-btn-register" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1.5 font-bold">
-          <i class="fa-solid fa-plus-circle text-emerald-600"></i> Add Store
+        <button id="auth-tab-btn-register" class="py-2 sm:py-2.5 px-1.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1 font-bold">
+          <i class="fa-solid fa-plus-circle text-emerald-600"></i>
+          <span data-i18n="auth_tab_add_store">Add Store</span>
         </button>
       </div>
 
-      <!-- Panel 1: Super Admin Login (You) -->
-      <div id="auth-panel-admin" class="space-y-4">
+      <!-- Panel 1: Super Admin Login -->
+      <div id="auth-panel-admin" class="space-y-3.5">
         <div class="p-3 bg-indigo-50/70 border border-indigo-100 rounded-2xl text-xs text-indigo-900 space-y-1">
           <div class="font-extrabold flex items-center gap-1.5">
-            <i class="fa-solid fa-shield-halved text-indigo-600"></i> مرحباً بك يا مدير النظام (Super Admin)
+            <i class="fa-solid fa-shield-halved text-indigo-600"></i>
+            <span data-i18n="admin_welcome_title">Super Admin Portal</span>
           </div>
-          <p class="text-[11px] text-indigo-700 leading-relaxed">
-            الـ Admin هو أنت! تسجيل الدخول كـ Super Admin يمنحك الصلاحيات الكاملة للتحكم بجميع المحلات، التنقل بين كل الفروع، وميزة إضافة محلات جديدة (Add Store) لأي زبون.
+          <p class="text-[11px] text-indigo-700 leading-relaxed" data-i18n="admin_welcome_desc">
+            Log in as Super Admin for full control over all stores, approving new Add Store requests, and setting new PINs for shop owners.
           </p>
         </div>
 
         <form id="form-auth-admin" class="space-y-3 text-xs">
           <div>
             <div class="flex items-center justify-between mb-1">
-              <label class="font-bold text-slate-700">Master Admin PIN (رمز الأدمن السري)</label>
-              <span class="text-[10px] text-indigo-600 font-semibold cursor-pointer" id="btn-admin-demo-hint">Default Admin PIN: 1234</span>
+              <label class="font-bold text-slate-700" data-i18n="admin_pin_label">Master Admin PIN</label>
+              <span class="text-[10px] text-indigo-600 font-semibold cursor-pointer" id="btn-admin-demo-hint">Default PIN: 1234</span>
             </div>
             <div class="relative">
               <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400"></i>
@@ -111,126 +122,169 @@
             </div>
           </div>
 
-          <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
-            <i class="fa-solid fa-crown text-amber-300"></i> دخول كـ Super Admin (كامل الصلاحيات & Add Store)
+          <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
+            <i class="fa-solid fa-crown text-amber-300"></i>
+            <span data-i18n="admin_login_btn">Sign In as Super Admin</span>
           </button>
         </form>
       </div>
 
-      <!-- Panel 2: Store Owner Login -->
-      <div id="auth-panel-owner" class="space-y-4 hidden">
+      <!-- Panel 2: Store Owner Login + Forgot PIN Workflow -->
+      <div id="auth-panel-owner" class="space-y-3.5 hidden">
         <div class="p-3 bg-amber-50/70 border border-amber-100 rounded-2xl text-xs text-amber-900 space-y-1">
           <div class="font-extrabold flex items-center gap-1.5">
-            <i class="fa-solid fa-lock text-amber-600"></i> تسجيل دخول أصحاب المحلات (Store Owners)
+            <i class="fa-solid fa-store text-amber-600"></i>
+            <span data-i18n="owner_welcome_title">Store Owner Login</span>
           </div>
-          <p class="text-[11px] text-amber-700 leading-relaxed">
-            اختر محلك وأدخل رمز PIN الخاص بك. صاحب المحل يفتح فقط حسابه الخاص (مخزون، مبيعات، صندوق وصيانة) دون إمكانية رؤية باقي المحلات أو إضافة متاجر.
+          <p class="text-[11px] text-amber-700 leading-relaxed" data-i18n="owner_welcome_desc">
+            Select your shop and enter your secret PIN. Store owners only access their own isolated store inventory, POS, Whish desk, and repairs.
           </p>
         </div>
 
         <form id="form-auth-owner" class="space-y-3 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Select Store / Manager (اختر المتجر والمدير)</label>
+            <label class="block font-bold text-slate-700 mb-1" data-i18n="owner_select_label">Select Store / Manager</label>
             <select id="auth-owner-store-select" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
             </select>
           </div>
 
           <div>
             <div class="flex items-center justify-between mb-1">
-              <label class="font-bold text-slate-700">Store Access PIN (رمز PIN الخاص بالمحل)</label>
-              <span class="text-[10px] text-indigo-600 font-semibold cursor-pointer" id="btn-owner-demo-hint">Default Demo PIN: 1234</span>
+              <label class="font-bold text-slate-700" data-i18n="owner_pin_label">Store Access PIN</label>
+              <div class="flex items-center gap-3">
+                <button type="button" id="btn-forgot-pin-toggle" class="text-[11px] text-rose-600 hover:text-rose-700 font-extrabold underline flex items-center gap-1">
+                  <i class="fa-solid fa-key text-[10px]"></i>
+                  <span data-i18n="forgot_pin_link">Forgot PIN?</span>
+                </button>
+                <span class="text-[10px] text-indigo-600 font-semibold cursor-pointer" id="btn-owner-demo-hint">Demo: 1234</span>
+              </div>
             </div>
             <div class="relative">
               <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400"></i>
-              <input id="auth-owner-pin" type="password" required value="1234" placeholder="Enter Store PIN (1234)" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <input id="auth-owner-pin" type="password" required value="1234" placeholder="Enter Store PIN" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
               <button type="button" id="btn-toggle-owner-pin" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
                 <i class="fa-solid fa-eye text-xs"></i>
               </button>
             </div>
           </div>
 
-          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
-            <i class="fa-solid fa-arrow-right-to-bracket"></i> فتح حساب المحل فقط (Owner Dashboard)
+          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            <span data-i18n="owner_login_btn">Unlock My Store Account</span>
           </button>
         </form>
+
+        <!-- Forgot PIN Request Drawer (Sends request to Super Admin) -->
+        <div id="forgot-pin-box" class="hidden p-3.5 bg-rose-50/90 border border-rose-200 rounded-2xl space-y-2.5 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-rose-900 flex items-center gap-1.5">
+              <i class="fa-solid fa-unlock-keyhole text-rose-600"></i>
+              <span data-i18n="forgot_pin_box_title">Request New PIN from Super Admin</span>
+            </span>
+            <button type="button" id="btn-close-forgot-pin" class="text-rose-400 hover:text-rose-700 font-bold">&times;</button>
+          </div>
+          <p class="text-[11px] text-rose-700 leading-relaxed" data-i18n="forgot_pin_box_desc">
+            Submit a reset request for your selected store. The Super Admin will receive your alert inside the Admin Hub and assign a new PIN for you.
+          </p>
+          <div>
+            <input id="forgot-pin-note" type="text" placeholder="Optional: Your WhatsApp number or note for Admin..." class="w-full px-3 py-2 bg-white border border-rose-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-500">
+          </div>
+          <button type="button" id="btn-submit-forgot-pin" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-xl shadow-xs transition flex items-center justify-center gap-1.5 text-xs">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span data-i18n="forgot_pin_submit_btn">Send PIN Reset Request to Admin</span>
+          </button>
+          <div id="forgot-pin-confirm-msg" class="hidden p-2 bg-emerald-100 text-emerald-900 rounded-lg font-bold text-[11px] text-center"></div>
+        </div>
       </div>
 
-      <!-- Panel 3: Register / Add New Store -->
-      <div id="auth-panel-register" class="space-y-4 hidden">
+      <!-- Panel 3: Add Store Request (Sent to Super Admin for Approval) -->
+      <div id="auth-panel-register" class="space-y-3.5 hidden">
         <div class="p-3 bg-emerald-50/70 border border-emerald-100 rounded-2xl text-xs text-emerald-900 space-y-1">
           <div class="font-extrabold flex items-center gap-1.5">
-            <i class="fa-solid fa-plus-circle text-emerald-600"></i> فتح حساب محل جديد (Add Store)
+            <i class="fa-solid fa-plus-circle text-emerald-600"></i>
+            <span data-i18n="reg_welcome_title">Request New Store Account (Admin Approval)</span>
           </div>
-          <p class="text-[11px] text-emerald-700 leading-relaxed">
-            أنشئ حساباً جديداً لأي محل هواتف في لبنان. سيحصل صاحب المحل على حسابه الخاص المستقل مع رمز PIN لدخول حسابه فقط.
+          <p class="text-[11px] text-emerald-700 leading-relaxed" data-i18n="reg_welcome_desc">
+            Fill out your mobile shop details below. Your request will be sent to the Super Admin inside the platform for review and one-click activation.
           </p>
         </div>
 
-        <form id="form-auth-register" class="space-y-3 text-xs">
+        <div id="auth-reg-success-banner" class="hidden p-3.5 bg-emerald-100 border border-emerald-300 text-emerald-950 rounded-2xl text-xs space-y-1">
+          <div class="font-black flex items-center gap-1.5 text-emerald-800">
+            <i class="fa-solid fa-circle-check text-emerald-600"></i>
+            <span id="auth-reg-success-title">Store Registration Sent to Super Admin!</span>
+          </div>
+          <p class="text-[11px] leading-relaxed" id="auth-reg-success-text">
+            Your request is now pending in the Super Admin dashboard. Once the Admin approves your request, your store will appear in the Store Owner login list.
+          </p>
+        </div>
+
+        <form id="form-auth-register" class="space-y-2.5 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">اسم المحل التجاري (Mobile Shop Name)</label>
+            <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_shop_name">Mobile Shop Business Name</label>
             <input id="auth-reg-name" type="text" required placeholder="e.g. Tripoli Wireless Center" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
           </div>
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">اسم المالك / المدير (Manager Name)</label>
-              <input id="auth-reg-owner" type="text" required placeholder="e.g. مروان حداد" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_owner_name">Owner / Manager Name</label>
+              <input id="auth-reg-owner" type="text" required placeholder="e.g. Marwan Haddad" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">رقم الواتساب (WhatsApp Phone)</label>
+              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_phone">WhatsApp Phone Number</label>
               <input id="auth-reg-phone" type="text" required placeholder="+961 70 889 123" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">المنطقة / المحافظة (City/Region)</label>
+              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_city">City / Region</label>
               <select id="auth-reg-city" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none font-semibold">
-                <option value="Mount Lebanon">جبل لبنان (Mount Lebanon)</option>
-                <option value="Beirut">بيروت (Beirut)</option>
-                <option value="Tripoli">طرابلس / الشمال (Tripoli)</option>
-                <option value="Saida">صيدا / الجنوب (Saida)</option>
-                <option value="Zahle">زحلة / البقاع (Zahle)</option>
-                <option value="Jounieh / Keserwan">جونيه / كسروان (Jounieh)</option>
-                <option value="Nabatieh">النبطية (Nabatieh)</option>
+                <option value="Mount Lebanon">Mount Lebanon</option>
+                <option value="Beirut">Beirut</option>
+                <option value="Tripoli">Tripoli / North</option>
+                <option value="Saida">Saida / South</option>
+                <option value="Zahle">Zahle / Bekaa</option>
+                <option value="Jounieh / Keserwan">Jounieh / Keserwan</option>
+                <option value="Nabatieh">Nabatieh</option>
               </select>
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Whish Agent ID (اختياري)</label>
+              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_whish_id">Whish Agent ID (Optional)</label>
               <input id="auth-reg-whish" type="text" placeholder="e.g. WH-91823" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none">
             </div>
           </div>
           <div class="grid grid-cols-3 gap-2">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">رأس المال $</label>
+              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_usd">Opening USD ($)</label>
               <input id="auth-reg-usd" type="number" min="0" value="1500" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold">
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">سقف Whish $</label>
+              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_float">Whish Float ($)</label>
               <input id="auth-reg-float" type="number" min="0" value="2500" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-rose-700">
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">رمز PIN للمحل</label>
+              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_pin">Desired PIN</label>
               <input id="auth-reg-pin" type="text" value="1234" required class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-center font-bold">
             </div>
           </div>
-          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm mt-1">
-            <i class="fa-solid fa-plus-circle"></i> إضافة المتجر الآن وتفعيله
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm mt-1">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span data-i18n="reg_submit_btn">Submit Store Request to Super Admin</span>
           </button>
         </form>
       </div>
 
       <!-- 1-Click Instant Demo Login Buttons -->
       <div class="pt-3 border-t border-slate-100 space-y-2">
-        <div class="flex items-center justify-between text-[11px] text-slate-400 font-bold uppercase tracking-wider">
-          <span>دخول تجريبي سريع بضغطة واحدة (1-Click Demo)</span>
-          <span class="text-indigo-600 font-medium lowercase">click any role</span>
+        <div class="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-wider">
+          <span data-i18n="demo_quick_title">Instant 1-Click Access</span>
+          <span class="text-indigo-600 font-medium lowercase" data-i18n="demo_click_role">tap any role</span>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
           <button onclick="quickAuthAdmin()" class="p-2.5 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl text-left transition group">
             <div class="font-black text-purple-900 truncate group-hover:text-purple-700 flex items-center gap-1">
               <i class="fa-solid fa-crown text-amber-500 text-[10px]"></i> Super Admin
             </div>
-            <div class="text-[10px] text-purple-600">You &bull; Full Control</div>
+            <div class="text-[10px] text-purple-600" data-i18n="demo_admin_sub">Full Control</div>
           </button>
           <button onclick="quickAuthOwner('store-01')" class="p-2.5 bg-indigo-50/70 hover:bg-indigo-100 border border-indigo-200 rounded-xl text-left transition group">
             <div class="font-extrabold text-indigo-900 truncate group-hover:text-indigo-700">Apex Mobile</div>
@@ -249,158 +303,193 @@
     </div>
   </div>
 
-  <!-- Top Navbar -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-    <div class="px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-      <div class="flex items-center space-x-3">
-        <button id="mobile-menu-btn" class="lg:hidden text-slate-600 hover:text-slate-900 focus:outline-none p-2 rounded-lg hover:bg-slate-100">
-          <i class="fa-solid fa-bars text-lg"></i>
+  <!-- Top Navbar (Mobile-Compatible with Language Switcher) -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="px-2.5 sm:px-6 lg:px-8 flex items-center justify-between h-14 sm:h-16 gap-1.5">
+      <div class="flex items-center gap-2 min-w-0">
+        <button id="mobile-menu-btn" class="lg:hidden text-slate-700 hover:text-slate-900 focus:outline-none p-2 rounded-xl bg-slate-100 hover:bg-slate-200 transition flex-shrink-0" aria-label="Open Menu">
+          <i class="fa-solid fa-bars text-base"></i>
         </button>
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-rose-500 flex items-center justify-center text-white shadow-md shadow-indigo-100">
-            <i class="fa-solid fa-mobile-screen-button text-xl"></i>
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-rose-500 flex items-center justify-center text-white shadow-sm flex-shrink-0">
+            <i class="fa-solid fa-mobile-screen-button text-base sm:text-xl"></i>
           </div>
-          <div>
-            <div class="flex items-center space-x-2">
-              <h1 class="text-lg font-bold text-slate-900 leading-tight">Apex Mobile Shop</h1>
-              <span class="bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-semibold">Manager Suite</span>
-              <span class="bg-rose-100 text-rose-700 text-xs px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <h1 class="text-sm sm:text-lg font-extrabold text-slate-900 truncate" data-i18n="app_header_title">Apex Mobile Shop</h1>
+              <span class="hidden md:inline-block bg-indigo-100 text-indigo-700 text-[11px] px-2 py-0.5 rounded-full font-semibold" data-i18n="app_header_badge">Manager Suite</span>
+              <span class="hidden sm:inline-flex bg-rose-100 text-rose-700 text-[11px] px-2 py-0.5 rounded-full font-bold items-center gap-1">
                 <i class="fa-solid fa-bolt text-[10px]"></i> Whish Agent
               </span>
             </div>
-            <p class="text-xs text-slate-500 hidden sm:block">Back-Office &bull; Stock &bull; Whish Cash Desk &bull; Finance &bull; AI Studio</p>
+            <p class="text-[11px] text-slate-500 hidden xl:block" data-i18n="app_header_sub">Back-Office &bull; Stock &bull; Whish Cash Desk &bull; Finance &bull; AI Studio</p>
           </div>
         </div>
       </div>
 
-      <div class="flex items-center space-x-2 sm:space-x-4">
+      <div class="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
+        <!-- Language Toggle Button in Top Header -->
+        <button type="button" onclick="toggleLanguage()" id="btn-lang-toggle-nav" class="cursor-pointer bg-slate-100 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-slate-800 hover:text-indigo-700 text-[11px] sm:text-xs font-extrabold px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-2xs" title="Switch Language (English / العربية)">
+          <i class="fa-solid fa-globe text-indigo-600"></i>
+          <span id="lang-toggle-nav-label">عربي</span>
+        </button>
+
         <!-- Active Store Account Pill / Switcher -->
-        <div id="btn-switch-store-modal" class="cursor-pointer bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 text-indigo-900 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-2 transition shadow-sm">
+        <div id="btn-switch-store-modal" class="cursor-pointer bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 text-indigo-900 text-[11px] sm:text-xs px-2 sm:px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-2xs">
           <i id="nav-store-icon" class="fa-solid fa-store text-indigo-600"></i>
           <span id="nav-store-label-prefix" class="font-medium hidden md:inline">Store:</span>
-          <span id="nav-active-store-name" class="font-bold truncate max-w-[140px]">Apex Mobile (Main)</span>
+          <span id="nav-active-store-name" class="font-bold truncate max-w-[85px] sm:max-w-[140px]">Apex Mobile</span>
           <i id="nav-store-chevron" class="fa-solid fa-chevron-down text-[10px] text-indigo-500"></i>
         </div>
-        <div id="rate-badge-btn" class="cursor-pointer bg-amber-50 border border-amber-200 hover:bg-amber-100 text-amber-800 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-2 transition">
+
+        <div id="rate-badge-btn" class="cursor-pointer bg-amber-50 border border-amber-200 hover:bg-amber-100 text-amber-800 text-[11px] sm:text-xs px-2 sm:px-3 py-1.5 rounded-lg hidden sm:flex items-center gap-1.5 transition">
           <i class="fa-solid fa-arrow-right-arrow-left text-amber-600"></i>
-          <span class="font-medium hidden md:inline">Rate:</span>
           <span id="nav-exchange-rate" class="font-bold">1$ = 89,500 LBP</span>
-          <i class="fa-solid fa-pen text-[10px] text-amber-500"></i>
         </div>
 
-        <div class="hidden sm:flex items-center bg-rose-50 border border-rose-200 text-rose-800 text-xs px-3 py-1.5 rounded-lg space-x-2">
+        <div class="hidden xl:flex items-center bg-rose-50 border border-rose-200 text-rose-800 text-xs px-3 py-1.5 rounded-lg gap-1.5">
           <i class="fa-solid fa-wallet text-rose-600"></i>
-          <span class="font-medium">Whish Float:</span>
+          <span class="font-medium" data-i18n="nav_whish_float">Whish Float:</span>
           <span id="nav-whish-balance" class="font-bold text-rose-700">$3,850.00</span>
         </div>
 
-        <div class="hidden md:flex items-center bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-3 py-1.5 rounded-lg space-x-2">
+        <div class="hidden lg:flex items-center bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-3 py-1.5 rounded-lg gap-1.5">
           <i class="fa-solid fa-cash-register text-emerald-600"></i>
-          <span class="font-medium">Drawer USD:</span>
+          <span class="font-medium" data-i18n="nav_drawer_usd">Drawer USD:</span>
           <span id="nav-drawer-usd" class="font-bold text-emerald-700">$2,420.00</span>
         </div>
 
-        <button id="btn-auth-lock" class="cursor-pointer bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-2.5 py-2 rounded-lg flex items-center space-x-1.5 transition font-semibold" title="Lock Terminal / Sign Out">
+        <button id="btn-auth-lock" class="cursor-pointer bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-2.5 py-1.5 sm:py-2 rounded-lg flex items-center gap-1.5 transition font-semibold" title="Lock Terminal / Sign Out">
           <i class="fa-solid fa-lock text-slate-500"></i>
-          <span class="hidden md:inline">Lock Terminal</span>
+          <span class="hidden md:inline" data-i18n="nav_lock">Lock</span>
         </button>
-        <button id="quick-sale-nav-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold px-3 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm transition">
+
+        <button id="quick-sale-nav-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg flex items-center gap-1.5 shadow-xs transition">
           <i class="fa-solid fa-cart-shopping"></i>
-          <span class="hidden sm:inline">POS Checkout</span>
+          <span class="hidden sm:inline" data-i18n="nav_pos_btn">POS</span>
         </button>
       </div>
     </div>
   </header>
 
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div id="mobile-sidebar-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-30 hidden lg:hidden"></div>
+
   <!-- Main Container -->
-  <div class="flex-1 flex overflow-hidden">
-    <!-- Sidebar Navigation -->
-    <aside id="app-sidebar" class="w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col justify-between hidden lg:flex z-20">
+  <div class="flex-1 flex overflow-hidden relative">
+    <!-- Sidebar Navigation (Slide-over on Mobile, Static on Desktop) -->
+    <aside id="app-sidebar" class="fixed lg:static inset-y-0 left-0 w-72 lg:w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col justify-between hidden lg:flex z-40 shadow-2xl lg:shadow-none overflow-y-auto">
       <div class="py-4 px-3 space-y-1">
-        <div class="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">Main Menu</div>
-        <button data-tab="tab-dashboard" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-indigo-700 bg-indigo-50 transition">
+        <!-- Mobile Drawer Top Header -->
+        <div class="flex lg:hidden items-center justify-between px-3 pb-3 mb-2 border-b border-slate-100">
+          <span class="text-xs font-black text-indigo-900 uppercase tracking-wider" data-i18n="sidebar_menu_header">Navigation Menu</span>
+          <button id="btn-close-mobile-sidebar" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg">
+            <i class="fa-solid fa-xmark text-base"></i>
+          </button>
+        </div>
+
+        <div class="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400" data-i18n="sidebar_main_menu">Main Menu</div>
+        <button data-tab="tab-dashboard" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-indigo-700 bg-indigo-50 transition">
           <i class="fa-solid fa-chart-pie w-5 text-indigo-600"></i>
-          <span>Dashboard Overview</span>
+          <span data-i18n="nav_dashboard">Dashboard Overview</span>
         </button>
-        <button data-tab="tab-phones" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <button data-tab="tab-phones" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-mobile-screen w-5 text-slate-500"></i>
-          <span>Phones (New & Used)</span>
+          <span data-i18n="nav_phones">Phones (New & Used)</span>
           <span id="sidebar-phones-count" class="ml-auto bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded-full font-semibold">14</span>
         </button>
-        <button data-tab="tab-accessories" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <button data-tab="tab-accessories" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-headphones-simple w-5 text-slate-500"></i>
-          <span>Accessories Stock</span>
+          <span data-i18n="nav_accessories">Accessories Stock</span>
           <span id="sidebar-accessories-count" class="ml-auto bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded-full font-semibold">94</span>
         </button>
-        <button data-tab="tab-recharge" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <button data-tab="tab-recharge" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-sim-card w-5 text-slate-500"></i>
-          <span>Recharge Cards</span>
+          <span data-i18n="nav_recharge">Recharge Cards</span>
           <span id="sidebar-cards-count" class="ml-auto bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded-full font-semibold">94</span>
         </button>
-        <button data-tab="tab-whish" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <button data-tab="tab-whish" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-money-bill-transfer w-5 text-rose-500"></i>
-          <span>Whish Money Agent</span>
+          <span data-i18n="nav_whish">Whish Money Agent</span>
           <span class="ml-auto bg-rose-100 text-rose-700 text-[10px] px-1.5 py-0.5 rounded font-bold">VIP</span>
         </button>
-        <button data-tab="tab-repairs" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <button data-tab="tab-repairs" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-wrench w-5 text-amber-500"></i>
-          <span>Phone Repairs</span>
+          <span data-i18n="nav_repairs">Phone Repairs</span>
           <span id="sidebar-repairs-count" class="ml-auto bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded-full font-semibold">4</span>
         </button>
 
-        <div class="pt-4 px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">Operations & Finance</div>
-        <button data-tab="tab-pos" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <div class="pt-4 px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400" data-i18n="sidebar_ops_menu">Operations & Finance</div>
+        <button data-tab="tab-pos" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-cash-register w-5 text-slate-500"></i>
-          <span>Buy & Sell Desk</span>
+          <span data-i18n="nav_pos">Buy & Sell Desk</span>
         </button>
-        <button data-tab="tab-finance" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <button data-tab="tab-finance" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-file-invoice-dollar w-5 text-slate-500"></i>
-          <span>Finance & Reports</span>
+          <span data-i18n="nav_finance">Finance & Reports</span>
         </button>
-        <button data-tab="tab-stores" id="sidebar-nav-stores" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <button data-tab="tab-stores" id="sidebar-nav-stores" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-store w-5 text-indigo-600"></i>
-          <span>Store Accounts (Admin)</span>
-          <span id="sidebar-stores-count" class="ml-auto bg-indigo-100 text-indigo-800 text-xs px-2 py-0.5 rounded-full font-semibold">3</span>
+          <span data-i18n="nav_stores">Store Accounts (Admin)</span>
+          <div class="ml-auto flex items-center gap-1">
+            <span id="sidebar-pending-badge" class="hidden bg-rose-600 text-white text-[10px] px-1.5 py-0.5 rounded-full font-extrabold animate-pulse">1</span>
+            <span id="sidebar-stores-count" class="bg-indigo-100 text-indigo-800 text-xs px-2 py-0.5 rounded-full font-semibold">3</span>
+          </div>
         </button>
-        <button data-tab="tab-auth" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <button data-tab="tab-auth" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-shield-halved w-5 text-indigo-500"></i>
-          <span>Auth & Shop Gateway</span>
+          <span data-i18n="nav_auth">Auth & Shop Gateway</span>
         </button>
-        <button data-tab="tab-ai-studio" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <button data-tab="tab-ai-studio" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-wand-magic-sparkles w-5 text-purple-600"></i>
-          <span>Smart Retail AI Hub</span>
-          <span class="ml-auto bg-purple-100 text-purple-700 text-[10px] px-1.5 py-0.5 rounded font-bold">Smart AI</span>
+          <span data-i18n="nav_ai">Smart Retail AI Hub</span>
+          <span class="ml-auto bg-purple-100 text-purple-700 text-[10px] px-1.5 py-0.5 rounded font-bold">AI</span>
         </button>
       </div>
 
       <!-- Manager Profile Footer & Quick Reset -->
       <div class="p-4 border-t border-slate-200 bg-slate-50 space-y-3">
-        <div class="flex items-center space-x-3">
-          <div id="sidebar-user-avatar" class="w-9 h-9 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all">
+        <div class="flex items-center gap-3">
+          <div id="sidebar-user-avatar" class="w-9 h-9 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all flex-shrink-0">
             M
           </div>
           <div class="truncate">
-            <p id="sidebar-user-name" class="text-xs font-bold text-slate-900 truncate">Branch Manager</p>
-            <p id="sidebar-user-role" class="text-[11px] text-slate-500 truncate">Internal Admin &bull; Shift #1</p>
+            <p id="sidebar-user-name" class="text-xs font-bold text-slate-900 truncate">Super Admin</p>
+            <p id="sidebar-user-role" class="text-[11px] text-slate-500 truncate">Platform Owner &bull; All Stores</p>
           </div>
         </div>
         <div class="flex items-center justify-between text-xs text-slate-500 pt-1 border-t border-slate-200">
           <button id="btn-sidebar-lock" class="hover:text-amber-600 font-medium flex items-center gap-1" title="Lock Terminal">
-            <i class="fa-solid fa-lock"></i> Lock
+            <i class="fa-solid fa-lock"></i> <span data-i18n="footer_lock">Lock</span>
           </button>
           <button id="btn-open-settings" class="hover:text-indigo-600 font-medium flex items-center gap-1">
-            <i class="fa-solid fa-gear"></i> Settings
+            <i class="fa-solid fa-gear"></i> <span data-i18n="footer_settings">Settings</span>
           </button>
           <button id="btn-reset-demo" class="hover:text-rose-600 font-medium flex items-center gap-1">
-            <i class="fa-solid fa-rotate-right"></i> Reset Demo
+            <i class="fa-solid fa-rotate-right"></i> <span data-i18n="footer_reset">Reset</span>
           </button>
         </div>
       </div>
     </aside>
 
-    <!-- Content Workspace -->
-    <main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 lg:p-8">
+    <!-- Content Workspace (pb-20 on mobile so bottom nav bar never overlaps content) -->
+    <main class="flex-1 overflow-y-auto custom-scrollbar p-3 sm:p-6 lg:p-8 pb-24 lg:pb-8">
 
+      <!-- Super Admin Pending Notifications Alert Bar (Visible to Super Admin when requests exist) -->
+      <div id="admin-global-alert-bar" class="hidden mb-5 p-3.5 bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-600 text-white rounded-2xl shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center text-base flex-shrink-0">
+            <i class="fa-solid fa-bell animate-bounce"></i>
+          </span>
+          <div>
+            <p class="font-extrabold text-sm" id="admin-alert-bar-title">Pending Admin Requests Require Your Approval</p>
+            <p class="text-white/90 text-[11px]" id="admin-alert-bar-desc">Store owners have submitted new store registration or PIN reset requests.</p>
+          </div>
+        </div>
+        <button onclick="switchTab('tab-stores')" class="bg-white text-indigo-900 hover:bg-indigo-50 font-extrabold px-3.5 py-2 rounded-xl shadow-xs transition text-xs self-start sm:self-auto flex-shrink-0">
+          <i class="fa-solid fa-list-check mr-1"></i> Review Requests
+        </button>
+      </div>
       <!-- ================= TAB: DASHBOARD ================= -->
       <section id="tab-dashboard" class="tab-pane space-y-6">
         <!-- Welcome Banner -->
@@ -1159,19 +1248,19 @@
 
       <!-- ================= TAB: STORE ACCOUNTS & OWNER ONBOARDING (ADMIN) ================= -->
       <section id="tab-stores" class="tab-pane hidden space-y-6">
-        <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-5 sm:p-6 text-white shadow-lg relative overflow-hidden">
           <div class="relative z-10 max-w-2xl">
-            <div class="flex items-center space-x-2">
+            <div class="flex flex-wrap items-center gap-2">
               <span class="bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 text-xs px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5">
-                <i class="fa-solid fa-crown text-amber-400"></i> Super Admin Multi-Store Hub
+                <i class="fa-solid fa-crown text-amber-400"></i> <span data-i18n="stores_hero_badge">Super Admin Multi-Store Hub</span>
               </span>
-              <span class="text-xs bg-slate-800 px-2.5 py-1 rounded-full text-slate-300">Multi-Tenant Management</span>
+              <span class="text-xs bg-slate-800 px-2.5 py-1 rounded-full text-slate-300" data-i18n="stores_hero_subbadge">Approvals & PIN Control</span>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold mt-2 tracking-tight">Mobile Shop Owners & Accounts</h2>
-            <p class="text-indigo-200 text-xs sm:text-sm mt-1">Open and manage accounts for mobile shop owners across Lebanon. Each store gets its own isolated stock, Whish float, POS register, repair tickets, and financial reports.</p>
+            <h2 class="text-xl sm:text-3xl font-extrabold mt-2 tracking-tight" data-i18n="stores_hero_title">Mobile Shop Owners & Approvals</h2>
+            <p class="text-indigo-200 text-xs sm:text-sm mt-1" data-i18n="stores_hero_desc">Approve incoming Add Store requests, set new PINs for shop owners who forgot their PIN, or open a new store account directly.</p>
             <div class="mt-4 flex flex-wrap gap-2.5">
-              <button id="btn-open-register-store" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow transition flex items-center gap-2">
-                <i class="fa-solid fa-plus"></i> Open New Shop Account
+              <button id="btn-open-register-store" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+                <i class="fa-solid fa-plus"></i> <span data-i18n="stores_btn_create_direct">Add Store Directly (Admin)</span>
               </button>
             </div>
           </div>
@@ -1180,28 +1269,62 @@
           </div>
         </div>
 
-        <!-- Store Accounts Grid -->
+        <!-- Pending Requests Grid: 1) Pending Add Store Requests  2) Forgot PIN Reset Requests -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Column 1: Pending Add Store Requests -->
+          <div class="bg-white rounded-2xl border border-emerald-200 shadow-sm p-4 sm:p-5 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                  <i class="fa-solid fa-store"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-extrabold text-slate-900" data-i18n="pending_stores_title">Pending "Add Store" Requests</h3>
+                  <p class="text-[11px] text-slate-500" data-i18n="pending_stores_sub">Submitted from Auth Gateway &bull; Awaiting your approval</p>
+                </div>
+              </div>
+              <span id="pending-stores-badge" class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-2.5 py-0.5 rounded-full">0 Pending</span>
+            </div>
+
+            <div id="pending-stores-list" class="space-y-3">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Column 2: Pending Forgot PIN Reset Requests -->
+          <div class="bg-white rounded-2xl border border-rose-200 shadow-sm p-4 sm:p-5 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
+                  <i class="fa-solid fa-key"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-extrabold text-slate-900" data-i18n="pending_pins_title">"Forgot PIN" Reset Requests</h3>
+                  <p class="text-[11px] text-slate-500" data-i18n="pending_pins_sub">Shop owners requesting a new PIN from Admin</p>
+                </div>
+              </div>
+              <span id="pending-pins-badge" class="bg-rose-100 text-rose-800 text-xs font-extrabold px-2.5 py-0.5 rounded-full">0 Requests</span>
+            </div>
+
+            <div id="pending-pins-list" class="space-y-3">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Store Accounts Grid -->
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <i class="fa-solid fa-building-columns text-indigo-600"></i> Registered Mobile Shop Clients
+              <i class="fa-solid fa-building-columns text-indigo-600"></i>
+              <span data-i18n="active_stores_title">Approved & Active Mobile Shop Accounts</span>
             </h3>
             <span class="text-xs text-slate-400" id="stores-total-count">3 Store Accounts</span>
           </div>
 
-          <div id="stores-list-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div id="stores-list-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <!-- Rendered by JS -->
           </div>
-        </div>
-
-        <!-- System Architecture Guide Card -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-          <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <i class="fa-solid fa-shield-halved text-emerald-600"></i> How Admin Store Accounts Work
-          </h4>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            As administrator, you can open accounts for multiple mobile shop owners. Each shop owner can access their store dashboard via their Store ID and PIN. When you switch stores using the <strong>Store Switcher</strong> in the top navbar, the entire interface (Inventory, Whish Desk, Repair Tickets, Cash Drawers, and Profit Reports) automatically adjusts to that store's independent ledger.
-          </p>
         </div>
       </section>
 
@@ -2341,6 +2464,34 @@
     </div>
   </div>
 
+  <!-- Mobile Sticky Bottom Quick-Navigation Bar -->
+  <nav id="mobile-bottom-nav" class="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-1 py-1.5 flex items-center justify-around shadow-lg text-[10px] font-bold text-slate-600">
+    <button type="button" onclick="switchTab('tab-dashboard')" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-indigo-600" data-mob-tab="tab-dashboard">
+      <i class="fa-solid fa-chart-pie text-sm"></i>
+      <span data-i18n="mob_home">Home</span>
+    </button>
+    <button type="button" onclick="switchTab('tab-pos')" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg hover:text-indigo-600" data-mob-tab="tab-pos">
+      <i class="fa-solid fa-cash-register text-sm"></i>
+      <span data-i18n="mob_pos">POS</span>
+    </button>
+    <button type="button" onclick="switchTab('tab-whish')" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg hover:text-rose-600" data-mob-tab="tab-whish">
+      <i class="fa-solid fa-bolt text-sm text-rose-500"></i>
+      <span data-i18n="mob_whish">Whish</span>
+    </button>
+    <button type="button" onclick="switchTab('tab-repairs')" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg hover:text-amber-600" data-mob-tab="tab-repairs">
+      <i class="fa-solid fa-wrench text-sm text-amber-500"></i>
+      <span data-i18n="mob_repairs">Repairs</span>
+    </button>
+    <button type="button" onclick="switchTab('tab-phones')" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg hover:text-indigo-600" data-mob-tab="tab-phones">
+      <i class="fa-solid fa-mobile-screen text-sm"></i>
+      <span data-i18n="mob_phones">Stock</span>
+    </button>
+    <button type="button" id="btn-mobile-bottom-menu" class="flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg hover:text-indigo-600">
+      <i class="fa-solid fa-bars text-sm"></i>
+      <span data-i18n="mob_menu">Menu</span>
+    </button>
+  </nav>
+
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
 
   <!-- Inline Core Script -->
@@ -2394,6 +2545,21 @@
         activeStoreId: 'store-01',
         adminPin: '1234'
       },
+      storeRequests: [
+        {
+          id: 'REQ-101',
+          name: 'Tripoli Wireless Center',
+          owner: 'Marwan Haddad',
+          phone: '+961 70 889 123',
+          city: 'Tripoli',
+          whishId: 'WH-91823',
+          usdDrawer: 1500,
+          whishFloat: 2500,
+          pin: '4321',
+          requestedAt: '2026-10-19 14:15'
+        }
+      ],
+      pinResetRequests: [],
       cards: [
         // Touch $ (Days & Credits)
         { id: 'RC-301', category: 'Touch $', provider: 'Touch', denomination: '$22.73 (30 Days + Credit)', cost: 21.50, sell: 23.50, stock: 24 },
@@ -2475,6 +2641,15 @@
         if (!s.pin) s.pin = '1234';
       });
       if (!appState.settings) appState.settings = {};
+      if (!appState.settings.lang) {
+        appState.settings.lang = 'en'; // Default English
+      }
+      if (!appState.storeRequests) {
+        appState.storeRequests = JSON.parse(JSON.stringify(defaultInitialState.storeRequests || []));
+      }
+      if (!appState.pinResetRequests) {
+        appState.pinResetRequests = [];
+      }
       if (!appState.settings.aiModel) {
         appState.settings.aiModel = 'gemini-2.5-flash';
       }
@@ -3459,10 +3634,40 @@
       });
     }
 
+    function closeMobileSidebar() {
+      const sidebar = document.getElementById('app-sidebar');
+      const backdrop = document.getElementById('mobile-sidebar-backdrop');
+      if (sidebar) sidebar.classList.add('hidden');
+      if (backdrop) backdrop.classList.add('hidden');
+    }
+
+    function openMobileSidebar() {
+      const sidebar = document.getElementById('app-sidebar');
+      const backdrop = document.getElementById('mobile-sidebar-backdrop');
+      if (sidebar) sidebar.classList.remove('hidden');
+      if (backdrop) backdrop.classList.remove('hidden');
+    }
+
     function switchTab(tabId) {
+      if (tabId === 'tab-stores' && appState.auth && appState.auth.role === 'owner') {
+        showToast('Access restricted to Super Admin.', 'error');
+        return;
+      }
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
       const activePane = document.getElementById(tabId);
       if (activePane) activePane.classList.remove('hidden');
+
+      document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+        if (btn.getAttribute('data-mob-tab') === tabId) {
+          btn.classList.add('text-indigo-600', 'bg-indigo-50/80');
+        } else {
+          btn.classList.remove('text-indigo-600', 'bg-indigo-50/80');
+        }
+      });
+
+      if (window.innerWidth < 1024) {
+        closeMobileSidebar();
+      }
 
       document.querySelectorAll('.nav-item').forEach(btn => {
         if (btn.getAttribute('data-tab') === tabId) {
@@ -3559,10 +3764,199 @@
     };
 
 
+    // ================= BILINGUAL I18N (DEFAULT ENGLISH + ARABIC SWITCHER) =================
+    const I18N_DICT = {
+      en: {
+        auth_badge: 'Commercial SaaS Edition • Multi-Tenant Terminals',
+        auth_title: 'Apex Mobile & Whish Suite',
+        auth_subtitle: 'Secure back-office gateway for Lebanese mobile phone shops & authorized Whish Money agents.',
+        auth_tab_admin: 'Super Admin',
+        auth_tab_owner: 'Store Owner',
+        auth_tab_add_store: 'Add Store',
+        admin_welcome_title: 'Super Admin Portal',
+        admin_welcome_desc: 'Log in as Super Admin for full control over all stores, approving new Add Store requests, and setting new PINs for shop owners.',
+        admin_pin_label: 'Master Admin PIN',
+        admin_login_btn: 'Sign In as Super Admin',
+        owner_welcome_title: 'Store Owner Login',
+        owner_welcome_desc: 'Select your shop and enter your secret PIN. Store owners only access their own isolated store inventory, POS, Whish desk, and repairs.',
+        owner_select_label: 'Select Store / Manager',
+        owner_pin_label: 'Store Access PIN',
+        forgot_pin_link: 'Forgot PIN?',
+        owner_login_btn: 'Unlock My Store Account',
+        forgot_pin_box_title: 'Request New PIN from Super Admin',
+        forgot_pin_box_desc: 'Submit a reset request for your selected store. The Super Admin will receive your alert inside the Admin Hub and assign a new PIN for you.',
+        forgot_pin_submit_btn: 'Send PIN Reset Request to Admin',
+        reg_welcome_title: 'Request New Store Account (Admin Approval)',
+        reg_welcome_desc: 'Fill out your mobile shop details below. Your request will be sent to the Super Admin inside the platform for review and one-click activation.',
+        reg_shop_name: 'Mobile Shop Business Name',
+        reg_owner_name: 'Owner / Manager Name',
+        reg_phone: 'WhatsApp Phone Number',
+        reg_city: 'City / Region',
+        reg_whish_id: 'Whish Agent ID (Optional)',
+        reg_usd: 'Opening USD ($)',
+        reg_float: 'Whish Float ($)',
+        reg_pin: 'Desired PIN',
+        reg_submit_btn: 'Submit Store Request to Super Admin',
+        demo_quick_title: 'Instant 1-Click Access',
+        demo_click_role: 'tap any role',
+        demo_admin_sub: 'Full Control',
+        app_header_title: 'Apex Mobile Shop',
+        app_header_badge: 'Manager Suite',
+        app_header_sub: 'Back-Office • Stock • Whish Cash Desk • Finance • AI Studio',
+        nav_whish_float: 'Whish Float:',
+        nav_drawer_usd: 'Drawer USD:',
+        nav_lock: 'Lock',
+        nav_pos_btn: 'POS',
+        sidebar_menu_header: 'Navigation Menu',
+        sidebar_main_menu: 'Main Menu',
+        nav_dashboard: 'Dashboard Overview',
+        nav_phones: 'Phones (New & Used)',
+        nav_accessories: 'Accessories Stock',
+        nav_recharge: 'Recharge Cards',
+        nav_whish: 'Whish Money Agent',
+        nav_repairs: 'Phone Repairs',
+        sidebar_ops_menu: 'Operations & Finance',
+        nav_pos: 'Buy & Sell Desk',
+        nav_finance: 'Finance & Reports',
+        nav_stores: 'Store Accounts (Admin)',
+        nav_auth: 'Auth & Shop Gateway',
+        nav_ai: 'Smart Retail AI Hub',
+        footer_lock: 'Lock',
+        footer_settings: 'Settings',
+        footer_reset: 'Reset',
+        stores_hero_badge: 'Super Admin Multi-Store Hub',
+        stores_hero_subbadge: 'Approvals & PIN Control',
+        stores_hero_title: 'Mobile Shop Owners & Approvals',
+        stores_hero_desc: 'Approve incoming Add Store requests, set new PINs for shop owners who forgot their PIN, or open a new store account directly.',
+        stores_btn_create_direct: 'Add Store Directly (Admin)',
+        pending_stores_title: 'Pending "Add Store" Requests',
+        pending_stores_sub: 'Submitted from Auth Gateway • Awaiting your approval',
+        pending_pins_title: '"Forgot PIN" Reset Requests',
+        pending_pins_sub: 'Shop owners requesting a new PIN from Admin',
+        active_stores_title: 'Approved & Active Mobile Shop Accounts',
+        mob_home: 'Home',
+        mob_pos: 'POS',
+        mob_whish: 'Whish',
+        mob_repairs: 'Repairs',
+        mob_phones: 'Stock',
+        mob_menu: 'Menu'
+      },
+      ar: {
+        auth_badge: 'النسخة التجارية SaaS • إدارة المحلات والوكلاء',
+        auth_title: 'Apex Mobile & Whish Suite',
+        auth_subtitle: 'بوابة الدخول والأمان لمحلات الهواتف ووكلاء Whish Money في لبنان.',
+        auth_tab_admin: 'Super Admin',
+        auth_tab_owner: 'صاحب محل (Owner)',
+        auth_tab_add_store: 'طلب إضافة متجر',
+        admin_welcome_title: 'بوابة المدير العام (Super Admin)',
+        admin_welcome_desc: 'سجّل الدخول كـ Super Admin للتحكم بجميع المحلات، الموافقة على طلبات فتح المحلات الجديدة، وتعيين رمز PIN جديد لأصحاب المحلات.',
+        admin_pin_label: 'رمز الـ Super Admin السري (PIN)',
+        admin_login_btn: 'دخول كـ Super Admin',
+        owner_welcome_title: 'دخول أصحاب المحلات (Store Owners)',
+        owner_welcome_desc: 'اختر متجرك وأدخل رمز PIN الخاص بك. يفتح صاحب المحل حساب متجره الخاص فقط (مخزون، مبيعات، Whish وصيانة).',
+        owner_select_label: 'اختر المتجر / المدير',
+        owner_pin_label: 'رمز الدخول (Store PIN)',
+        forgot_pin_link: 'نسيت رمز PIN؟',
+        owner_login_btn: 'فتح حساب المتجر الخاص بي',
+        forgot_pin_box_title: 'طلب تعيين رمز PIN جديد من الـ Admin',
+        forgot_pin_box_desc: 'أرسل طلباً للمدير العام (Super Admin) ليقوم بتعيين رمز PIN جديد لحساب محلك.',
+        forgot_pin_submit_btn: 'إرسال طلب تغيير الـ PIN للأدمن',
+        reg_welcome_title: 'طلب إضافة متجر جديد (بانتظار موافقة الـ Admin)',
+        reg_welcome_desc: 'أدخل بيانات محلك أدناه. سيصل الطلب مباشرة إلى Super Admin داخل النظام للموافقة عليه وتفعيله.',
+        reg_shop_name: 'اسم المحل التجاري',
+        reg_owner_name: 'اسم صاحب المحل / المدير',
+        reg_phone: 'رقم الواتساب للتواصل',
+        reg_city: 'المنطقة / المحافظة',
+        reg_whish_id: 'معرّف وكيل Whish (اختياري)',
+        reg_usd: 'رصيد الكاش ($)',
+        reg_float: 'رصيد Whish ($)',
+        reg_pin: 'رمز PIN المقترح',
+        reg_submit_btn: 'إرسال طلب فتح المتجر إلى الـ Admin',
+        demo_quick_title: 'دخول تجريبي سريع بضغطة واحدة',
+        demo_click_role: 'اختر الحساب',
+        demo_admin_sub: 'صلاحيات كاملة',
+        app_header_title: 'Apex Mobile Shop',
+        app_header_badge: 'نظام الإدارة',
+        app_header_sub: 'إدارة المخزون • مبيعات POS • وكيل Whish • الصيانة • التقارير المالية',
+        nav_whish_float: 'رصيد Whish:',
+        nav_drawer_usd: 'كاش الصندوق:',
+        nav_lock: 'قفل',
+        nav_pos_btn: 'بيع POS',
+        sidebar_menu_header: 'القائمة الرئيسية',
+        sidebar_main_menu: 'الأقسام الرئيسية',
+        nav_dashboard: 'لوحة التحكم الشاملة',
+        nav_phones: 'الهواتف (جديد ومستعمل)',
+        nav_accessories: 'مخزون الإكسسوارات',
+        nav_recharge: 'بطاقات التشريج',
+        nav_whish: 'عمليات Whish Money',
+        nav_repairs: 'صيانة الهواتف',
+        sidebar_ops_menu: 'العمليات والمالية',
+        nav_pos: 'نقطة البيع والشراء (POS)',
+        nav_finance: 'التقارير المالية والأرباح',
+        nav_stores: 'حسابات المحلات والطلبات (Admin)',
+        nav_auth: 'بوابة الأمان والحساب',
+        nav_ai: 'المساعد الذكي (AI)',
+        footer_lock: 'قفل',
+        footer_settings: 'الإعدادات',
+        footer_reset: 'إعادة ضبط',
+        stores_hero_badge: 'لوحة تحكم الـ Super Admin',
+        stores_hero_subbadge: 'الموافقات وإدارة الـ PIN',
+        stores_hero_title: 'إدارة المحلات وطلبات الموافقة',
+        stores_hero_desc: 'وافق على طلبات إضافة المحلات الجديدة، عيّن رمز PIN جديد لأصحاب المحلات الذين نسوا الرمز، أو افتح حساب متجر مباشرة.',
+        stores_btn_create_direct: 'إضافة متجر مباشرة (Admin)',
+        pending_stores_title: 'طلبات فتح متجر جديد (بانتظار موافقتك)',
+        pending_stores_sub: 'مرسلة من صفحة الدخول • اضغط موافقة لتفعيل المتجر',
+        pending_pins_title: 'طلبات نسيان رمز الـ PIN (Forgot PIN)',
+        pending_pins_sub: 'أصحاب محلات يطلبون تعيين رمز PIN جديد منك',
+        active_stores_title: 'المتاجر المفعّلة والحسابات الحالية',
+        mob_home: 'الرئيسية',
+        mob_pos: 'بيع POS',
+        mob_whish: 'Whish',
+        mob_repairs: 'الصيانة',
+        mob_phones: 'المخزون',
+        mob_menu: 'القائمة'
+      }
+    };
+
+    function getLang() {
+      return (appState && appState.settings && appState.settings.lang === 'ar') ? 'ar' : 'en';
+    }
+
+    function applyLanguage() {
+      const lang = getLang();
+      const dict = I18N_DICT[lang] || I18N_DICT.en;
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.textContent = dict[key];
+        }
+      });
+
+      const navBtnLabel = document.getElementById('lang-toggle-nav-label');
+      if (navBtnLabel) {
+        navBtnLabel.textContent = lang === 'en' ? 'عربي' : 'English';
+      }
+      const authBtnLabel = document.getElementById('lang-toggle-auth-label');
+      if (authBtnLabel) {
+        authBtnLabel.textContent = lang === 'en' ? 'عربي | Switch to Arabic' : 'English | التبديل للإنجليزية';
+      }
+    }
+
+    window.toggleLanguage = function() {
+      if (!appState.settings) appState.settings = {};
+      appState.settings.lang = getLang() === 'en' ? 'ar' : 'en';
+      saveState();
+      const msg = appState.settings.lang === 'ar' ? 'تم التغيير إلى اللغة العربية' : 'Language switched to English';
+      showToast(msg, 'info');
+    };
+
     // ================= SAAS AUTH GATEWAY & ROLE PERMISSIONS LOGIC =================
     function applyRolePermissions() {
       const role = appState.auth ? appState.auth.role : null;
       const currentStore = (appState.stores || []).find(s => s.id === appState.currentStoreId) || (appState.stores && appState.stores[0]);
+      const lang = getLang();
 
       const avatarEl = document.getElementById('sidebar-user-avatar');
       const nameEl = document.getElementById('sidebar-user-name');
@@ -3572,28 +3966,50 @@
       const navStoreIcon = document.getElementById('nav-store-icon');
       const navStoreLabelPrefix = document.getElementById('nav-store-label-prefix');
       const navStoreChevron = document.getElementById('nav-store-chevron');
+      const adminAlertBar = document.getElementById('admin-global-alert-bar');
+
+      const pendingStoresCount = (appState.storeRequests || []).length;
+      const pendingPinsCount = (appState.pinResetRequests || []).length;
+      const totalPending = pendingStoresCount + pendingPinsCount;
 
       if (role === 'admin') {
-        // Super Admin Mode (Full Access across all stores & Add Store)
+        // Super Admin Mode (No "(You)" or "")
         if (avatarEl) {
-          avatarEl.className = 'w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-amber-500 text-white flex items-center justify-center font-bold text-sm shadow-md ring-2 ring-purple-300';
+          avatarEl.className = 'w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-amber-500 text-white flex items-center justify-center font-bold text-sm shadow-md ring-2 ring-purple-300 flex-shrink-0';
           avatarEl.innerHTML = '<i class="fa-solid fa-crown text-amber-300 text-xs"></i>';
         }
-        if (nameEl) nameEl.textContent = 'Super Admin (You)';
-        if (roleEl) roleEl.textContent = 'Platform Owner • All Stores Access';
+        if (nameEl) nameEl.textContent = 'Super Admin';
+        if (roleEl) roleEl.textContent = lang === 'ar' ? 'المدير العام • صلاحيات كاملة' : 'Platform Admin • All Stores Access';
 
-        // Store Accounts Tab is VISIBLE
         if (sidebarNavStores) sidebarNavStores.style.display = 'flex';
 
-        // Store switcher is ACTIVE & CLICKABLE
         if (btnSwitchStore) {
-          btnSwitchStore.className = 'cursor-pointer bg-purple-50 border border-purple-200 hover:bg-purple-100 text-purple-950 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-2 transition shadow-sm';
-          btnSwitchStore.title = 'Switch active store inspection (Admin Mode)';
+          btnSwitchStore.className = 'cursor-pointer bg-purple-50 border border-purple-200 hover:bg-purple-100 text-purple-950 text-[11px] sm:text-xs px-2 sm:px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-2xs';
+          btnSwitchStore.title = 'Switch active store inspection (Super Admin)';
         }
         if (navStoreIcon) navStoreIcon.className = 'fa-solid fa-crown text-amber-500';
-        if (navStoreLabelPrefix) navStoreLabelPrefix.textContent = 'Admin Store:';
+        if (navStoreLabelPrefix) navStoreLabelPrefix.textContent = lang === 'ar' ? 'المتجر:' : 'Admin Store:';
         if (navStoreChevron) navStoreChevron.style.display = 'inline-block';
 
+        if (adminAlertBar) {
+          if (totalPending > 0) {
+            adminAlertBar.classList.remove('hidden');
+            const titleEl = document.getElementById('admin-alert-bar-title');
+            const descEl = document.getElementById('admin-alert-bar-desc');
+            if (titleEl) {
+              titleEl.textContent = lang === 'ar'
+                ? `لديك ${totalPending} طلبات معلّقة بانتظار موافقتك كـ Super Admin`
+                : `You have ${totalPending} pending request(s) awaiting Super Admin action`;
+            }
+            if (descEl) {
+              descEl.textContent = lang === 'ar'
+                ? `طلبات إضافة متجر جديد (${pendingStoresCount}) • طلبات تغيير رمز PIN (${pendingPinsCount})`
+                : `New Store Requests (${pendingStoresCount}) • Forgot PIN Reset Requests (${pendingPinsCount})`;
+            }
+          } else {
+            adminAlertBar.classList.add('hidden');
+          }
+        }
       } else {
         // Store Owner Mode (Isolated to their own store only)
         const ownerName = currentStore ? currentStore.owner : 'Store Owner';
@@ -3601,23 +4017,22 @@
         const initial = ownerName.trim().charAt(0).toUpperCase() || 'M';
 
         if (avatarEl) {
-          avatarEl.className = 'w-9 h-9 rounded-full bg-indigo-700 text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-indigo-200';
+          avatarEl.className = 'w-9 h-9 rounded-full bg-indigo-700 text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-indigo-200 flex-shrink-0';
           avatarEl.textContent = initial;
         }
         if (nameEl) nameEl.textContent = ownerName;
         if (roleEl) roleEl.textContent = `Store Owner • ${storeName}`;
 
-        // Store Accounts Tab is COMPLETELY HIDDEN for Store Owner
         if (sidebarNavStores) sidebarNavStores.style.display = 'none';
 
-        // Store switcher is LOCKED / PRIVATE ACCOUNT
         if (btnSwitchStore) {
-          btnSwitchStore.className = 'cursor-default bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-2 shadow-sm';
-          btnSwitchStore.title = `Your Account (${storeName}). Multi-store access restricted to Admin.`;
+          btnSwitchStore.className = 'cursor-default bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px] sm:text-xs px-2 sm:px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-2xs';
+          btnSwitchStore.title = `Your Account (${storeName}). Multi-store access restricted to Super Admin.`;
         }
         if (navStoreIcon) navStoreIcon.className = 'fa-solid fa-shield-halved text-emerald-600';
-        if (navStoreLabelPrefix) navStoreLabelPrefix.textContent = 'My Store:';
-        if (navStoreChevron) navStoreChevron.style.display = 'none'; // No chevron dropdown
+        if (navStoreLabelPrefix) navStoreLabelPrefix.textContent = lang === 'ar' ? 'متجري:' : 'My Store:';
+        if (navStoreChevron) navStoreChevron.style.display = 'none';
+        if (adminAlertBar) adminAlertBar.classList.add('hidden');
       }
     }
 
@@ -3627,17 +4042,17 @@
       const ownerSelect = document.getElementById('auth-owner-store-select');
 
       if (ownerSelect) {
+        const prevVal = ownerSelect.value || appState.currentStoreId;
         ownerSelect.innerHTML = '';
         (appState.stores || []).forEach(store => {
           const opt = document.createElement('option');
           opt.value = store.id;
           opt.textContent = `${store.name} — ${store.owner} (${store.city})`;
-          if (store.id === appState.currentStoreId) opt.selected = true;
+          if (store.id === prevVal) opt.selected = true;
           ownerSelect.appendChild(opt);
         });
       }
 
-      // Update current store session display in tab-auth
       const currentStore = (appState.stores || []).find(s => s.id === appState.currentStoreId) || (appState.stores && appState.stores[0]);
       if (currentStore) {
         const sessName = document.getElementById('auth-session-store-name');
@@ -3658,6 +4073,7 @@
         }
       }
 
+      applyLanguage();
       applyRolePermissions();
     }
 
@@ -3684,7 +4100,10 @@
       appState.auth.isAuthenticated = false;
       saveState();
       openAuthGateway();
-      showToast('Terminal Locked. Please select role and enter PIN to unlock.', 'info');
+      const msg = getLang() === 'ar'
+        ? 'تم قفل النظام. اختر الحساب وأدخل رمز PIN للدخول.'
+        : 'Terminal Locked. Select your role and enter PIN to unlock.';
+      showToast(msg, 'info');
     };
 
     window.quickAuthAdmin = function() {
@@ -3694,7 +4113,10 @@
       appState.auth.activeStoreId = appState.currentStoreId || 'store-01';
       saveState();
       closeAuthGateway();
-      showToast('مرحباً بك كـ Super Admin! لديك صلاحيات كاملة لإدارة كل المحلات وإضافة Store جديد.');
+      const msg = getLang() === 'ar'
+        ? 'تم الدخول كـ Super Admin! لديك صلاحيات كاملة للموافقة على المحلات وتعيين رموز PIN.'
+        : 'Signed in as Super Admin! Full multi-store & approval controls unlocked.';
+      showToast(msg);
     };
 
     window.quickAuthOwner = function(storeId) {
@@ -3712,12 +4134,19 @@
       appState.auth.role = 'owner';
       appState.auth.activeStoreId = storeId;
 
+      if (document.getElementById('tab-stores') && !document.getElementById('tab-stores').classList.contains('hidden')) {
+        switchTab('tab-dashboard');
+      }
+
       saveState();
       closeAuthGateway();
-      showToast(`تم فتح حساب المتجر الخاص بك: ${store.name} (المدير: ${store.owner})`);
+      const msg = getLang() === 'ar'
+        ? `تم فتح حساب المتجر: ${store.name} (${store.owner})`
+        : `Unlocked store account: ${store.name} (${store.owner})`;
+      showToast(msg);
     };
 
-    // ================= STORE ACCOUNTS & SWITCHER LOGIC =================
+    // ================= STORE ACCOUNTS, APPROVALS & PIN RESET LOGIC =================
     function renderStoreSwitcher() {
       const currentStore = (appState.stores || []).find(s => s.id === appState.currentStoreId) || appState.stores[0];
       if (currentStore) {
@@ -3738,7 +4167,7 @@
           };
           div.innerHTML = `
             <div>
-              <div class="flex items-center space-x-1.5">
+              <div class="flex items-center gap-1.5">
                 <span class="font-bold text-slate-900">${store.name}</span>
                 ${isActive ? '<span class="bg-indigo-600 text-white text-[9px] px-1.5 py-0.2 rounded font-bold">ACTIVE</span>' : ''}
               </div>
@@ -3756,13 +4185,15 @@
 
     window.switchStore = function(storeId) {
       if (appState.auth && appState.auth.role === 'owner' && storeId !== appState.auth.activeStoreId) {
-        showToast('حساب صاحب المحل يفتح فقط متجره الخاص. تبديل المتاجر محصور بـ Super Admin.', 'error');
+        const msg = getLang() === 'ar'
+          ? 'صاحب المحل يفتح حساب متجره فقط. التنقل بين المتاجر مخصص للـ Super Admin.'
+          : 'Store Owners can only access their own store. Store switching is restricted to Super Admin.';
+        showToast(msg, 'error');
         return;
       }
       const store = (appState.stores || []).find(s => s.id === storeId);
       if (!store) return;
 
-      // Sync current drawer back to current store before switching
       const prevStore = (appState.stores || []).find(s => s.id === appState.currentStoreId);
       if (prevStore) {
         prevStore.usdDrawer = appState.drawers.usd;
@@ -3781,17 +4212,229 @@
       showToast(`Switched active shop to ${store.name}!`);
     };
 
+    window.approveStoreRequest = function(reqId) {
+      const reqIdx = (appState.storeRequests || []).findIndex(r => r.id === reqId);
+      if (reqIdx === -1) return;
+      const req = appState.storeRequests[reqIdx];
+      const pinInput = document.getElementById(`approve-store-pin-${req.id}`);
+      const assignedPin = (pinInput && pinInput.value.trim()) ? pinInput.value.trim() : (req.pin || '1234');
+
+      const newStoreId = 'store-' + ((appState.stores || []).length + 1).toString().padStart(2, '0');
+      const newStore = {
+        id: newStoreId,
+        name: req.name,
+        owner: req.owner,
+        phone: req.phone,
+        city: req.city,
+        whishId: req.whishId || ('WH-' + Math.floor(10000 + Math.random() * 90000)),
+        usdDrawer: Number(req.usdDrawer || 1500),
+        lbpDrawer: Number(req.usdDrawer || 1500) * (appState.settings.exchangeRate || 89500),
+        whishFloat: Number(req.whishFloat || 2500),
+        pin: assignedPin
+      };
+
+      appState.stores.push(newStore);
+      appState.storeRequests.splice(reqIdx, 1);
+      saveState();
+
+      if (typeof confetti === 'function') {
+        try { confetti({ particleCount: 60, spread: 65, origin: { y: 0.6 } }); } catch(err){}
+      }
+      const msg = getLang() === 'ar'
+        ? `تمت الموافقة وتفعيل متجر "${newStore.name}" للمالك ${newStore.owner} (رمز الدخول PIN: ${assignedPin})!`
+        : `Approved & activated "${newStore.name}" for ${newStore.owner} (PIN: ${assignedPin})!`;
+      showToast(msg);
+    };
+
+    window.rejectStoreRequest = function(reqId) {
+      appState.storeRequests = (appState.storeRequests || []).filter(r => r.id !== reqId);
+      saveState();
+      const msg = getLang() === 'ar' ? 'تم رفض وحذف طلب إضافة المتجر.' : 'Store registration request rejected.';
+      showToast(msg, 'info');
+    };
+
+    window.resolvePinResetRequest = function(reqId) {
+      const reqIdx = (appState.pinResetRequests || []).findIndex(r => r.id === reqId);
+      if (reqIdx === -1) return;
+      const req = appState.pinResetRequests[reqIdx];
+      const inp = document.getElementById(`admin-new-pin-${req.id}`);
+      const newPin = inp ? inp.value.trim() : '';
+      if (!newPin || newPin.length < 4) {
+        const errMsg = getLang() === 'ar' ? 'يرجى إدخال رمز PIN جديد مكوّن من 4 أرقام على الأقل.' : 'Please enter a valid new PIN (at least 4 digits).';
+        showToast(errMsg, 'error');
+        return;
+      }
+
+      const store = (appState.stores || []).find(s => s.id === req.storeId);
+      if (store) {
+        store.pin = newPin;
+      }
+      appState.pinResetRequests.splice(reqIdx, 1);
+      saveState();
+
+      const msg = getLang() === 'ar'
+        ? `تم تعيين رمز PIN الجديد (${newPin}) لمتجر ${req.storeName} (${req.ownerName}) بنجاح!`
+        : `New PIN (${newPin}) set for ${req.storeName} (${req.ownerName})!`;
+      showToast(msg);
+    };
+
+    window.dismissPinResetRequest = function(reqId) {
+      appState.pinResetRequests = (appState.pinResetRequests || []).filter(r => r.id !== reqId);
+      saveState();
+      showToast('Dismissed PIN reset request.', 'info');
+    };
+
+    window.updateStorePinDirectly = function(storeId) {
+      const store = (appState.stores || []).find(s => s.id === storeId);
+      if (!store) return;
+      const inp = document.getElementById(`direct-store-pin-${storeId}`);
+      if (!inp) return;
+      const newPin = inp.value.trim();
+      if (!newPin) {
+        showToast('Please enter a valid PIN', 'error');
+        return;
+      }
+      store.pin = newPin;
+      saveState();
+      const msg = getLang() === 'ar'
+        ? `تم تحديث رمز PIN لمتجر ${store.name} إلى: ${newPin}`
+        : `Updated PIN for ${store.name} to: ${newPin}`;
+      showToast(msg);
+    };
+
     function renderStores() {
       const grid = document.getElementById('stores-list-grid');
       if (!grid) return;
       grid.innerHTML = '';
 
+      const lang = getLang();
       const count = (appState.stores || []).length;
+      const pendingStores = appState.storeRequests || [];
+      const pendingPins = appState.pinResetRequests || [];
+      const totalPending = pendingStores.length + pendingPins.length;
+
       const countEl = document.getElementById('stores-total-count');
-      if (countEl) countEl.textContent = count + ' Store Accounts';
+      if (countEl) countEl.textContent = count + (lang === 'ar' ? ' متاجر مفعّلة' : ' Active Stores');
       const sideEl = document.getElementById('sidebar-stores-count');
       if (sideEl) sideEl.textContent = count;
 
+      const sidePendingBadge = document.getElementById('sidebar-pending-badge');
+      if (sidePendingBadge) {
+        if (totalPending > 0) {
+          sidePendingBadge.textContent = totalPending;
+          sidePendingBadge.classList.remove('hidden');
+        } else {
+          sidePendingBadge.classList.add('hidden');
+        }
+      }
+
+      // 1. Render Pending Store Requests
+      const pendingStoresBadge = document.getElementById('pending-stores-badge');
+      if (pendingStoresBadge) {
+        pendingStoresBadge.textContent = pendingStores.length + (lang === 'ar' ? ' بانتظار الموافقة' : ' Pending');
+      }
+      const pendingStoresList = document.getElementById('pending-stores-list');
+      if (pendingStoresList) {
+        pendingStoresList.innerHTML = '';
+        if (pendingStores.length === 0) {
+          pendingStoresList.innerHTML = `
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 text-center text-xs text-slate-400">
+              <i class="fa-solid fa-circle-check text-emerald-500 text-lg mb-1 block"></i>
+              ${lang === 'ar' ? 'لا توجد طلبات إضافة متاجر معلّقة حالياً.' : 'No pending store registration requests right now.'}
+            </div>
+          `;
+        } else {
+          pendingStores.forEach(req => {
+            const div = document.createElement('div');
+            div.className = 'p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200 space-y-2.5 text-xs';
+            div.innerHTML = `
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">New Store Request</span>
+                  <h4 class="text-sm font-black text-slate-900 mt-1">${req.name}</h4>
+                  <p class="text-[11px] text-slate-600"><i class="fa-solid fa-user-tie text-indigo-600 mr-1"></i> Owner: <strong>${req.owner}</strong> &bull; ${req.city}</p>
+                  <p class="text-[11px] text-slate-500 font-mono"><i class="fa-brands fa-whatsapp text-emerald-600 mr-1"></i> ${req.phone} &bull; Whish: ${req.whishId || 'N/A'}</p>
+                </div>
+                <span class="text-[10px] text-slate-400 font-mono">${req.requestedAt || 'Just now'}</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 pt-1 border-t border-emerald-200/60 text-[11px]">
+                <div class="bg-white p-1.5 rounded-lg border border-emerald-100">
+                  <span class="text-[10px] text-slate-400 block">Opening USD</span>
+                  <span class="font-bold text-slate-900">${formatUSD(req.usdDrawer)}</span>
+                </div>
+                <div class="bg-white p-1.5 rounded-lg border border-emerald-100">
+                  <span class="text-[10px] text-slate-400 block">Whish Float</span>
+                  <span class="font-bold text-rose-700">${formatUSD(req.whishFloat)}</span>
+                </div>
+                <div class="bg-white p-1.5 rounded-lg border border-emerald-100">
+                  <span class="text-[10px] text-slate-400 block">Assign PIN</span>
+                  <input id="approve-store-pin-${req.id}" type="text" value="${req.pin || '1234'}" class="w-full font-mono font-extrabold text-indigo-700 bg-indigo-50/50 px-1.5 py-0.5 rounded border border-indigo-200 text-center text-xs">
+                </div>
+              </div>
+              <div class="flex items-center justify-end gap-2 pt-1">
+                <button onclick="rejectStoreRequest('${req.id}')" class="px-3 py-1.5 rounded-lg border border-rose-200 bg-white hover:bg-rose-50 text-rose-600 font-bold text-xs transition">
+                  <i class="fa-solid fa-xmark mr-1"></i> ${lang === 'ar' ? 'رفض' : 'Reject'}
+                </button>
+                <button onclick="approveStoreRequest('${req.id}')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-xs transition flex items-center gap-1">
+                  <i class="fa-solid fa-check"></i> ${lang === 'ar' ? 'موافقة وتفعيل المتجر' : 'Approve & Activate Store'}
+                </button>
+              </div>
+            `;
+            pendingStoresList.appendChild(div);
+          });
+        }
+      }
+
+      // 2. Render Pending Forgot PIN Reset Requests
+      const pendingPinsBadge = document.getElementById('pending-pins-badge');
+      if (pendingPinsBadge) {
+        pendingPinsBadge.textContent = pendingPins.length + (lang === 'ar' ? ' طلبات' : ' Requests');
+      }
+      const pendingPinsList = document.getElementById('pending-pins-list');
+      if (pendingPinsList) {
+        pendingPinsList.innerHTML = '';
+        if (pendingPins.length === 0) {
+          pendingPinsList.innerHTML = `
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 text-center text-xs text-slate-400">
+              <i class="fa-solid fa-shield-check text-indigo-400 text-lg mb-1 block"></i>
+              ${lang === 'ar' ? 'لا توجد طلبات نسيان رمز PIN حالياً.' : 'No pending Forgot PIN requests from store owners.'}
+            </div>
+          `;
+        } else {
+          pendingPins.forEach(req => {
+            const div = document.createElement('div');
+            div.className = 'p-3.5 rounded-xl bg-rose-50/70 border border-rose-200 space-y-2.5 text-xs';
+            div.innerHTML = `
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="bg-rose-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">PIN Reset Request</span>
+                  <h4 class="text-sm font-black text-slate-900 mt-1">${req.storeName}</h4>
+                  <p class="text-[11px] text-slate-700">Owner: <strong>${req.ownerName}</strong> (${req.phone})</p>
+                  ${req.note ? `<p class="text-[11px] text-rose-800 bg-white/80 px-2 py-1 rounded mt-1 border border-rose-100">Note: "${req.note}"</p>` : ''}
+                </div>
+                <span class="text-[10px] text-slate-400 font-mono">${req.requestedAt || 'Just now'}</span>
+              </div>
+              <div class="flex items-center gap-2 pt-2 border-t border-rose-200/60">
+                <div class="flex-1">
+                  <label class="block text-[10px] font-bold text-rose-900 mb-0.5">${lang === 'ar' ? 'أدخل رمز PIN الجديد لصاحب المحل:' : 'Assign New PIN for Store Owner:'}</label>
+                  <input id="admin-new-pin-${req.id}" type="text" placeholder="Enter new 4-digit PIN (e.g. 5678)" value="5678" class="w-full px-2.5 py-1.5 bg-white border border-rose-300 rounded-lg font-mono font-bold text-slate-900 text-xs focus:outline-none focus:ring-2 focus:ring-rose-500">
+                </div>
+                <div class="flex items-center gap-1.5 self-end">
+                  <button onclick="dismissPinResetRequest('${req.id}')" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-500 font-bold text-xs" title="Dismiss">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                  <button onclick="resolvePinResetRequest('${req.id}')" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs shadow-xs transition flex items-center gap-1">
+                    <i class="fa-solid fa-key"></i> ${lang === 'ar' ? 'تعيين الـ PIN الجديد' : 'Set New PIN'}
+                  </button>
+                </div>
+              </div>
+            `;
+            pendingPinsList.appendChild(div);
+          });
+        }
+      }
+
+      // 3. Render Active Stores Grid (with direct PIN control for Admin)
       (appState.stores || []).forEach(store => {
         const isActive = store.id === appState.currentStoreId;
         const card = document.createElement('div');
@@ -3817,13 +4460,26 @@
                 <p class="font-bold text-rose-700">${formatUSD(store.whishFloat)}</p>
               </div>
             </div>
+
+            <!-- Direct Admin PIN Control for this Store -->
+            <div class="mt-3 p-2 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between gap-2 text-xs">
+              <span class="text-[11px] font-bold text-slate-600 flex items-center gap-1">
+                <i class="fa-solid fa-key text-amber-500"></i> Store PIN:
+              </span>
+              <div class="flex items-center gap-1">
+                <input id="direct-store-pin-${store.id}" type="text" value="${store.pin || '1234'}" class="w-16 px-2 py-1 bg-white border border-slate-200 rounded font-mono font-bold text-center text-xs text-indigo-700">
+                <button onclick="updateStorePinDirectly('${store.id}')" class="bg-slate-800 hover:bg-indigo-600 text-white text-[10px] font-bold px-2 py-1 rounded transition">
+                  ${lang === 'ar' ? 'حفظ' : 'Save PIN'}
+                </button>
+              </div>
+            </div>
           </div>
 
           <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-            <span class="text-[11px] text-slate-400">PIN: &bull;&bull;&bull;&bull;</span>
+            <span class="text-[11px] text-slate-400 font-mono">ID: ${store.id}</span>
             ${isActive ?
               '<span class="text-xs text-indigo-700 font-bold flex items-center gap-1"><i class="fa-solid fa-check"></i> Connected</span>' :
-              `<button onclick="switchStore('${store.id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">Switch to Shop</button>`
+              `<button onclick="switchStore('${store.id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">${lang === 'ar' ? 'فتح المتجر' : 'Switch to Shop'}</button>`
             }
           </div>
         `;
@@ -4143,10 +4799,17 @@
         });
       });
 
-      document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+      document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
         const sidebar = document.getElementById('app-sidebar');
-        sidebar.classList.toggle('hidden');
+        if (sidebar && sidebar.classList.contains('hidden')) {
+          openMobileSidebar();
+        } else {
+          closeMobileSidebar();
+        }
       });
+      document.getElementById('btn-mobile-bottom-menu')?.addEventListener('click', openMobileSidebar);
+      document.getElementById('btn-close-mobile-sidebar')?.addEventListener('click', closeMobileSidebar);
+      document.getElementById('mobile-sidebar-backdrop')?.addEventListener('click', closeMobileSidebar);
 
 
       // Auth & Lock Terminal Listeners
@@ -4247,7 +4910,47 @@
         quickAuthOwner(selStoreId);
       });
 
-      // Form Submit: Register / Add New Store
+      // Forgot PIN Toggle & Submit (Store Owner -> Super Admin)
+      document.getElementById('btn-forgot-pin-toggle')?.addEventListener('click', () => {
+        const box = document.getElementById('forgot-pin-box');
+        if (box) box.classList.toggle('hidden');
+      });
+      document.getElementById('btn-close-forgot-pin')?.addEventListener('click', () => {
+        const box = document.getElementById('forgot-pin-box');
+        if (box) box.classList.add('hidden');
+      });
+      document.getElementById('btn-submit-forgot-pin')?.addEventListener('click', () => {
+        const selStoreId = document.getElementById('auth-owner-store-select')?.value;
+        const store = (appState.stores || []).find(s => s.id === selStoreId);
+        if (!store) return;
+        const note = document.getElementById('forgot-pin-note')?.value.trim() || '';
+
+        if (!appState.pinResetRequests) appState.pinResetRequests = [];
+        const nowStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        appState.pinResetRequests.unshift({
+          id: 'PIN-' + Math.floor(1000 + Math.random() * 9000),
+          storeId: store.id,
+          storeName: store.name,
+          ownerName: store.owner,
+          phone: store.phone,
+          note: note,
+          requestedAt: nowStr
+        });
+
+        saveState();
+        const confirmEl = document.getElementById('forgot-pin-confirm-msg');
+        const lang = getLang();
+        if (confirmEl) {
+          confirmEl.classList.remove('hidden');
+          confirmEl.textContent = lang === 'ar'
+            ? `✓ تم إرسال طلب إعادة تعيين الـ PIN لمتجر "${store.name}" إلى الـ Super Admin!`
+            : `✓ PIN reset request for "${store.name}" sent to Super Admin!`;
+        }
+        if (document.getElementById('forgot-pin-note')) document.getElementById('forgot-pin-note').value = '';
+        showToast(lang === 'ar' ? 'تم إرسال طلب تغيير الـ PIN إلى الـ Admin بنجاح!' : 'PIN reset request sent to Super Admin!');
+      });
+
+      // Form Submit: Request New Store (Sends Request to Super Admin for Approval)
       document.getElementById('form-auth-register')?.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById('auth-reg-name').value.trim();
@@ -4259,35 +4962,33 @@
         const whishFloat = Number(document.getElementById('auth-reg-float').value || 2500);
         const pin = document.getElementById('auth-reg-pin').value.trim() || '1234';
 
-        const newStoreId = 'store-' + ((appState.stores || []).length + 1).toString().padStart(2, '0');
-        const newStore = {
-          id: newStoreId,
+        if (!appState.storeRequests) appState.storeRequests = [];
+        const nowStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const reqId = 'REQ-' + Math.floor(1000 + Math.random() * 9000);
+
+        appState.storeRequests.unshift({
+          id: reqId,
           name, owner, phone, city, whishId,
-          usdDrawer,
-          lbpDrawer: usdDrawer * (appState.settings.exchangeRate || 89500),
-          whishFloat,
-          pin
-        };
-
-        appState.stores.push(newStore);
-        appState.currentStoreId = newStoreId;
-        appState.settings.shopName = name;
-        appState.settings.shopPhone = phone;
-        appState.drawers.usd = usdDrawer;
-        appState.drawers.lbp = usdDrawer * (appState.settings.exchangeRate || 89500);
-        appState.drawers.whishFloat = whishFloat;
-
-        if (!appState.auth) appState.auth = {};
-        appState.auth.isAuthenticated = true;
-        appState.auth.role = 'admin'; // Registered by admin
-        appState.auth.activeStoreId = newStoreId;
+          usdDrawer, whishFloat, pin,
+          requestedAt: nowStr
+        });
 
         saveState();
-        closeAuthGateway();
-        if (typeof confetti === 'function') {
-          try { confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 } }); } catch(err){}
+        document.getElementById('form-auth-register').reset();
+
+        const banner = document.getElementById('auth-reg-success-banner');
+        const lang = getLang();
+        if (banner) {
+          banner.classList.remove('hidden');
+          const tEl = document.getElementById('auth-reg-success-title');
+          const dEl = document.getElementById('auth-reg-success-text');
+          if (tEl) tEl.textContent = lang === 'ar' ? `تم إرسال طلب متجر "${name}" إلى الـ Super Admin!` : `Request for "${name}" sent to Super Admin!`;
+          if (dEl) dEl.textContent = lang === 'ar'
+            ? 'سيظهر الطلب الآن عند الـ Super Admin في قسم Store Accounts للموافقة عليه وتفعيله.'
+            : 'The Super Admin can now review and approve your store inside the Store Accounts (Admin) hub.';
         }
-        showToast(`تمت إضافة وتفعيل المتجر الجديد: ${name} (المدير: ${owner})!`);
+
+        showToast(lang === 'ar' ? `تم إرسال طلب إضافة "${name}" إلى الـ Admin للموافقة!` : `Store request for "${name}" sent to Super Admin for approval!`);
       });
 
       // Drag and Drop for POS Cart
