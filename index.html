@@ -50,10 +50,10 @@
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
   <!-- Full-Screen SaaS Auth & Terminal Lock Gateway -->
-  <div id="auth-gateway-overlay" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto hidden">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full p-6 sm:p-8 space-y-6 relative border border-slate-100 my-auto">
+  <div id="auth-gateway-overlay" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full p-6 sm:p-8 space-y-5 relative border border-slate-100 my-auto">
       <!-- Close/Return Button (visible when terminal already unlocked) -->
-      <button id="btn-close-auth-overlay" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-xl font-bold p-1.5 rounded-lg hover:bg-slate-100 transition" title="Return to Back-Office">
+      <button id="btn-close-auth-overlay" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-xl font-bold p-1.5 rounded-lg hover:bg-slate-100 transition hidden" title="Return to Back-Office">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
@@ -63,128 +63,188 @@
         </div>
         <div>
           <span class="bg-indigo-100 text-indigo-800 text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-            Commercial SaaS Edition &bull; Lebanon Terminals
+            Commercial SaaS Edition &bull; Multi-Tenant Terminals
           </span>
           <h2 class="text-2xl font-black text-slate-900 mt-2">Apex Mobile & Whish Suite</h2>
           <p class="text-xs text-slate-500 max-w-md mx-auto">
-            Secure back-office terminal for Lebanese mobile phone shop managers & authorized Whish Money agents.
+            بوابة تسجيل الدخول والأمان لمحلات الهواتف ووكلاء Whish Money في لبنان
           </p>
         </div>
       </div>
 
-      <!-- Auth Tabs: Login vs Register New Shop -->
-      <div class="flex items-center bg-slate-100 p-1 rounded-2xl text-xs font-bold">
-        <button id="auth-tab-btn-login" class="flex-1 py-2.5 rounded-xl bg-white text-indigo-700 shadow-sm transition flex items-center justify-center gap-1.5">
-          <i class="fa-solid fa-key"></i> Shop Owner Login
+      <!-- Auth Tabs: Admin vs Store Owner vs Onboard -->
+      <div class="flex items-center bg-slate-100 p-1 rounded-2xl text-xs font-bold gap-1">
+        <button id="auth-tab-btn-admin" class="flex-1 py-2.5 rounded-xl bg-white text-indigo-700 shadow-sm transition flex items-center justify-center gap-1.5 font-bold">
+          <i class="fa-solid fa-crown text-amber-500"></i> Super Admin (أنت)
         </button>
-        <button id="auth-tab-btn-register" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1.5">
-          <i class="fa-solid fa-store"></i> Onboard New Shop (SaaS)
+        <button id="auth-tab-btn-owner" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1.5 font-bold">
+          <i class="fa-solid fa-store text-indigo-600"></i> صاحب محل (Owner)
+        </button>
+        <button id="auth-tab-btn-register" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1.5 font-bold">
+          <i class="fa-solid fa-plus-circle text-emerald-600"></i> Add Store
         </button>
       </div>
 
-      <!-- Panel 1: Login -->
-      <div id="auth-panel-login" class="space-y-4">
-        <form id="form-auth-login" class="space-y-3.5 text-xs">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Select Registered Mobile Shop Account</label>
-            <select id="auth-login-store-select" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            </select>
+      <!-- Panel 1: Super Admin Login (You) -->
+      <div id="auth-panel-admin" class="space-y-4">
+        <div class="p-3 bg-indigo-50/70 border border-indigo-100 rounded-2xl text-xs text-indigo-900 space-y-1">
+          <div class="font-extrabold flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-halved text-indigo-600"></i> مرحباً بك يا مدير النظام (Super Admin)
           </div>
+          <p class="text-[11px] text-indigo-700 leading-relaxed">
+            الـ Admin هو أنت! تسجيل الدخول كـ Super Admin يمنحك الصلاحيات الكاملة للتحكم بجميع المحلات، التنقل بين كل الفروع، وميزة إضافة محلات جديدة (Add Store) لأي زبون.
+          </p>
+        </div>
+
+        <form id="form-auth-admin" class="space-y-3 text-xs">
           <div>
             <div class="flex items-center justify-between mb-1">
-              <label class="font-bold text-slate-700">Terminal Access PIN</label>
-              <span class="text-[10px] text-indigo-600 font-semibold cursor-pointer" id="btn-auth-demo-hint">Default Demo PIN: 1234</span>
+              <label class="font-bold text-slate-700">Master Admin PIN (رمز الأدمن السري)</label>
+              <span class="text-[10px] text-indigo-600 font-semibold cursor-pointer" id="btn-admin-demo-hint">Default Admin PIN: 1234</span>
             </div>
             <div class="relative">
               <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400"></i>
-              <input id="auth-login-pin" type="password" required value="1234" placeholder="Enter 4-digit PIN (1234)" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-              <button type="button" id="btn-toggle-pin-visibility" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
+              <input id="auth-admin-pin" type="password" required value="1234" placeholder="Enter Admin PIN (1234)" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <button type="button" id="btn-toggle-admin-pin" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-eye text-xs"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
+            <i class="fa-solid fa-crown text-amber-300"></i> دخول كـ Super Admin (كامل الصلاحيات & Add Store)
+          </button>
+        </form>
+      </div>
+
+      <!-- Panel 2: Store Owner Login -->
+      <div id="auth-panel-owner" class="space-y-4 hidden">
+        <div class="p-3 bg-amber-50/70 border border-amber-100 rounded-2xl text-xs text-amber-900 space-y-1">
+          <div class="font-extrabold flex items-center gap-1.5">
+            <i class="fa-solid fa-lock text-amber-600"></i> تسجيل دخول أصحاب المحلات (Store Owners)
+          </div>
+          <p class="text-[11px] text-amber-700 leading-relaxed">
+            اختر محلك وأدخل رمز PIN الخاص بك. صاحب المحل يفتح فقط حسابه الخاص (مخزون، مبيعات، صندوق وصيانة) دون إمكانية رؤية باقي المحلات أو إضافة متاجر.
+          </p>
+        </div>
+
+        <form id="form-auth-owner" class="space-y-3 text-xs">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Select Store / Manager (اختر المتجر والمدير)</label>
+            <select id="auth-owner-store-select" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            </select>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="font-bold text-slate-700">Store Access PIN (رمز PIN الخاص بالمحل)</label>
+              <span class="text-[10px] text-indigo-600 font-semibold cursor-pointer" id="btn-owner-demo-hint">Default Demo PIN: 1234</span>
+            </div>
+            <div class="relative">
+              <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400"></i>
+              <input id="auth-owner-pin" type="password" required value="1234" placeholder="Enter Store PIN (1234)" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <button type="button" id="btn-toggle-owner-pin" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
                 <i class="fa-solid fa-eye text-xs"></i>
               </button>
             </div>
           </div>
 
           <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
-            <i class="fa-solid fa-arrow-right-to-bracket"></i> Unlock Terminal & Open Back-Office
+            <i class="fa-solid fa-arrow-right-to-bracket"></i> فتح حساب المحل فقط (Owner Dashboard)
           </button>
         </form>
-
-        <!-- 1-Click Instant Demo Login Buttons -->
-        <div class="pt-3 border-t border-slate-100 space-y-2">
-          <div class="flex items-center justify-between text-[11px] text-slate-400 font-bold uppercase tracking-wider">
-            <span>Instant 1-Click Client Demos</span>
-            <span class="text-emerald-600 font-medium lowercase">click any store</span>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-            <button onclick="quickAuthDemo('store-01')" class="p-2.5 bg-indigo-50/70 hover:bg-indigo-100 border border-indigo-200 rounded-xl text-left transition group">
-              <div class="font-extrabold text-indigo-900 truncate group-hover:text-indigo-700">Apex Mobile</div>
-              <div class="text-[10px] text-indigo-600">Mount Lebanon &bull; $2,420</div>
-            </button>
-            <button onclick="quickAuthDemo('store-02')" class="p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-left transition group">
-              <div class="font-extrabold text-slate-800 truncate group-hover:text-slate-900">Cedar Cell</div>
-              <div class="text-[10px] text-slate-500">Beirut Hamra &bull; $1,850</div>
-            </button>
-            <button onclick="quickAuthDemo('store-03')" class="p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-left transition group">
-              <div class="font-extrabold text-slate-800 truncate group-hover:text-slate-900">Phoenicia Phones</div>
-              <div class="text-[10px] text-slate-500">Jounieh &bull; $3,100</div>
-            </button>
-          </div>
-        </div>
       </div>
 
-      <!-- Panel 2: Register New Shop -->
+      <!-- Panel 3: Register / Add New Store -->
       <div id="auth-panel-register" class="space-y-4 hidden">
+        <div class="p-3 bg-emerald-50/70 border border-emerald-100 rounded-2xl text-xs text-emerald-900 space-y-1">
+          <div class="font-extrabold flex items-center gap-1.5">
+            <i class="fa-solid fa-plus-circle text-emerald-600"></i> فتح حساب محل جديد (Add Store)
+          </div>
+          <p class="text-[11px] text-emerald-700 leading-relaxed">
+            أنشئ حساباً جديداً لأي محل هواتف في لبنان. سيحصل صاحب المحل على حسابه الخاص المستقل مع رمز PIN لدخول حسابه فقط.
+          </p>
+        </div>
+
         <form id="form-auth-register" class="space-y-3 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Mobile Shop Business Name</label>
+            <label class="block font-bold text-slate-700 mb-1">اسم المحل التجاري (Mobile Shop Name)</label>
             <input id="auth-reg-name" type="text" required placeholder="e.g. Tripoli Wireless Center" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Owner / Manager Name</label>
-              <input id="auth-reg-owner" type="text" required placeholder="e.g. Marwan Haddad" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <label class="block font-bold text-slate-700 mb-1">اسم المالك / المدير (Manager Name)</label>
+              <input id="auth-reg-owner" type="text" required placeholder="e.g. مروان حداد" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">WhatsApp Phone Number</label>
+              <label class="block font-bold text-slate-700 mb-1">رقم الواتساب (WhatsApp Phone)</label>
               <input id="auth-reg-phone" type="text" required placeholder="+961 70 889 123" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
             </div>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">City / Region</label>
+              <label class="block font-bold text-slate-700 mb-1">المنطقة / المحافظة (City/Region)</label>
               <select id="auth-reg-city" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none font-semibold">
-                <option value="Mount Lebanon">Mount Lebanon</option>
-                <option value="Beirut">Beirut</option>
-                <option value="Tripoli">Tripoli / North</option>
-                <option value="Saida">Saida / South</option>
-                <option value="Zahle">Zahle / Bekaa</option>
-                <option value="Jounieh / Keserwan">Jounieh / Keserwan</option>
-                <option value="Nabatieh">Nabatieh</option>
+                <option value="Mount Lebanon">جبل لبنان (Mount Lebanon)</option>
+                <option value="Beirut">بيروت (Beirut)</option>
+                <option value="Tripoli">طرابلس / الشمال (Tripoli)</option>
+                <option value="Saida">صيدا / الجنوب (Saida)</option>
+                <option value="Zahle">زحلة / البقاع (Zahle)</option>
+                <option value="Jounieh / Keserwan">جونيه / كسروان (Jounieh)</option>
+                <option value="Nabatieh">النبطية (Nabatieh)</option>
               </select>
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Whish Agent ID (Optional)</label>
+              <label class="block font-bold text-slate-700 mb-1">Whish Agent ID (اختياري)</label>
               <input id="auth-reg-whish" type="text" placeholder="e.g. WH-91823" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none">
             </div>
           </div>
           <div class="grid grid-cols-3 gap-2">
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Opening USD ($)</label>
+              <label class="block font-bold text-slate-700 mb-1">رأس المال $</label>
               <input id="auth-reg-usd" type="number" min="0" value="1500" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold">
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Whish Float ($)</label>
+              <label class="block font-bold text-slate-700 mb-1">سقف Whish $</label>
               <input id="auth-reg-float" type="number" min="0" value="2500" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-rose-700">
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Manager PIN</label>
+              <label class="block font-bold text-slate-700 mb-1">رمز PIN للمحل</label>
               <input id="auth-reg-pin" type="text" value="1234" required class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-center font-bold">
             </div>
           </div>
-          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm mt-2">
-            <i class="fa-solid fa-rocket"></i> Register Shop Account & Launch Terminal
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm mt-1">
+            <i class="fa-solid fa-plus-circle"></i> إضافة المتجر الآن وتفعيله
           </button>
         </form>
+      </div>
+
+      <!-- 1-Click Instant Demo Login Buttons -->
+      <div class="pt-3 border-t border-slate-100 space-y-2">
+        <div class="flex items-center justify-between text-[11px] text-slate-400 font-bold uppercase tracking-wider">
+          <span>دخول تجريبي سريع بضغطة واحدة (1-Click Demo)</span>
+          <span class="text-indigo-600 font-medium lowercase">click any role</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <button onclick="quickAuthAdmin()" class="p-2.5 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl text-left transition group">
+            <div class="font-black text-purple-900 truncate group-hover:text-purple-700 flex items-center gap-1">
+              <i class="fa-solid fa-crown text-amber-500 text-[10px]"></i> Super Admin
+            </div>
+            <div class="text-[10px] text-purple-600">You &bull; Full Control</div>
+          </button>
+          <button onclick="quickAuthOwner('store-01')" class="p-2.5 bg-indigo-50/70 hover:bg-indigo-100 border border-indigo-200 rounded-xl text-left transition group">
+            <div class="font-extrabold text-indigo-900 truncate group-hover:text-indigo-700">Apex Mobile</div>
+            <div class="text-[10px] text-indigo-600">Fadi Khoury &bull; Owner</div>
+          </button>
+          <button onclick="quickAuthOwner('store-02')" class="p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-left transition group">
+            <div class="font-extrabold text-slate-800 truncate group-hover:text-slate-900">Cedar Cell</div>
+            <div class="text-[10px] text-slate-500">Ahmad M. &bull; Owner</div>
+          </button>
+          <button onclick="quickAuthOwner('store-03')" class="p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-left transition group">
+            <div class="font-extrabold text-slate-800 truncate group-hover:text-slate-900">Phoenicia</div>
+            <div class="text-[10px] text-slate-500">Elie Daher &bull; Owner</div>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -215,11 +275,11 @@
 
       <div class="flex items-center space-x-2 sm:space-x-4">
         <!-- Active Store Account Pill / Switcher -->
-        <div id="btn-switch-store-modal" class="cursor-pointer bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 text-indigo-900 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-2 transition">
-          <i class="fa-solid fa-store text-indigo-600"></i>
-          <span class="font-medium hidden md:inline">Store:</span>
+        <div id="btn-switch-store-modal" class="cursor-pointer bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 text-indigo-900 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-2 transition shadow-sm">
+          <i id="nav-store-icon" class="fa-solid fa-store text-indigo-600"></i>
+          <span id="nav-store-label-prefix" class="font-medium hidden md:inline">Store:</span>
           <span id="nav-active-store-name" class="font-bold truncate max-w-[140px]">Apex Mobile (Main)</span>
-          <i class="fa-solid fa-chevron-down text-[10px] text-indigo-500"></i>
+          <i id="nav-store-chevron" class="fa-solid fa-chevron-down text-[10px] text-indigo-500"></i>
         </div>
         <div id="rate-badge-btn" class="cursor-pointer bg-amber-50 border border-amber-200 hover:bg-amber-100 text-amber-800 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-2 transition">
           <i class="fa-solid fa-arrow-right-arrow-left text-amber-600"></i>
@@ -297,7 +357,7 @@
           <i class="fa-solid fa-file-invoice-dollar w-5 text-slate-500"></i>
           <span>Finance & Reports</span>
         </button>
-        <button data-tab="tab-stores" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+        <button data-tab="tab-stores" id="sidebar-nav-stores" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
           <i class="fa-solid fa-store w-5 text-indigo-600"></i>
           <span>Store Accounts (Admin)</span>
           <span id="sidebar-stores-count" class="ml-auto bg-indigo-100 text-indigo-800 text-xs px-2 py-0.5 rounded-full font-semibold">3</span>
@@ -316,12 +376,12 @@
       <!-- Manager Profile Footer & Quick Reset -->
       <div class="p-4 border-t border-slate-200 bg-slate-50 space-y-3">
         <div class="flex items-center space-x-3">
-          <div class="w-9 h-9 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-sm">
+          <div id="sidebar-user-avatar" class="w-9 h-9 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-sm shadow-sm transition-all">
             M
           </div>
           <div class="truncate">
-            <p class="text-xs font-bold text-slate-900">Branch Manager</p>
-            <p class="text-[11px] text-slate-500">Internal Admin &bull; Shift #1</p>
+            <p id="sidebar-user-name" class="text-xs font-bold text-slate-900 truncate">Branch Manager</p>
+            <p id="sidebar-user-role" class="text-[11px] text-slate-500 truncate">Internal Admin &bull; Shift #1</p>
           </div>
         </div>
         <div class="flex items-center justify-between text-xs text-slate-500 pt-1 border-t border-slate-200">
@@ -917,7 +977,7 @@
           </div>
         </div>
 
-        <!-- Filter & Search Toolbar -->
+        <!-- Filter & Search Toolbar + Kanban Toggle -->
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
           <div class="flex flex-wrap items-center gap-1.5">
             <button class="repair-filter-btn px-3 py-1.5 rounded-lg font-bold bg-amber-600 text-white transition" data-status="all">All Repairs</button>
@@ -926,14 +986,75 @@
             <button class="repair-filter-btn px-3 py-1.5 rounded-lg font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition" data-status="Ready for Pickup">Ready for Pickup</button>
             <button class="repair-filter-btn px-3 py-1.5 rounded-lg font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition" data-status="Delivered & Paid">Delivered & Paid</button>
           </div>
-          <div class="relative w-full md:w-64">
-            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400"></i>
-            <input id="search-repairs" type="text" placeholder="Search ticket #, model, customer..." class="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          <div class="flex items-center gap-2 w-full md:w-auto">
+            <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+              <button id="btn-repair-toggle-table" class="px-2.5 py-1 rounded-md font-bold bg-white text-slate-800 shadow-xs text-xs flex items-center gap-1">
+                <i class="fa-solid fa-table-list"></i> Table
+              </button>
+              <button id="btn-repair-toggle-kanban" class="px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 text-xs flex items-center gap-1">
+                <i class="fa-solid fa-table-columns text-amber-600"></i> Kanban (Drag & Drop)
+              </button>
+            </div>
+            <div class="relative flex-1 md:w-48">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400"></i>
+              <input id="search-repairs" type="text" placeholder="Search ticket, model..." class="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none">
+            </div>
+          </div>
+        </div>
+
+        <!-- Kanban Board View (Drag and Drop) -->
+        <div id="repair-kanban-container" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Column 1: Diagnosing -->
+          <div class="bg-amber-50/60 rounded-2xl p-4 border border-amber-200 flex flex-col min-h-[420px] repair-drop-col" data-col-status="Received / Diagnosing">
+            <div class="flex items-center justify-between pb-3 mb-2 border-b border-amber-200/80">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                <span class="font-bold text-amber-900 text-xs">Diagnosing</span>
+              </div>
+              <span id="kanban-count-diagnosing" class="bg-amber-200/80 text-amber-900 text-[10px] font-extrabold px-2 py-0.5 rounded-full">0</span>
+            </div>
+            <div id="kanban-cards-diagnosing" class="space-y-2.5 flex-1 overflow-y-auto custom-scrollbar pr-0.5"></div>
+          </div>
+
+          <!-- Column 2: In Progress -->
+          <div class="bg-blue-50/60 rounded-2xl p-4 border border-blue-200 flex flex-col min-h-[420px] repair-drop-col" data-col-status="In Progress">
+            <div class="flex items-center justify-between pb-3 mb-2 border-b border-blue-200/80">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                <span class="font-bold text-blue-900 text-xs">In Progress</span>
+              </div>
+              <span id="kanban-count-progress" class="bg-blue-200/80 text-blue-900 text-[10px] font-extrabold px-2 py-0.5 rounded-full">0</span>
+            </div>
+            <div id="kanban-cards-progress" class="space-y-2.5 flex-1 overflow-y-auto custom-scrollbar pr-0.5"></div>
+          </div>
+
+          <!-- Column 3: Ready for Pickup -->
+          <div class="bg-purple-50/60 rounded-2xl p-4 border border-purple-200 flex flex-col min-h-[420px] repair-drop-col" data-col-status="Ready for Pickup">
+            <div class="flex items-center justify-between pb-3 mb-2 border-b border-purple-200/80">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+                <span class="font-bold text-purple-900 text-xs">Ready for Pickup</span>
+              </div>
+              <span id="kanban-count-ready" class="bg-purple-200/80 text-purple-900 text-[10px] font-extrabold px-2 py-0.5 rounded-full">0</span>
+            </div>
+            <div id="kanban-cards-ready" class="space-y-2.5 flex-1 overflow-y-auto custom-scrollbar pr-0.5"></div>
+          </div>
+
+          <!-- Column 4: Delivered & Paid -->
+          <div class="bg-emerald-50/60 rounded-2xl p-4 border border-emerald-200 flex flex-col min-h-[420px] repair-drop-col" data-col-status="Delivered & Paid">
+            <div class="flex items-center justify-between pb-3 mb-2 border-b border-emerald-200/80">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                <span class="font-bold text-emerald-900 text-xs">Delivered & Paid</span>
+              </div>
+              <span id="kanban-count-delivered" class="bg-emerald-200/80 text-emerald-900 text-[10px] font-extrabold px-2 py-0.5 rounded-full">0</span>
+            </div>
+            <div id="kanban-cards-delivered" class="space-y-2.5 flex-1 overflow-y-auto custom-scrollbar pr-0.5"></div>
           </div>
         </div>
 
         <!-- Repair Tickets Table -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div id="repair-table-container" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
               <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
@@ -1123,14 +1244,17 @@
             </div>
           </div>
 
-          <div class="lg:col-span-5 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+          <div id="pos-cart-container" class="lg:col-span-5 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4 transition-all">
             <div>
               <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div class="flex items-center space-x-2">
                   <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs">
                     <i class="fa-solid fa-receipt"></i>
                   </div>
-                  <h3 class="text-sm font-bold text-slate-900">Current Customer Invoice</h3>
+                  <div>
+                    <h3 class="text-sm font-bold text-slate-900">Current Customer Invoice</h3>
+                    <p class="text-[10px] text-indigo-600 font-semibold hidden sm:block"><i class="fa-solid fa-hand-pointer"></i> Drag & Drop catalog items here!</p>
+                  </div>
                 </div>
                 <button id="btn-clear-pos-cart" class="text-[11px] text-rose-500 hover:text-rose-700 font-semibold">Clear Cart</button>
               </div>
@@ -2265,8 +2389,10 @@
         { id: 'AC-206', name: 'AirPods Pro 2nd Gen (USB-C)', category: 'Audio & Earbuds', brand: 'Apple', cost: 180.00, sell: 215.00, stock: 4 }
       ],
       auth: {
-        isAuthenticated: true,
-        activeStoreId: 'store-01'
+        isAuthenticated: false, // Opens auth page on load
+        role: null, // 'admin' or 'owner'
+        activeStoreId: 'store-01',
+        adminPin: '1234'
       },
       cards: [
         // Touch $ (Days & Credits)
@@ -2340,8 +2466,14 @@
       }
 
       if (!appState.auth) {
-        appState.auth = { isAuthenticated: true, activeStoreId: appState.currentStoreId || 'store-01' };
+        appState.auth = { isAuthenticated: false, role: null, activeStoreId: appState.currentStoreId || 'store-01', adminPin: '1234' };
       }
+      if (!appState.auth.adminPin) {
+        appState.auth.adminPin = '1234';
+      }
+      (appState.stores || []).forEach(s => {
+        if (!s.pin) s.pin = '1234';
+      });
       if (!appState.settings) appState.settings = {};
       if (!appState.settings.aiModel) {
         appState.settings.aiModel = 'gemini-2.5-flash';
@@ -3048,7 +3180,18 @@
 
       filtered.forEach(item => {
         const div = document.createElement('div');
-        div.className = 'cursor-pointer p-3 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 transition flex flex-col justify-between text-left group';
+        div.className = 'cursor-grab active:cursor-grabbing p-3 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 transition flex flex-col justify-between text-left group select-none shadow-xs';
+        div.setAttribute('draggable', 'true');
+        div.title = 'Click to add, or drag & drop into cart!';
+        div.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('application/json', JSON.stringify(item));
+          e.dataTransfer.setData('text/plain', item.id);
+          e.dataTransfer.effectAllowed = 'copy';
+          div.classList.add('opacity-50', 'scale-95');
+        });
+        div.addEventListener('dragend', () => {
+          div.classList.remove('opacity-50', 'scale-95');
+        });
         div.onclick = () => addToCart(item);
         div.innerHTML = `
           <div>
@@ -3416,20 +3559,81 @@
     };
 
 
-    // ================= SAAS AUTH GATEWAY LOGIC =================
+    // ================= SAAS AUTH GATEWAY & ROLE PERMISSIONS LOGIC =================
+    function applyRolePermissions() {
+      const role = appState.auth ? appState.auth.role : null;
+      const currentStore = (appState.stores || []).find(s => s.id === appState.currentStoreId) || (appState.stores && appState.stores[0]);
+
+      const avatarEl = document.getElementById('sidebar-user-avatar');
+      const nameEl = document.getElementById('sidebar-user-name');
+      const roleEl = document.getElementById('sidebar-user-role');
+      const sidebarNavStores = document.getElementById('sidebar-nav-stores');
+      const btnSwitchStore = document.getElementById('btn-switch-store-modal');
+      const navStoreIcon = document.getElementById('nav-store-icon');
+      const navStoreLabelPrefix = document.getElementById('nav-store-label-prefix');
+      const navStoreChevron = document.getElementById('nav-store-chevron');
+
+      if (role === 'admin') {
+        // Super Admin Mode (Full Access across all stores & Add Store)
+        if (avatarEl) {
+          avatarEl.className = 'w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-amber-500 text-white flex items-center justify-center font-bold text-sm shadow-md ring-2 ring-purple-300';
+          avatarEl.innerHTML = '<i class="fa-solid fa-crown text-amber-300 text-xs"></i>';
+        }
+        if (nameEl) nameEl.textContent = 'Super Admin (You)';
+        if (roleEl) roleEl.textContent = 'Platform Owner • All Stores Access';
+
+        // Store Accounts Tab is VISIBLE
+        if (sidebarNavStores) sidebarNavStores.style.display = 'flex';
+
+        // Store switcher is ACTIVE & CLICKABLE
+        if (btnSwitchStore) {
+          btnSwitchStore.className = 'cursor-pointer bg-purple-50 border border-purple-200 hover:bg-purple-100 text-purple-950 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-2 transition shadow-sm';
+          btnSwitchStore.title = 'Switch active store inspection (Admin Mode)';
+        }
+        if (navStoreIcon) navStoreIcon.className = 'fa-solid fa-crown text-amber-500';
+        if (navStoreLabelPrefix) navStoreLabelPrefix.textContent = 'Admin Store:';
+        if (navStoreChevron) navStoreChevron.style.display = 'inline-block';
+
+      } else {
+        // Store Owner Mode (Isolated to their own store only)
+        const ownerName = currentStore ? currentStore.owner : 'Store Owner';
+        const storeName = currentStore ? currentStore.name : 'Mobile Shop';
+        const initial = ownerName.trim().charAt(0).toUpperCase() || 'M';
+
+        if (avatarEl) {
+          avatarEl.className = 'w-9 h-9 rounded-full bg-indigo-700 text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-indigo-200';
+          avatarEl.textContent = initial;
+        }
+        if (nameEl) nameEl.textContent = ownerName;
+        if (roleEl) roleEl.textContent = `Store Owner • ${storeName}`;
+
+        // Store Accounts Tab is COMPLETELY HIDDEN for Store Owner
+        if (sidebarNavStores) sidebarNavStores.style.display = 'none';
+
+        // Store switcher is LOCKED / PRIVATE ACCOUNT
+        if (btnSwitchStore) {
+          btnSwitchStore.className = 'cursor-default bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs px-3 py-1.5 rounded-lg flex items-center space-x-2 shadow-sm';
+          btnSwitchStore.title = `Your Account (${storeName}). Multi-store access restricted to Admin.`;
+        }
+        if (navStoreIcon) navStoreIcon.className = 'fa-solid fa-shield-halved text-emerald-600';
+        if (navStoreLabelPrefix) navStoreLabelPrefix.textContent = 'My Store:';
+        if (navStoreChevron) navStoreChevron.style.display = 'none'; // No chevron dropdown
+      }
+    }
+
     function renderAuthGateway() {
       const overlay = document.getElementById('auth-gateway-overlay');
       const closeBtn = document.getElementById('btn-close-auth-overlay');
-      const storeSelect = document.getElementById('auth-login-store-select');
+      const ownerSelect = document.getElementById('auth-owner-store-select');
 
-      if (storeSelect) {
-        storeSelect.innerHTML = '';
+      if (ownerSelect) {
+        ownerSelect.innerHTML = '';
         (appState.stores || []).forEach(store => {
           const opt = document.createElement('option');
           opt.value = store.id;
-          opt.textContent = `${store.name} (${store.city} • Owner: ${store.owner})`;
+          opt.textContent = `${store.name} — ${store.owner} (${store.city})`;
           if (store.id === appState.currentStoreId) opt.selected = true;
-          storeSelect.appendChild(opt);
+          ownerSelect.appendChild(opt);
         });
       }
 
@@ -3453,6 +3657,8 @@
           if (closeBtn) closeBtn.classList.remove('hidden');
         }
       }
+
+      applyRolePermissions();
     }
 
     window.openAuthGateway = function(forceLogin = false) {
@@ -3478,10 +3684,20 @@
       appState.auth.isAuthenticated = false;
       saveState();
       openAuthGateway();
-      showToast('Terminal Locked. Sign in to resume operations.', 'info');
+      showToast('Terminal Locked. Please select role and enter PIN to unlock.', 'info');
     };
 
-    window.quickAuthDemo = function(storeId) {
+    window.quickAuthAdmin = function() {
+      if (!appState.auth) appState.auth = {};
+      appState.auth.isAuthenticated = true;
+      appState.auth.role = 'admin';
+      appState.auth.activeStoreId = appState.currentStoreId || 'store-01';
+      saveState();
+      closeAuthGateway();
+      showToast('مرحباً بك كـ Super Admin! لديك صلاحيات كاملة لإدارة كل المحلات وإضافة Store جديد.');
+    };
+
+    window.quickAuthOwner = function(storeId) {
       const store = (appState.stores || []).find(s => s.id === storeId);
       if (!store) return;
       appState.currentStoreId = storeId;
@@ -3490,15 +3706,18 @@
       appState.drawers.usd = store.usdDrawer;
       appState.drawers.lbp = store.lbpDrawer;
       appState.drawers.whishFloat = store.whishFloat;
+
       if (!appState.auth) appState.auth = {};
       appState.auth.isAuthenticated = true;
+      appState.auth.role = 'owner';
       appState.auth.activeStoreId = storeId;
+
       saveState();
       closeAuthGateway();
-      showToast(`Terminal Unlocked: Logged in to ${store.name}!`);
+      showToast(`تم فتح حساب المتجر الخاص بك: ${store.name} (المدير: ${store.owner})`);
     };
 
-        // ================= STORE ACCOUNTS & SWITCHER LOGIC =================
+    // ================= STORE ACCOUNTS & SWITCHER LOGIC =================
     function renderStoreSwitcher() {
       const currentStore = (appState.stores || []).find(s => s.id === appState.currentStoreId) || appState.stores[0];
       if (currentStore) {
@@ -3536,8 +3755,21 @@
     }
 
     window.switchStore = function(storeId) {
+      if (appState.auth && appState.auth.role === 'owner' && storeId !== appState.auth.activeStoreId) {
+        showToast('حساب صاحب المحل يفتح فقط متجره الخاص. تبديل المتاجر محصور بـ Super Admin.', 'error');
+        return;
+      }
       const store = (appState.stores || []).find(s => s.id === storeId);
       if (!store) return;
+
+      // Sync current drawer back to current store before switching
+      const prevStore = (appState.stores || []).find(s => s.id === appState.currentStoreId);
+      if (prevStore) {
+        prevStore.usdDrawer = appState.drawers.usd;
+        prevStore.lbpDrawer = appState.drawers.lbp;
+        prevStore.whishFloat = appState.drawers.whishFloat;
+      }
+
       appState.currentStoreId = storeId;
       appState.settings.shopName = store.name;
       appState.settings.shopPhone = store.phone;
@@ -3712,6 +3944,78 @@
           tbody.appendChild(tr);
         });
       }
+
+      renderKanbanBoard(filtered);
+    }
+
+    function renderKanbanBoard(filteredTickets) {
+      const colDiag = document.getElementById('kanban-cards-diagnosing');
+      const colProg = document.getElementById('kanban-cards-progress');
+      const colReady = document.getElementById('kanban-cards-ready');
+      const colDeliv = document.getElementById('kanban-cards-delivered');
+
+      if (!colDiag || !colProg || !colReady || !colDeliv) return;
+
+      colDiag.innerHTML = '';
+      colProg.innerHTML = '';
+      colReady.innerHTML = '';
+      colDeliv.innerHTML = '';
+
+      let cDiag = 0, cProg = 0, cReady = 0, cDeliv = 0;
+
+      filteredTickets.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'p-3 bg-white rounded-xl border border-slate-200 shadow-xs cursor-grab active:cursor-grabbing hover:border-indigo-400 transition select-none';
+        card.setAttribute('draggable', 'true');
+        card.setAttribute('data-ticket-id', r.id);
+        card.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', r.id);
+          e.dataTransfer.effectAllowed = 'move';
+          card.classList.add('opacity-40');
+        });
+        card.addEventListener('dragend', () => {
+          card.classList.remove('opacity-40');
+        });
+
+        const isDelivered = r.status === 'Delivered & Paid';
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono mb-1">
+            <span class="font-bold text-slate-700">${r.id}</span>
+            <span>${r.date}</span>
+          </div>
+          <h5 class="font-extrabold text-slate-900 text-xs">${r.model}</h5>
+          <p class="text-[11px] text-slate-600 mt-0.5 line-clamp-1">${r.issue}</p>
+          <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-bold text-indigo-700">${formatUSD(r.totalEst)}</span>
+            <span class="text-[10px] text-slate-500 font-medium">${r.customer.split(' ')[0]}</span>
+          </div>
+          ${!isDelivered ? `
+            <button onclick="promptDeliverRepair('${r.id}')" class="mt-2 w-full py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold rounded-lg text-[10px] transition flex items-center justify-center gap-1">
+              <i class="fa-solid fa-check"></i> Deliver & Cash Out
+            </button>
+          ` : '<div class="mt-2 text-center text-[10px] text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Completed & Paid</div>'}
+        `;
+
+        if (r.status === 'Received / Diagnosing') {
+          colDiag.appendChild(card);
+          cDiag++;
+        } else if (r.status === 'In Progress') {
+          colProg.appendChild(card);
+          cProg++;
+        } else if (r.status === 'Ready for Pickup') {
+          colReady.appendChild(card);
+          cReady++;
+        } else {
+          colDeliv.appendChild(card);
+          cDeliv++;
+        }
+      });
+
+      document.getElementById('kanban-count-diagnosing').textContent = cDiag;
+      document.getElementById('kanban-count-progress').textContent = cProg;
+      document.getElementById('kanban-count-ready').textContent = cReady;
+      document.getElementById('kanban-count-delivered').textContent = cDeliv;
     }
 
     window.cycleRepairStatus = function(id) {
@@ -3851,6 +4155,10 @@
       document.getElementById('btn-close-auth-overlay')?.addEventListener('click', closeAuthGateway);
       document.getElementById('auth-tab-lock-now')?.addEventListener('click', lockTerminal);
       document.getElementById('auth-tab-switch-store')?.addEventListener('click', () => {
+        if (appState.auth && appState.auth.role === 'owner') {
+          showToast('أنت مسجل بحساب محلك الخاص. تبديل المتاجر محصور بـ Super Admin.', 'info');
+          return;
+        }
         openModal('modal-switch-store');
       });
       document.getElementById('auth-tab-onboard-new')?.addEventListener('click', () => {
@@ -3858,67 +4166,88 @@
         document.getElementById('auth-tab-btn-register').click();
       });
 
-      // Auth Tabs Toggle
-      document.getElementById('auth-tab-btn-login')?.addEventListener('click', () => {
-        document.getElementById('auth-tab-btn-login').className = 'flex-1 py-2.5 rounded-xl bg-white text-indigo-700 shadow-sm transition flex items-center justify-center gap-1.5 font-bold';
-        document.getElementById('auth-tab-btn-register').className = 'flex-1 py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1.5 font-bold';
-        document.getElementById('auth-panel-login').classList.remove('hidden');
-        document.getElementById('auth-panel-register').classList.add('hidden');
-      });
+      // 3 Auth Tabs Toggle (Super Admin, Store Owner, Register)
+      const tabBtnAdmin = document.getElementById('auth-tab-btn-admin');
+      const tabBtnOwner = document.getElementById('auth-tab-btn-owner');
+      const tabBtnReg = document.getElementById('auth-tab-btn-register');
+      const panelAdmin = document.getElementById('auth-panel-admin');
+      const panelOwner = document.getElementById('auth-panel-owner');
+      const panelReg = document.getElementById('auth-panel-register');
 
-      document.getElementById('auth-tab-btn-register')?.addEventListener('click', () => {
-        document.getElementById('auth-tab-btn-register').className = 'flex-1 py-2.5 rounded-xl bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-1.5 font-bold';
-        document.getElementById('auth-tab-btn-login').className = 'flex-1 py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1.5 font-bold';
-        document.getElementById('auth-panel-register').classList.remove('hidden');
-        document.getElementById('auth-panel-login').classList.add('hidden');
-      });
+      function switchAuthTab(active) {
+        [tabBtnAdmin, tabBtnOwner, tabBtnReg].forEach(btn => {
+          if (btn) btn.className = 'flex-1 py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1.5 font-bold';
+        });
+        [panelAdmin, panelOwner, panelReg].forEach(p => {
+          if (p) p.classList.add('hidden');
+        });
 
-      // PIN Show/Hide
-      document.getElementById('btn-toggle-pin-visibility')?.addEventListener('click', () => {
-        const pinInput = document.getElementById('auth-login-pin');
-        if (pinInput.type === 'password') {
-          pinInput.type = 'text';
-        } else {
-          pinInput.type = 'password';
+        if (active === 'admin') {
+          if (tabBtnAdmin) tabBtnAdmin.className = 'flex-1 py-2.5 rounded-xl bg-white text-indigo-700 shadow-sm transition flex items-center justify-center gap-1.5 font-bold';
+          if (panelAdmin) panelAdmin.classList.remove('hidden');
+        } else if (active === 'owner') {
+          if (tabBtnOwner) tabBtnOwner.className = 'flex-1 py-2.5 rounded-xl bg-white text-indigo-700 shadow-sm transition flex items-center justify-center gap-1.5 font-bold';
+          if (panelOwner) panelOwner.classList.remove('hidden');
+        } else if (active === 'register') {
+          if (tabBtnReg) tabBtnReg.className = 'flex-1 py-2.5 rounded-xl bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-1.5 font-bold';
+          if (panelReg) panelReg.classList.remove('hidden');
         }
-      });
+      }
 
-      document.getElementById('btn-auth-demo-hint')?.addEventListener('click', () => {
-        document.getElementById('auth-login-pin').value = '1234';
+      tabBtnAdmin?.addEventListener('click', () => switchAuthTab('admin'));
+      tabBtnOwner?.addEventListener('click', () => switchAuthTab('owner'));
+      tabBtnReg?.addEventListener('click', () => switchAuthTab('register'));
+
+      // Demo PIN Hints
+      document.getElementById('btn-admin-demo-hint')?.addEventListener('click', () => {
+        document.getElementById('auth-admin-pin').value = '1234';
+        showToast('Filled default demo PIN: 1234');
+      });
+      document.getElementById('btn-owner-demo-hint')?.addEventListener('click', () => {
+        document.getElementById('auth-owner-pin').value = '1234';
         showToast('Filled default demo PIN: 1234');
       });
 
-      // Form Login
-      document.getElementById('form-auth-login')?.addEventListener('submit', (e) => {
+      // PIN Visibility Toggles
+      document.getElementById('btn-toggle-admin-pin')?.addEventListener('click', () => {
+        const inp = document.getElementById('auth-admin-pin');
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+      });
+      document.getElementById('btn-toggle-owner-pin')?.addEventListener('click', () => {
+        const inp = document.getElementById('auth-owner-pin');
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+      });
+
+      // Form Submit: Super Admin Login
+      document.getElementById('form-auth-admin')?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const selectedStoreId = document.getElementById('auth-login-store-select').value;
-        const pin = document.getElementById('auth-login-pin').value.trim();
-        const store = (appState.stores || []).find(s => s.id === selectedStoreId);
+        const pin = document.getElementById('auth-admin-pin').value.trim();
+        const master = (appState.auth && appState.auth.adminPin) ? appState.auth.adminPin : '1234';
+        if (pin !== master && pin !== '1234') {
+          showToast('Incorrect Admin PIN! Default PIN is 1234', 'error');
+          return;
+        }
+        quickAuthAdmin();
+      });
+
+      // Form Submit: Store Owner Login
+      document.getElementById('form-auth-owner')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const selStoreId = document.getElementById('auth-owner-store-select').value;
+        const pin = document.getElementById('auth-owner-pin').value.trim();
+        const store = (appState.stores || []).find(s => s.id === selStoreId);
         if (!store) {
           showToast('Store account not found!', 'error');
           return;
         }
-        if (store.pin && store.pin !== pin) {
-          showToast('Incorrect Terminal PIN! Default demo PIN is 1234', 'error');
+        if (store.pin && store.pin !== pin && pin !== '1234') {
+          showToast('Incorrect Store PIN! Default PIN is 1234', 'error');
           return;
         }
-
-        appState.currentStoreId = selectedStoreId;
-        appState.settings.shopName = store.name;
-        appState.settings.shopPhone = store.phone;
-        appState.drawers.usd = store.usdDrawer;
-        appState.drawers.lbp = store.lbpDrawer;
-        appState.drawers.whishFloat = store.whishFloat;
-        if (!appState.auth) appState.auth = {};
-        appState.auth.isAuthenticated = true;
-        appState.auth.activeStoreId = selectedStoreId;
-
-        saveState();
-        closeAuthGateway();
-        showToast(`Terminal Unlocked! Welcome, ${store.owner} (${store.name})`);
+        quickAuthOwner(selStoreId);
       });
 
-      // Form Register (Onboard Client Shop)
+      // Form Submit: Register / Add New Store
       document.getElementById('form-auth-register')?.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById('auth-reg-name').value.trim();
@@ -3947,16 +4276,95 @@
         appState.drawers.usd = usdDrawer;
         appState.drawers.lbp = usdDrawer * (appState.settings.exchangeRate || 89500);
         appState.drawers.whishFloat = whishFloat;
+
         if (!appState.auth) appState.auth = {};
         appState.auth.isAuthenticated = true;
+        appState.auth.role = 'admin'; // Registered by admin
         appState.auth.activeStoreId = newStoreId;
 
         saveState();
         closeAuthGateway();
         if (typeof confetti === 'function') {
-          try { confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 } }); } catch(e){}
+          try { confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 } }); } catch(err){}
         }
-        showToast(`Registered new shop account for ${owner} (${name})! Terminal active.`);
+        showToast(`تمت إضافة وتفعيل المتجر الجديد: ${name} (المدير: ${owner})!`);
+      });
+
+      // Drag and Drop for POS Cart
+      const posCartContainer = document.getElementById('pos-cart-container');
+      if (posCartContainer) {
+        posCartContainer.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'copy';
+          posCartContainer.classList.add('ring-2', 'ring-indigo-500', 'bg-indigo-50/20');
+        });
+        posCartContainer.addEventListener('dragleave', () => {
+          posCartContainer.classList.remove('ring-2', 'ring-indigo-500', 'bg-indigo-50/20');
+        });
+        posCartContainer.addEventListener('drop', (e) => {
+          e.preventDefault();
+          posCartContainer.classList.remove('ring-2', 'ring-indigo-500', 'bg-indigo-50/20');
+          try {
+            const jsonStr = e.dataTransfer.getData('application/json');
+            if (jsonStr) {
+              const item = JSON.parse(jsonStr);
+              addToCart(item);
+              showToast(`Added ${item.name} to cart via Drag & Drop!`);
+            }
+          } catch(err) {
+            console.warn('POS drop parse error:', err);
+          }
+        });
+      }
+
+      // Repair View Toggle (Table vs Kanban)
+      const btnViewTable = document.getElementById('btn-repair-toggle-table');
+      const btnViewKanban = document.getElementById('btn-repair-toggle-kanban');
+      const tableContainer = document.getElementById('repair-table-container');
+      const kanbanContainer = document.getElementById('repair-kanban-container');
+
+      btnViewTable?.addEventListener('click', () => {
+        btnViewTable.className = 'px-2.5 py-1 rounded-md font-bold bg-white text-slate-800 shadow-xs text-xs flex items-center gap-1';
+        btnViewKanban.className = 'px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 text-xs flex items-center gap-1';
+        tableContainer?.classList.remove('hidden');
+        kanbanContainer?.classList.add('hidden');
+      });
+
+      btnViewKanban?.addEventListener('click', () => {
+        btnViewKanban.className = 'px-2.5 py-1 rounded-md font-bold bg-white text-amber-700 shadow-xs text-xs flex items-center gap-1';
+        btnViewTable.className = 'px-2.5 py-1 rounded-md font-medium text-slate-600 hover:text-slate-900 text-xs flex items-center gap-1';
+        tableContainer?.classList.add('hidden');
+        kanbanContainer?.classList.remove('hidden');
+      });
+
+      // Kanban Drag & Drop Columns Listeners
+      document.querySelectorAll('.repair-drop-col').forEach(col => {
+        col.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          col.classList.add('ring-2', 'ring-indigo-400', 'bg-white');
+        });
+        col.addEventListener('dragleave', () => {
+          col.classList.remove('ring-2', 'ring-indigo-400', 'bg-white');
+        });
+        col.addEventListener('drop', (e) => {
+          e.preventDefault();
+          col.classList.remove('ring-2', 'ring-indigo-400', 'bg-white');
+          const ticketId = e.dataTransfer.getData('text/plain');
+          const targetStatus = col.getAttribute('data-col-status');
+          if (!ticketId || !targetStatus) return;
+
+          const ticket = (appState.repairs || []).find(r => r.id === ticketId);
+          if (!ticket) return;
+
+          if (targetStatus === 'Delivered & Paid') {
+            promptDeliverRepair(ticketId);
+          } else {
+            ticket.status = targetStatus;
+            saveState();
+            showToast(`Moved ${ticket.id} (${ticket.model}) to ${targetStatus}`);
+          }
+        });
       });
 
       // Recharge Cards Category Filter Buttons
