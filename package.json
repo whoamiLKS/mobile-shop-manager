@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@supabase/supabase-js": "2.57.4"
+  },
+  "name": "mobile-shop-manager",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node tests/cloud.test.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}

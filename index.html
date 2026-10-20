@@ -197,245 +197,35 @@
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
   <!-- Full-Screen SaaS Auth & Terminal Lock Gateway -->
-  <div id="auth-gateway-overlay" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full p-4 sm:p-7 space-y-4 sm:space-y-5 relative border border-slate-100 my-auto max-h-[94vh] overflow-y-auto custom-scrollbar">
-      <!-- Top Bar inside Auth Gateway: Language Switcher, Dark Theme & Install App -->
-      <div class="flex items-center justify-between gap-1.5 flex-wrap">
-        <div class="flex items-center gap-1.5 flex-wrap">
-          <button type="button" onclick="toggleLanguage()" id="btn-lang-toggle-auth" class="bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-200 text-xs font-extrabold px-2.5 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-2xs">
-            <i class="fa-solid fa-globe text-indigo-600"></i>
-            <span id="lang-toggle-auth-label">عربي | EN</span>
-          </button>
-
-          <button type="button" onclick="toggleTheme()" id="btn-theme-toggle-auth" class="bg-slate-100 hover:bg-amber-50 text-slate-700 hover:text-amber-700 border border-slate-200 text-xs font-extrabold px-2.5 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-2xs" title="Toggle Dark / Light Theme">
-            <i id="theme-icon-auth" class="fa-solid fa-moon text-indigo-600"></i>
-            <span id="theme-label-auth" data-i18n="theme_dark">Dark</span>
-          </button>
-
-          <button type="button" onclick="triggerPwaInstall()" id="btn-pwa-install-auth" class="bg-gradient-to-r from-indigo-600 to-rose-600 hover:from-indigo-700 hover:to-rose-700 text-white text-xs font-extrabold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
-            <i class="fa-solid fa-download text-[11px]"></i>
-            <span data-i18n="btn_install_app">Install App</span>
-          </button>
-        </div>
-
-        <button id="btn-close-auth-overlay" class="text-slate-400 hover:text-slate-600 text-lg font-bold p-1.5 rounded-lg hover:bg-slate-100 transition hidden" title="Return to Back-Office">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <div class="text-center space-y-1.5">
-        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-700 to-rose-600 text-white flex items-center justify-center text-xl sm:text-2xl mx-auto shadow-lg shadow-indigo-200">
-          <i class="fa-solid fa-mobile-screen-button"></i>
-        </div>
-        <div>
-          <span class="bg-indigo-100 text-indigo-800 text-[10px] sm:text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider" data-i18n="auth_badge">
-            Commercial SaaS Edition &bull; Multi-Tenant Terminals
-          </span>
-          <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-1.5" data-i18n="auth_title">Apex Mobile & Whish Suite</h2>
-          <p class="text-[11px] sm:text-xs text-slate-500 max-w-md mx-auto" data-i18n="auth_subtitle">
-            Secure back-office gateway for Lebanese mobile phone shops & authorized Whish Money agents.
-          </p>
-        </div>
-      </div>
-
-      <!-- Auth Tabs: Super Admin vs Store Owner vs Add Store Request -->
-      <div class="grid grid-cols-3 bg-slate-100 p-1 rounded-2xl text-[11px] sm:text-xs font-bold gap-1">
-        <button id="auth-tab-btn-admin" class="py-2 sm:py-2.5 px-1.5 rounded-xl bg-white text-indigo-700 shadow-sm transition flex items-center justify-center gap-1 font-bold">
-          <i class="fa-solid fa-crown text-amber-500"></i>
-          <span data-i18n="auth_tab_admin">Super Admin</span>
-        </button>
-        <button id="auth-tab-btn-owner" class="py-2 sm:py-2.5 px-1.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1 font-bold">
-          <i class="fa-solid fa-store text-indigo-600"></i>
-          <span data-i18n="auth_tab_owner">Store Owner</span>
-        </button>
-        <button id="auth-tab-btn-register" class="py-2 sm:py-2.5 px-1.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1 font-bold">
-          <i class="fa-solid fa-plus-circle text-emerald-600"></i>
-          <span data-i18n="auth_tab_add_store">Add Store</span>
-        </button>
-      </div>
-
-      <!-- Panel 1: Super Admin Login -->
-      <div id="auth-panel-admin" class="space-y-3.5">
-        <div class="p-3 bg-indigo-50/70 border border-indigo-100 rounded-2xl text-xs text-indigo-900 space-y-1">
-          <div class="font-extrabold flex items-center gap-1.5">
-            <i class="fa-solid fa-shield-halved text-indigo-600"></i>
-            <span data-i18n="admin_welcome_title">Super Admin Portal</span>
-          </div>
-          <p class="text-[11px] text-indigo-700 leading-relaxed" data-i18n="admin_welcome_desc">
-            Log in as Super Admin for full control over all stores, approving new Add Store requests, and setting new PINs for shop owners.
-          </p>
-        </div>
-
-        <form id="form-auth-admin" class="space-y-3 text-xs">
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <label class="font-bold text-slate-700" data-i18n="admin_pin_label">Master Admin PIN</label>
-              
-            </div>
-            <div class="relative">
-              <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400"></i>
-              <input id="auth-admin-pin" type="password" required value="" placeholder="Enter Master Admin PIN" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-              <button type="button" id="btn-toggle-admin-pin" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-eye text-xs"></i>
-              </button>
-            </div>
-          </div>
-
-          <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
-            <i class="fa-solid fa-crown text-amber-300"></i>
-            <span data-i18n="admin_login_btn">Sign In as Super Admin</span>
-          </button>
-        </form>
-      </div>
-
-      <!-- Panel 2: Store Owner Login + Forgot PIN Workflow -->
-      <div id="auth-panel-owner" class="space-y-3.5 hidden">
-        <div class="p-3 bg-amber-50/70 border border-amber-100 rounded-2xl text-xs text-amber-900 space-y-1">
-          <div class="font-extrabold flex items-center gap-1.5">
-            <i class="fa-solid fa-store text-amber-600"></i>
-            <span data-i18n="owner_welcome_title">Store Owner Login</span>
-          </div>
-          <p class="text-[11px] text-amber-700 leading-relaxed" data-i18n="owner_welcome_desc">
-            Select your shop and enter your secret PIN. Store owners only access their own isolated store inventory, POS, Whish desk, and repairs.
-          </p>
-        </div>
-
-        <form id="form-auth-owner" class="space-y-3 text-xs">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1" data-i18n="owner_select_label">Select Store / Manager</label>
-            <select id="auth-owner-store-select" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            </select>
-          </div>
-
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <label class="font-bold text-slate-700" data-i18n="owner_pin_label">Store Access PIN</label>
-              <div class="flex items-center gap-3">
-                <button type="button" id="btn-forgot-pin-toggle" class="text-[11px] text-rose-600 hover:text-rose-700 font-extrabold underline flex items-center gap-1">
-                  <i class="fa-solid fa-key text-[10px]"></i>
-                  <span data-i18n="forgot_pin_link">Forgot PIN?</span>
-                </button>
-                
-              </div>
-            </div>
-            <div class="relative">
-              <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400"></i>
-              <input id="auth-owner-pin" type="password" required value="" placeholder="Enter Store PIN" class="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm tracking-widest focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-              <button type="button" id="btn-toggle-owner-pin" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-eye text-xs"></i>
-              </button>
-            </div>
-          </div>
-
-          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
-            <i class="fa-solid fa-arrow-right-to-bracket"></i>
-            <span data-i18n="owner_login_btn">Unlock My Store Account</span>
-          </button>
-        </form>
-
-        <!-- Forgot PIN Request Drawer (Sends request to Super Admin) -->
-        <div id="forgot-pin-box" class="hidden p-3.5 bg-rose-50/90 border border-rose-200 rounded-2xl space-y-2.5 text-xs">
-          <div class="flex items-center justify-between">
-            <span class="font-extrabold text-rose-900 flex items-center gap-1.5">
-              <i class="fa-solid fa-unlock-keyhole text-rose-600"></i>
-              <span data-i18n="forgot_pin_box_title">Request New PIN from Super Admin</span>
-            </span>
-            <button type="button" id="btn-close-forgot-pin" class="text-rose-400 hover:text-rose-700 font-bold">&times;</button>
-          </div>
-          <p class="text-[11px] text-rose-700 leading-relaxed" data-i18n="forgot_pin_box_desc">
-            Submit a reset request for your selected store. The Super Admin will receive your alert inside the Admin Hub and assign a new PIN for you.
-          </p>
-          <div>
-            <input id="forgot-pin-note" type="text" placeholder="Optional: Your WhatsApp number or note for Admin..." class="w-full px-3 py-2 bg-white border border-rose-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-rose-500">
-          </div>
-          <button type="button" id="btn-submit-forgot-pin" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-xl shadow-xs transition flex items-center justify-center gap-1.5 text-xs">
-            <i class="fa-solid fa-paper-plane"></i>
-            <span data-i18n="forgot_pin_submit_btn">Send PIN Reset Request to Admin</span>
-          </button>
-          <div id="forgot-pin-confirm-msg" class="hidden p-2 bg-emerald-100 text-emerald-900 rounded-lg font-bold text-[11px] text-center"></div>
-        </div>
-      </div>
-
-      <!-- Panel 3: Add Store Request (Sent to Super Admin for Approval) -->
-      <div id="auth-panel-register" class="space-y-3.5 hidden">
-        <div class="p-3 bg-emerald-50/70 border border-emerald-100 rounded-2xl text-xs text-emerald-900 space-y-1">
-          <div class="font-extrabold flex items-center gap-1.5">
-            <i class="fa-solid fa-plus-circle text-emerald-600"></i>
-            <span data-i18n="reg_welcome_title">Request New Store Account (Admin Approval)</span>
-          </div>
-          <p class="text-[11px] text-emerald-700 leading-relaxed" data-i18n="reg_welcome_desc">
-            Fill out your mobile shop details below. Your request will be sent to the Super Admin inside the platform for review and one-click activation.
-          </p>
-        </div>
-
-        <div id="auth-reg-success-banner" class="hidden p-3.5 bg-emerald-100 border border-emerald-300 text-emerald-950 rounded-2xl text-xs space-y-1">
-          <div class="font-black flex items-center gap-1.5 text-emerald-800">
-            <i class="fa-solid fa-circle-check text-emerald-600"></i>
-            <span id="auth-reg-success-title">Store Registration Sent to Super Admin!</span>
-          </div>
-          <p class="text-[11px] leading-relaxed" id="auth-reg-success-text">
-            Your request is now pending in the Super Admin dashboard. Once the Admin approves your request, your store will appear in the Store Owner login list.
-          </p>
-        </div>
-
-        <form id="form-auth-register" class="space-y-2.5 text-xs">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_shop_name">Mobile Shop Business Name</label>
-            <input id="auth-reg-name" type="text" required placeholder="e.g. Tripoli Wireless Center" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <div>
-              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_owner_name">Owner / Manager Name</label>
-              <input id="auth-reg-owner" type="text" required placeholder="e.g. Marwan Haddad" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_phone">WhatsApp Phone Number</label>
-              <input id="auth-reg-phone" type="text" required placeholder="+961 70 889 123" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            </div>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <div>
-              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_city">City / Region</label>
-              <select id="auth-reg-city" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none font-semibold">
-                <option value="Mount Lebanon">Mount Lebanon</option>
-                <option value="Beirut">Beirut</option>
-                <option value="Tripoli">Tripoli / North</option>
-                <option value="Saida">Saida / South</option>
-                <option value="Zahle">Zahle / Bekaa</option>
-                <option value="Jounieh / Keserwan">Jounieh / Keserwan</option>
-                <option value="Nabatieh">Nabatieh</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_whish_id">Whish Agent ID (Optional)</label>
-              <input id="auth-reg-whish" type="text" placeholder="e.g. WH-91823" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2">
-            <div>
-              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_usd">Opening USD ($)</label>
-              <input id="auth-reg-usd" type="number" min="0" value="0" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_float">Whish Float ($)</label>
-              <input id="auth-reg-float" type="number" min="0" value="0" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-rose-700">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1" data-i18n="reg_pin">Desired PIN</label>
-              <input id="auth-reg-pin" type="text" value="1234" required class="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-center font-bold">
-            </div>
-          </div>
-          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm mt-1">
-            <i class="fa-solid fa-paper-plane"></i>
-            <span data-i18n="reg_submit_btn">Submit Store Request to Super Admin</span>
-          </button>
-        </form>
-      </div>
-
-
+  <div id="auth-gateway-overlay" class="fixed inset-0 z-50 bg-slate-950/95 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-7 space-y-5 my-auto">
+      <div class="text-center"><div class="text-4xl mb-3">☁️</div><h1 class="text-2xl font-black text-slate-900">Mobile Shop Manager</h1>
+      <p class="text-sm text-slate-500 mt-2" dir="auto">بيانات محلك معك على كل أجهزتك<br>Your shop, synced across devices</p></div>
+      <form id="cloud-auth-form" class="space-y-4">
+        <label class="block text-sm font-bold text-slate-700">Email / البريد الإلكتروني<input id="cloud-email" type="email" required autocomplete="username" class="w-full border rounded-xl p-3 mt-1 text-slate-900" dir="ltr"></label>
+        <label class="block text-sm font-bold text-slate-700">Password / كلمة السر<input id="cloud-password" type="password" required minlength="8" autocomplete="current-password" class="w-full border rounded-xl p-3 mt-1 text-slate-900" dir="ltr"></label>
+        <label id="cloud-shop-label" class="hidden block text-sm font-bold text-slate-700">Shop name / اسم المحل<input id="cloud-shop" maxlength="100" class="w-full border rounded-xl p-3 mt-1 text-slate-900"></label>
+        <button id="cloud-submit" type="submit" class="w-full bg-indigo-600 text-white font-bold rounded-xl p-3">Sign in / دخول</button>
+      </form>
+      <div class="flex gap-3 justify-center text-sm"><button id="cloud-toggle" class="text-indigo-700 font-bold">Create account / حساب جديد</button><button id="cloud-reset" class="text-slate-600">Forgot password?</button></div>
+      <p id="cloud-auth-message" role="status" class="text-sm text-slate-700 whitespace-pre-wrap" dir="auto">Connecting / جارٍ الاتصال…</p>
+      <button id="cloud-auth-retry" class="hidden text-indigo-700 underline">Retry connection / إعادة الاتصال</button>
+      <p class="text-xs text-slate-500 text-center" dir="auto">كل حساب مستقل. استعمل نفس الإيميل على أجهزتك. رموز PIN القديمة ليست حسابات سحابية.</p>
     </div>
   </div>
-
+  <div id="cloud-bar" class="hidden bg-indigo-50 border-b border-indigo-200 px-4 py-2 text-xs flex flex-wrap items-center gap-3" role="status">
+    <strong id="cloud-status">Connecting…</strong><span id="cloud-account" class="text-slate-500"></span>
+    <button id="cloud-refresh" class="underline">Refresh / تحديث</button><button id="cloud-retry" class="hidden underline">Retry save / إعادة الحفظ</button>
+    <button id="cloud-migrate" class="hidden underline">Import old browser data / نقل البيانات القديمة</button>
+  </div>
+  <div id="cloud-problem" class="hidden fixed inset-0 bg-slate-950/90 flex items-center justify-center p-4" style="z-index:100">
+    <div class="bg-white text-slate-900 rounded-2xl p-6 max-w-lg space-y-4"><h2 class="font-bold text-xl">المزامنة بحاجة لمراجعة / Sync needs attention</h2>
+    <p id="cloud-problem-message" class="text-sm whitespace-pre-wrap" dir="auto"></p>
+    <button id="cloud-download-draft" class="bg-indigo-600 text-white rounded-xl p-3">Download unsaved copy / تنزيل نسخة غير محفوظة</button>
+    <button id="cloud-problem-retry" class="border rounded-xl p-3">Retry save / إعادة المحاولة</button>
+    <button id="cloud-use-server" class="border rounded-xl p-3">Load cloud version / تحميل النسخة السحابية</button>
+    </div>
+  </div>
   <!-- Top Navbar (Clean, Non-Crowded on Mobile & Desktop) -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
     <div class="px-2.5 sm:px-5 lg:px-6 flex items-center justify-between h-14 sm:h-16 gap-2">
@@ -604,8 +394,8 @@
             M
           </div>
           <div class="min-w-0 flex-1">
-            <p id="sidebar-user-name" class="text-xs font-bold text-slate-900 truncate">Super Admin</p>
-            <p id="sidebar-user-role" class="text-[11px] text-slate-500 truncate">Platform Admin &bull; All Stores Access</p>
+            <p id="sidebar-user-name" class="text-xs font-bold text-slate-900 truncate">Account Owner</p>
+            <p id="sidebar-user-role" class="text-[11px] text-slate-500 truncate">Your account &bull; Your branches</p>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 text-xs">
@@ -624,7 +414,7 @@
     <!-- Content Workspace (pb-20 on mobile so bottom nav bar never overlaps content) -->
     <main class="flex-1 overflow-y-auto custom-scrollbar p-3 sm:p-6 lg:p-8 pb-24 lg:pb-8">
 
-      <!-- Super Admin Pending Notifications Alert Bar (Visible to Super Admin when requests exist) -->
+      <!-- Account Owner Pending Notifications Alert Bar (Visible to Account Owner when requests exist) -->
       <div id="admin-global-alert-bar" class="hidden mb-5 p-3.5 bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-600 text-white rounded-2xl shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
         <div class="flex items-center gap-2.5">
           <span class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center text-base flex-shrink-0">
@@ -1322,76 +1112,13 @@
 
       <!-- ================= TAB: AUTH & SHOP GATEWAY (COMMERCIAL SAAS) ================= -->
       <section id="tab-auth" class="tab-pane hidden space-y-6">
-        <div class="bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
-          <div class="relative z-10 max-w-2xl">
-            <div class="flex items-center space-x-2">
-              <span class="bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 text-xs px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5">
-                <i class="fa-solid fa-shield-halved text-indigo-400"></i> SaaS Terminal Auth & Security
-              </span>
-              <span class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded font-mono font-bold">TERMINAL UNLOCKED</span>
-            </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold mt-2 tracking-tight">Shop Authentication Gateway</h2>
-            <p class="text-indigo-200 text-xs sm:text-sm mt-1">Manage current terminal security session, switch between client store accounts, onboard new mobile shop clients, or lock this terminal.</p>
-            <div class="mt-4 flex flex-wrap gap-2.5">
-              <button id="auth-tab-lock-now" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow transition flex items-center gap-1.5">
-                <i class="fa-solid fa-lock"></i> Lock Terminal Now
-              </button>
-              <button id="auth-tab-switch-store" class="bg-white text-indigo-950 hover:bg-indigo-50 text-xs font-bold px-4 py-2 rounded-xl shadow transition flex items-center gap-1.5">
-                <i class="fa-solid fa-store"></i> Switch Store Account
-              </button>
-              <button id="auth-tab-onboard-new" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow transition flex items-center gap-1.5">
-                <i class="fa-solid fa-plus"></i> Onboard New Mobile Shop
-              </button>
-            </div>
-          </div>
-          <div class="absolute right-6 -bottom-4 opacity-10 pointer-events-none hidden md:block">
-            <i class="fa-solid fa-shield-halved text-9xl"></i>
-          </div>
-        </div>
-
-        <!-- Current Session Card -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Active Store Session</span>
-            <div class="text-lg font-black text-slate-900" id="auth-session-store-name">Apex Mobile (Main)</div>
-            <p class="text-xs text-slate-500" id="auth-session-owner">Owner: Fadi Khoury</p>
-            <p class="text-xs text-slate-400 font-mono" id="auth-session-phone">Tel: +961 71 892 410</p>
-          </div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Terminal Access PIN</span>
-            <div class="text-lg font-black text-slate-900 font-mono tracking-widest">&bull;&bull;&bull;&bull; (PIN: 1234)</div>
-            <p class="text-xs text-emerald-600 font-semibold flex items-center gap-1">
-              <i class="fa-solid fa-circle-check"></i> PIN Security Active
-            </p>
-            <p class="text-[11px] text-slate-400">Protects drawer counts & audit reports</p>
-          </div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">SaaS Commercial License</span>
-            <div class="text-lg font-black text-indigo-700">Commercial Multi-Store</div>
-            <p class="text-xs text-slate-600">Client Data Isolation: <span class="font-bold text-emerald-600">Enabled</span></p>
-            <p class="text-[11px] text-slate-400">Offline & In-Browser Resilience</p>
-          </div>
-        </div>
-
-        <!-- How to Sell to Mobile Shop Owners Guide -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-          <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <i class="fa-solid fa-lightbulb text-amber-500"></i> Selling This Web App to Lebanese Mobile Shop Owners
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-600">
-            <div class="p-3 bg-slate-50 rounded-xl space-y-1">
-              <span class="font-bold text-slate-900">1. Instant Onboarding</span>
-              <p>Click "Onboard New Shop" or open the Auth Gateway. Fill in their shop name, WhatsApp, starting float, and hand over their 4-digit PIN.</p>
-            </div>
-            <div class="p-3 bg-slate-50 rounded-xl space-y-1">
-              <span class="font-bold text-slate-900">2. Why They Buy</span>
-              <p>Solves dual USD/LBP cash drawers, Touch & Alfa recharge vouchers (including Alfa Ushare & mobile net), Whish Money reconciliation, and phone repairs.</p>
-            </div>
-            <div class="p-3 bg-slate-50 rounded-xl space-y-1">
-              <span class="font-bold text-slate-900">3. Lock Screen Security</span>
-              <p>When the shop owner steps away from the counter, they click "Lock Terminal". Employees cannot view overall daily net profit without the master PIN.</p>
-            </div>
-          </div>
+        <div class="bg-white border rounded-2xl p-6 space-y-4 text-slate-900">
+          <h2 class="text-2xl font-bold">Your cloud account / حسابك السحابي</h2>
+          <p dir="auto">استعمل نفس الإيميل وكلمة السر على أي جهاز لفتح بياناتك. الفروع الموجودة ضمن حسابك تشترك بنفس تسجيل الدخول. لمالك مستقل، أنشئ حساباً منفصلاً.</p>
+          <p>Your account owns its branches. Other accounts cannot access this workspace. Wait for “Saved to cloud” before closing.</p>
+          <p id="auth-session-store-name" class="font-bold"></p><p id="auth-session-owner"></p><p id="auth-session-phone"></p>
+          <button id="auth-tab-lock-now" class="bg-indigo-600 text-white px-4 py-3 rounded-xl">Sign out / تسجيل الخروج</button>
+          <button id="auth-tab-switch-store" class="border px-4 py-3 rounded-xl">Switch branch / تبديل الفرع</button>
         </div>
       </section>
 
@@ -1401,7 +1128,7 @@
           <div class="relative z-10 max-w-2xl">
             <div class="flex flex-wrap items-center gap-2">
               <span class="bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 text-xs px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5">
-                <i class="fa-solid fa-crown text-amber-400"></i> <span data-i18n="stores_hero_badge">Super Admin Multi-Store Hub</span>
+                <i class="fa-solid fa-crown text-amber-400"></i> <span data-i18n="stores_hero_badge">Account Owner Multi-Store Hub</span>
               </span>
               <span class="text-xs bg-slate-800 px-2.5 py-1 rounded-full text-slate-300" data-i18n="stores_hero_subbadge">Approvals & PIN Control</span>
             </div>
@@ -1424,49 +1151,6 @@
           </div>
           <div class="absolute right-6 -bottom-4 opacity-10 pointer-events-none hidden md:block">
             <i class="fa-solid fa-store text-9xl"></i>
-          </div>
-        </div>
-
-        <!-- Pending Requests Grid: 1) Pending Add Store Requests  2) Forgot PIN Reset Requests -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- Column 1: Pending Add Store Requests -->
-          <div class="bg-white rounded-2xl border border-emerald-200 shadow-sm p-4 sm:p-5 space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
-                  <i class="fa-solid fa-store"></i>
-                </div>
-                <div>
-                  <h3 class="text-sm font-extrabold text-slate-900" data-i18n="pending_stores_title">Pending "Add Store" Requests</h3>
-                  <p class="text-[11px] text-slate-500" data-i18n="pending_stores_sub">Submitted from Auth Gateway &bull; Awaiting your approval</p>
-                </div>
-              </div>
-              <span id="pending-stores-badge" class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-2.5 py-0.5 rounded-full">0 Pending</span>
-            </div>
-
-            <div id="pending-stores-list" class="space-y-3">
-              <!-- Rendered by JS -->
-            </div>
-          </div>
-
-          <!-- Column 2: Pending Forgot PIN Reset Requests -->
-          <div class="bg-white rounded-2xl border border-rose-200 shadow-sm p-4 sm:p-5 space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
-                  <i class="fa-solid fa-key"></i>
-                </div>
-                <div>
-                  <h3 class="text-sm font-extrabold text-slate-900" data-i18n="pending_pins_title">"Forgot PIN" Reset Requests</h3>
-                  <p class="text-[11px] text-slate-500" data-i18n="pending_pins_sub">Shop owners requesting a new PIN from Admin</p>
-                </div>
-              </div>
-              <span id="pending-pins-badge" class="bg-rose-100 text-rose-800 text-xs font-extrabold px-2.5 py-0.5 rounded-full">0 Requests</span>
-            </div>
-
-            <div id="pending-pins-list" class="space-y-3">
-              <!-- Rendered by JS -->
-            </div>
           </div>
         </div>
 
@@ -1881,7 +1565,7 @@
           </div>
         </div>
 
-        <!-- Card 3: Super Admin Exclusive Demo Data Controls (Hidden for Store Owners) -->
+        <!-- Card 3: Account Owner Exclusive Demo Data Controls (Hidden for Store Owners) -->
         <div id="data-panel-admin-demo-section" class="hidden bg-amber-50/80 border border-amber-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-200/70 pb-3">
             <div class="flex items-center gap-2.5">
@@ -1889,8 +1573,8 @@
                 <i class="fa-solid fa-crown"></i>
               </div>
               <div>
-                <h3 class="text-base font-extrabold text-amber-950" data-i18n="backup_admin_demo_title">3. Super Admin Only: Demo Data Control</h3>
-                <p class="text-xs text-amber-800" data-i18n="backup_admin_demo_desc">All stores start with zero data by default. As Super Admin, only you have permission to populate the active store with sample demo data or reset it back to zero.</p>
+                <h3 class="text-base font-extrabold text-amber-950" data-i18n="backup_admin_demo_title">3. Account Owner Only: Demo Data Control</h3>
+                <p class="text-xs text-amber-800" data-i18n="backup_admin_demo_desc">All stores start with zero data by default. As Account Owner, only you have permission to populate the active store with sample demo data or reset it back to zero.</p>
               </div>
             </div>
             <span class="bg-amber-200 text-amber-950 text-[11px] font-extrabold px-3 py-1 rounded-full uppercase self-start sm:self-center whitespace-nowrap">Admin Exclusive</span>
@@ -2612,8 +2296,7 @@
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Store Access PIN / Password</label>
-          <input id="store-reg-pin" type="text" value="1234" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-mono">
+          <p class="text-xs text-slate-500">This branch belongs to your signed-in account. / الفرع تابع لحسابك الحالي.</p>
         </div>
 
         <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
@@ -2808,17 +2491,17 @@
         </button>
       </div>
 
-      <!-- 3. Super Admin Exclusive Demo Data Controls (Hidden for Store Owners) -->
+      <!-- 3. Account Owner Exclusive Demo Data Controls (Hidden for Store Owners) -->
       <div id="backup-admin-demo-section" class="hidden p-4 bg-amber-50/80 border border-amber-200 rounded-2xl space-y-2.5">
         <div class="flex items-center justify-between">
           <span class="font-extrabold text-amber-950 flex items-center gap-1.5 text-xs">
             <i class="fa-solid fa-crown text-amber-600 text-sm"></i>
-            <span data-i18n="backup_admin_demo_title">3. Super Admin Only: Demo Data Control</span>
+            <span data-i18n="backup_admin_demo_title">3. Account Owner Only: Demo Data Control</span>
           </span>
           <span class="bg-amber-200 text-amber-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">Admin Exclusive</span>
         </div>
         <p class="text-[11px] text-amber-800 leading-relaxed" data-i18n="backup_admin_demo_desc">
-          All stores start with zero data by default. As Super Admin, only you have permission to populate the active store with sample demo data or reset it back to zero.
+          All stores start with zero data by default. As Account Owner, only you have permission to populate the active store with sample demo data or reset it back to zero.
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
           <button type="button" onclick="adminLoadDemoData()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold py-2.5 px-3 rounded-xl shadow-xs transition flex items-center justify-center gap-1.5 text-xs">
@@ -2900,7 +2583,7 @@
   <script>
     const STORAGE_KEY = 'apex_mobile_shop_data_v2';
 
-    // Sample Demo Dataset (Accessible ONLY to Super Admin on demand)
+    // Sample Demo Dataset (Accessible ONLY to Account Owner on demand)
     const DEMO_STORE_DATASET = {
       drawers: {
         usd: 2420.00,
@@ -2984,7 +2667,7 @@
       };
     }
 
-    // All stores start with ZERO data by default (Only Super Admin can inject Demo Data)
+    // All stores start with ZERO data by default (Only Account Owner can inject Demo Data)
     const defaultInitialState = {
       currentStoreId: 'store-01',
       stores: [
@@ -3080,63 +2763,16 @@
     }
 
     function loadState() {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          appState = JSON.parse(stored);
-        } else {
-          appState = JSON.parse(JSON.stringify(defaultInitialState));
-          saveState();
-        }
-      } catch (e) {
-        console.warn('LocalStorage blocked or failed, using memory state:', e);
-        appState = JSON.parse(JSON.stringify(defaultInitialState));
-      }
-
-      if (!appState.auth) {
-        appState.auth = { isAuthenticated: false, role: null, activeStoreId: appState.currentStoreId || 'store-01', adminPin: '1234' };
-      }
-      // Always require authentication when opening or refreshing the page link
-      appState.auth.isAuthenticated = false;
-      appState.auth.role = null;
-      if (!appState.auth.adminPin) {
-        appState.auth.adminPin = '1234';
-      }
-      if (!appState.storeData) {
-        appState.storeData = {};
-      }
-      (appState.stores || []).forEach(s => {
-        if (!s.pin) s.pin = '1234';
-        if (!appState.storeData[s.id]) {
-          appState.storeData[s.id] = createEmptyStoreData(s.usdDrawer || 0, s.lbpDrawer || 0, s.whishFloat || 0);
-        }
-      });
-      if (!appState.settings) appState.settings = {};
-      if (!appState.settings.lang) {
-        appState.settings.lang = 'en';
-      }
-      if (!appState.settings.theme) {
-        appState.settings.theme = 'light';
-      }
-      if (!appState.storeRequests) {
-        appState.storeRequests = [];
-      }
-      if (!appState.pinResetRequests) {
-        appState.pinResetRequests = [];
-      }
-      if (!appState.settings.aiModel) {
-        appState.settings.aiModel = 'gemini-2.5-flash';
-      }
-      loadStoreSnapshotIntoActive(appState.currentStoreId || 'store-01');
+      appState = JSON.parse(JSON.stringify(defaultInitialState));
+      appState.stores = [{id: 'store-01', name: 'My Shop', owner: '', phone: '', city: '', whishId: '', usdDrawer: 0, lbpDrawer: 0, whishFloat: 0}];
+      appState.storeData = {'store-01': createEmptyStoreData()};
+      appState.auth = {isAuthenticated: false, role: null, activeStoreId: 'store-01'};
+      loadStoreSnapshotIntoActive('store-01');
     }
 
     function saveState() {
       syncActiveToStoreData();
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-      } catch (e) {
-        console.warn('Could not save to localStorage:', e);
-      }
+      if (window.Cloud) window.Cloud.save();
       renderApp();
     }
 
@@ -4135,7 +3771,7 @@
 
     function switchTab(tabId) {
       if (tabId === 'tab-stores' && appState.auth && appState.auth.role === 'owner') {
-        showToast('Access restricted to Super Admin.', 'error');
+        showToast('Access restricted to Account Owner.', 'error');
         return;
       }
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
@@ -4253,8 +3889,8 @@
     window.adminLoadDemoForStore = function(targetStoreId) {
       if (!appState.auth || appState.auth.role !== 'admin') {
         const err = getLang() === 'ar'
-          ? 'عذراً! فقط المدير العام (Super Admin) يحق له إضافة البيانات التجريبية (Demo Data).'
-          : 'Access Denied: Only the Super Admin can load Demo Data!';
+          ? 'عذراً! فقط المدير العام (Account Owner) يحق له إضافة البيانات التجريبية (Demo Data).'
+          : 'Access Denied: Only the Account Owner can load Demo Data!';
         showToast(err, 'error');
         return;
       }
@@ -4280,7 +3916,7 @@
       const storeName = st ? st.name : sid;
       const msg = getLang() === 'ar'
         ? `تم تحميل البيانات التجريبية (Demo Data) بنجاح في متجر "${storeName}" بواسطة الـ Admin!`
-        : `Demo Data loaded into "${storeName}" by Super Admin!`;
+        : `Demo Data loaded into "${storeName}" by Account Owner!`;
       showToast(msg);
     };
 
@@ -4291,8 +3927,8 @@
     window.adminClearDataForStore = function(targetStoreId) {
       if (!appState.auth || appState.auth.role !== 'admin') {
         const err = getLang() === 'ar'
-          ? 'فقط الـ Super Admin يمكنه تصفير بيانات المتجر.'
-          : 'Only Super Admin can clear store data!';
+          ? 'فقط الـ Account Owner يمكنه تصفير بيانات المتجر.'
+          : 'Only Account Owner can clear store data!';
         showToast(err, 'error');
         return;
       }
@@ -4426,24 +4062,24 @@
         auth_badge: 'Commercial SaaS Edition • Multi-Tenant Terminals',
         auth_title: 'Apex Mobile & Whish Suite',
         auth_subtitle: 'Secure back-office gateway for Lebanese mobile phone shops & authorized Whish Money agents.',
-        auth_tab_admin: 'Super Admin',
+        auth_tab_admin: 'Account Owner',
         auth_tab_owner: 'Store Owner',
         auth_tab_add_store: 'Add Store',
-        admin_welcome_title: 'Super Admin Portal',
-        admin_welcome_desc: 'Log in as Super Admin for full control over all stores, approving new Add Store requests, and setting new PINs for shop owners.',
+        admin_welcome_title: 'Account Owner Portal',
+        admin_welcome_desc: 'Log in as Account Owner for full control over all stores, approving new Add Store requests, and setting new PINs for shop owners.',
         admin_pin_label: 'Master Admin PIN',
-        admin_login_btn: 'Sign In as Super Admin',
+        admin_login_btn: 'Sign In as Account Owner',
         owner_welcome_title: 'Store Owner Login',
         owner_welcome_desc: 'Select your shop and enter your secret PIN. Store owners only access their own isolated store inventory, POS, Whish desk, and repairs.',
         owner_select_label: 'Select Store / Manager',
         owner_pin_label: 'Store Access PIN',
         forgot_pin_link: 'Forgot PIN?',
         owner_login_btn: 'Unlock My Store Account',
-        forgot_pin_box_title: 'Request New PIN from Super Admin',
-        forgot_pin_box_desc: 'Submit a reset request for your selected store. The Super Admin will receive your alert inside the Admin Hub and assign a new PIN for you.',
+        forgot_pin_box_title: 'Request New PIN from Account Owner',
+        forgot_pin_box_desc: 'Submit a reset request for your selected store. The Account Owner will receive your alert inside the Admin Hub and assign a new PIN for you.',
         forgot_pin_submit_btn: 'Send PIN Reset Request to Admin',
         reg_welcome_title: 'Request New Store Account (Admin Approval)',
-        reg_welcome_desc: 'Fill out your mobile shop details below. Your request will be sent to the Super Admin inside the platform for review and one-click activation.',
+        reg_welcome_desc: 'Fill out your mobile shop details below. Your request will be sent to the Account Owner inside the platform for review and one-click activation.',
         reg_shop_name: 'Mobile Shop Business Name',
         reg_owner_name: 'Owner / Manager Name',
         reg_phone: 'WhatsApp Phone Number',
@@ -4452,7 +4088,7 @@
         reg_usd: 'Opening USD ($)',
         reg_float: 'Whish Float ($)',
         reg_pin: 'Desired PIN',
-        reg_submit_btn: 'Submit Store Request to Super Admin',
+        reg_submit_btn: 'Submit Store Request to Account Owner',
         demo_quick_title: 'Instant 1-Click Access',
         demo_click_role: 'tap any role',
         demo_admin_sub: 'Full Control',
@@ -4485,10 +4121,10 @@
         footer_lock: 'Lock',
         footer_settings: 'Settings',
         footer_reset: 'Reset',
-        stores_hero_badge: 'Super Admin Multi-Store Hub',
-        stores_hero_subbadge: 'Approvals & PIN Control',
+        stores_hero_badge: 'Account Owner Multi-Store Hub',
+        stores_hero_subbadge: 'Your branches / فروع حسابك',
         stores_hero_title: 'Mobile Shop Owners & Approvals',
-        stores_hero_desc: 'Approve incoming Add Store requests, set new PINs for shop owners who forgot their PIN, or open a new store account directly.',
+        stores_hero_desc: 'These branches share your account. Each independent owner needs a separate email account. / هذه الفروع ضمن حسابك. كل مالك مستقل يحتاج حساباً منفصلاً.',
         stores_btn_create_direct: 'Add Store Directly (Admin)',
         pending_stores_title: 'Pending "Add Store" Requests',
         pending_stores_sub: 'Submitted from Auth Gateway • Awaiting your approval',
@@ -4528,20 +4164,20 @@
         backup_import_title: '2. Import / Restore Backup File (.json)',
         backup_import_desc: 'Select a previously exported .json backup file from your phone or computer to immediately restore all stores and records.',
         backup_import_btn: 'Import & Restore Selected Backup',
-        backup_admin_demo_title: '3. Super Admin Only: Demo Data Control',
-        backup_admin_demo_desc: 'All stores start with zero data by default. As Super Admin, only you have permission to populate the active store with sample demo data or reset it back to zero.'
+        backup_admin_demo_title: '3. Account Owner Only: Demo Data Control',
+        backup_admin_demo_desc: 'All stores start with zero data by default. As Account Owner, only you have permission to populate the active store with sample demo data or reset it back to zero.'
       },
       ar: {
         auth_badge: 'النسخة التجارية SaaS • إدارة المحلات والوكلاء',
         auth_title: 'Apex Mobile & Whish Suite',
         auth_subtitle: 'بوابة الدخول والأمان لمحلات الهواتف ووكلاء Whish Money في لبنان.',
-        auth_tab_admin: 'Super Admin',
+        auth_tab_admin: 'Account Owner',
         auth_tab_owner: 'صاحب محل (Owner)',
         auth_tab_add_store: 'طلب إضافة متجر',
-        admin_welcome_title: 'بوابة المدير العام (Super Admin)',
-        admin_welcome_desc: 'سجّل الدخول كـ Super Admin للتحكم بجميع المحلات، الموافقة على طلبات فتح المحلات الجديدة، وتعيين رمز PIN جديد لأصحاب المحلات.',
-        admin_pin_label: 'رمز الـ Super Admin السري (PIN)',
-        admin_login_btn: 'دخول كـ Super Admin',
+        admin_welcome_title: 'بوابة المدير العام (Account Owner)',
+        admin_welcome_desc: 'سجّل الدخول كـ Account Owner للتحكم بجميع المحلات، الموافقة على طلبات فتح المحلات الجديدة، وتعيين رمز PIN جديد لأصحاب المحلات.',
+        admin_pin_label: 'رمز الـ Account Owner السري (PIN)',
+        admin_login_btn: 'دخول كـ Account Owner',
         owner_welcome_title: 'دخول أصحاب المحلات (Store Owners)',
         owner_welcome_desc: 'اختر متجرك وأدخل رمز PIN الخاص بك. يفتح صاحب المحل حساب متجره الخاص فقط (مخزون، مبيعات، Whish وصيانة).',
         owner_select_label: 'اختر المتجر / المدير',
@@ -4549,10 +4185,10 @@
         forgot_pin_link: 'نسيت رمز PIN؟',
         owner_login_btn: 'فتح حساب المتجر الخاص بي',
         forgot_pin_box_title: 'طلب تعيين رمز PIN جديد من الـ Admin',
-        forgot_pin_box_desc: 'أرسل طلباً للمدير العام (Super Admin) ليقوم بتعيين رمز PIN جديد لحساب محلك.',
+        forgot_pin_box_desc: 'أرسل طلباً للمدير العام (Account Owner) ليقوم بتعيين رمز PIN جديد لحساب محلك.',
         forgot_pin_submit_btn: 'إرسال طلب تغيير الـ PIN للأدمن',
         reg_welcome_title: 'طلب إضافة متجر جديد (بانتظار موافقة الـ Admin)',
-        reg_welcome_desc: 'أدخل بيانات محلك أدناه. سيصل الطلب مباشرة إلى Super Admin داخل النظام للموافقة عليه وتفعيله.',
+        reg_welcome_desc: 'أدخل بيانات محلك أدناه. سيصل الطلب مباشرة إلى Account Owner داخل النظام للموافقة عليه وتفعيله.',
         reg_shop_name: 'اسم المحل التجاري',
         reg_owner_name: 'اسم صاحب المحل / المدير',
         reg_phone: 'رقم الواتساب للتواصل',
@@ -4594,10 +4230,10 @@
         footer_lock: 'قفل',
         footer_settings: 'الإعدادات',
         footer_reset: 'إعادة ضبط',
-        stores_hero_badge: 'لوحة تحكم الـ Super Admin',
-        stores_hero_subbadge: 'الموافقات وإدارة الـ PIN',
+        stores_hero_badge: 'لوحة تحكم الـ Account Owner',
+        stores_hero_subbadge: 'Your branches / فروع حسابك',
         stores_hero_title: 'إدارة المحلات وطلبات الموافقة',
-        stores_hero_desc: 'وافق على طلبات إضافة المحلات الجديدة، عيّن رمز PIN جديد لأصحاب المحلات الذين نسوا الرمز، أو افتح حساب متجر مباشرة.',
+        stores_hero_desc: 'These branches share your account. Each independent owner needs a separate email account. / هذه الفروع ضمن حسابك. كل مالك مستقل يحتاج حساباً منفصلاً.',
         stores_btn_create_direct: 'إضافة متجر مباشرة (Admin)',
         pending_stores_title: 'طلبات فتح متجر جديد (بانتظار موافقتك)',
         pending_stores_sub: 'مرسلة من صفحة الدخول • اضغط موافقة لتفعيل المتجر',
@@ -4637,8 +4273,8 @@
         backup_import_title: '2. استيراد / استرجاع البيانات (Import .json)',
         backup_import_desc: 'اختر ملف نسخة احتياطية (.json) محفوظ مسبقاً على هاتفك أو كمبيوترك لاسترجاع كافة البيانات فوراً.',
         backup_import_btn: 'استيراد واسترجاع البيانات الآن',
-        backup_admin_demo_title: '3. خاص بالـ Super Admin فقط: التحكم بالـ Demo Data',
-        backup_admin_demo_desc: 'جميع المحلات تبدأ بدون أي داتا (صفر بيانات). فقط الـ Super Admin يحق له إضافة الداتا التجريبية (Demo Data) أو تصفيرها.'
+        backup_admin_demo_title: '3. خاص بالـ Account Owner فقط: التحكم بالـ Demo Data',
+        backup_admin_demo_desc: 'جميع المحلات تبدأ بدون أي داتا (صفر بيانات). فقط الـ Account Owner يحق له إضافة الداتا التجريبية (Demo Data) أو تصفيرها.'
       }
     };
 
@@ -4806,13 +4442,13 @@
       const totalPending = pendingStoresCount + pendingPinsCount;
 
       if (role === 'admin') {
-        // Super Admin Mode (No "(You)" or "")
+        // Account Owner Mode (No "(You)" or "")
         if (avatarEl) {
           avatarEl.className = 'w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-amber-500 text-white flex items-center justify-center font-bold text-sm shadow-md ring-2 ring-purple-300 flex-shrink-0';
           avatarEl.innerHTML = '<i class="fa-solid fa-crown text-amber-300 text-xs"></i>';
         }
-        if (nameEl) nameEl.textContent = 'Super Admin';
-        if (roleEl) roleEl.textContent = lang === 'ar' ? 'المدير العام • صلاحيات كاملة' : 'Platform Admin • All Stores Access';
+        if (nameEl) nameEl.textContent = 'Account Owner';
+        if (roleEl) roleEl.textContent = lang === 'ar' ? 'المدير العام • صلاحيات كاملة' : 'Your account • Your branches';
 
         if (sidebarNavStores) sidebarNavStores.style.display = 'flex';
         const btnDemoFooter = document.getElementById('btn-reset-demo');
@@ -4824,7 +4460,7 @@
 
         if (btnSwitchStore) {
           btnSwitchStore.className = 'cursor-pointer bg-purple-50 border border-purple-200 hover:bg-purple-100 text-purple-950 text-[11px] sm:text-xs px-2 sm:px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-2xs';
-          btnSwitchStore.title = 'Switch active store inspection (Super Admin)';
+          btnSwitchStore.title = 'Switch active store inspection (Account Owner)';
         }
         if (navStoreIcon) navStoreIcon.className = 'fa-solid fa-crown text-amber-500';
         if (navStoreLabelPrefix) navStoreLabelPrefix.textContent = lang === 'ar' ? 'المتجر:' : 'Admin Store:';
@@ -4837,8 +4473,8 @@
             const descEl = document.getElementById('admin-alert-bar-desc');
             if (titleEl) {
               titleEl.textContent = lang === 'ar'
-                ? `لديك ${totalPending} طلبات معلّقة بانتظار موافقتك كـ Super Admin`
-                : `You have ${totalPending} pending request(s) awaiting Super Admin action`;
+                ? `لديك ${totalPending} طلبات معلّقة بانتظار موافقتك كـ Account Owner`
+                : `You have ${totalPending} pending request(s) awaiting Account Owner action`;
             }
             if (descEl) {
               descEl.textContent = lang === 'ar'
@@ -4872,7 +4508,7 @@
 
         if (btnSwitchStore) {
           btnSwitchStore.className = 'cursor-default bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px] sm:text-xs px-2 sm:px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-2xs';
-          btnSwitchStore.title = `Your Account (${storeName}). Multi-store access restricted to Super Admin.`;
+          btnSwitchStore.title = `Your Account (${storeName}). Multi-store access restricted to Account Owner.`;
         }
         if (navStoreIcon) navStoreIcon.className = 'fa-solid fa-shield-halved text-emerald-600';
         if (navStoreLabelPrefix) navStoreLabelPrefix.textContent = lang === 'ar' ? 'متجري:' : 'My Store:';
@@ -4943,57 +4579,9 @@
       if (overlay) overlay.classList.add('hidden');
     };
 
-    window.lockTerminal = function() {
-      if (!appState.auth) appState.auth = {};
-      appState.auth.isAuthenticated = false;
-      appState.auth.role = null;
-      const adminPinEl = document.getElementById('auth-admin-pin');
-      if (adminPinEl) adminPinEl.value = '';
-      const ownerPinEl = document.getElementById('auth-owner-pin');
-      if (ownerPinEl) ownerPinEl.value = '';
-      saveState();
-      openAuthGateway();
-      const msg = getLang() === 'ar'
-        ? 'تم قفل النظام. اختر الحساب وأدخل رمز PIN للدخول.'
-        : 'Terminal Locked. Select your role and enter PIN to unlock.';
-      showToast(msg, 'info');
-    };
-
-    window.quickAuthAdmin = function() {
-      if (!appState.auth) appState.auth = {};
-      appState.auth.isAuthenticated = true;
-      appState.auth.role = 'admin';
-      appState.auth.activeStoreId = appState.currentStoreId || 'store-01';
-      saveState();
-      closeAuthGateway();
-      const msg = getLang() === 'ar'
-        ? 'تم الدخول كـ Super Admin! لديك صلاحيات كاملة للموافقة على المحلات وتعيين رموز PIN.'
-        : 'Signed in as Super Admin! Full multi-store & approval controls unlocked.';
-      showToast(msg);
-    };
-
-    window.quickAuthOwner = function(storeId) {
-      const store = (appState.stores || []).find(s => s.id === storeId);
-      if (!store) return;
-      syncActiveToStoreData();
-      loadStoreSnapshotIntoActive(storeId);
-
-      if (!appState.auth) appState.auth = {};
-      appState.auth.isAuthenticated = true;
-      appState.auth.role = 'owner';
-      appState.auth.activeStoreId = storeId;
-
-      if (document.getElementById('tab-stores') && !document.getElementById('tab-stores').classList.contains('hidden')) {
-        switchTab('tab-dashboard');
-      }
-
-      saveState();
-      closeAuthGateway();
-      const msg = getLang() === 'ar'
-        ? `تم فتح حساب المتجر: ${store.name} (${store.owner})`
-        : `Unlocked store account: ${store.name} (${store.owner})`;
-      showToast(msg);
-    };
+    window.lockTerminal = function() { return window.Cloud?.signOut(); };
+    // Legacy PIN/demo shortcuts never authenticate a cloud user.
+    window.quickAuthAdmin = window.quickAuthOwner = function() { openAuthGateway(); };
 
     // ================= STORE ACCOUNTS, APPROVALS & PIN RESET LOGIC =================
     function renderStoreSwitcher() {
@@ -5035,8 +4623,8 @@
     window.switchStore = function(storeId) {
       if (appState.auth && appState.auth.role === 'owner' && storeId !== appState.auth.activeStoreId) {
         const msg = getLang() === 'ar'
-          ? 'صاحب المحل يفتح حساب متجره فقط. التنقل بين المتاجر مخصص للـ Super Admin.'
-          : 'Store Owners can only access their own store. Store switching is restricted to Super Admin.';
+          ? 'صاحب المحل يفتح حساب متجره فقط. التنقل بين المتاجر مخصص للـ Account Owner.'
+          : 'Store Owners can only access their own store. Store switching is restricted to Account Owner.';
         showToast(msg, 'error');
         return;
       }
@@ -5304,22 +4892,10 @@
               </div>
             </div>
 
-            <!-- Direct Admin PIN Control for this Store -->
-            <div class="mt-3 p-2 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between gap-2 text-xs">
-              <span class="text-[11px] font-bold text-slate-600 flex items-center gap-1">
-                <i class="fa-solid fa-key text-amber-500"></i> Store PIN:
-              </span>
-              <div class="flex items-center gap-1">
-                <input id="direct-store-pin-${store.id}" type="text" value="${store.pin || '1234'}" class="w-16 px-2 py-1 bg-white border border-slate-200 rounded font-mono font-bold text-center text-xs text-indigo-700">
-                <button onclick="updateStorePinDirectly('${store.id}')" class="bg-slate-800 hover:bg-indigo-600 text-white text-[10px] font-bold px-2 py-1 rounded transition">
-                  ${lang === 'ar' ? 'حفظ' : 'Save PIN'}
-                </button>
-              </div>
-            </div>
           </div>
 
           <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between gap-1.5">
-            <button onclick="adminLoadDemoForStore('${store.id}')" class="flex-1 bg-amber-100 hover:bg-amber-200 text-amber-900 font-extrabold text-[11px] py-1.5 px-2 rounded-lg transition flex items-center justify-center gap-1" title="Super Admin Only: Load Demo Data into this store">
+            <button onclick="adminLoadDemoForStore('${store.id}')" class="flex-1 bg-amber-100 hover:bg-amber-200 text-amber-900 font-extrabold text-[11px] py-1.5 px-2 rounded-lg transition flex items-center justify-center gap-1" title="Account Owner Only: Load Demo Data into this store">
               <i class="fa-solid fa-wand-magic-sparkles text-amber-600"></i> ${lang === 'ar' ? 'إضافة Demo Data' : 'Load Demo Data'}
             </button>
             <button onclick="adminClearDataForStore('${store.id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-[11px] py-1.5 px-2.5 rounded-lg transition flex items-center justify-center gap-1" title="Clear this store's data to zero">
@@ -5671,168 +5247,14 @@
       document.getElementById('auth-tab-lock-now')?.addEventListener('click', lockTerminal);
       document.getElementById('auth-tab-switch-store')?.addEventListener('click', () => {
         if (appState.auth && appState.auth.role === 'owner') {
-          showToast('أنت مسجل بحساب محلك الخاص. تبديل المتاجر محصور بـ Super Admin.', 'info');
+          showToast('أنت مسجل بحساب محلك الخاص. تبديل المتاجر محصور بـ Account Owner.', 'info');
           return;
         }
         openModal('modal-switch-store');
       });
       document.getElementById('auth-tab-onboard-new')?.addEventListener('click', () => {
         openAuthGateway();
-        document.getElementById('auth-tab-btn-register').click();
-      });
-
-      // 3 Auth Tabs Toggle (Super Admin, Store Owner, Register)
-      const tabBtnAdmin = document.getElementById('auth-tab-btn-admin');
-      const tabBtnOwner = document.getElementById('auth-tab-btn-owner');
-      const tabBtnReg = document.getElementById('auth-tab-btn-register');
-      const panelAdmin = document.getElementById('auth-panel-admin');
-      const panelOwner = document.getElementById('auth-panel-owner');
-      const panelReg = document.getElementById('auth-panel-register');
-
-      function switchAuthTab(active) {
-        [tabBtnAdmin, tabBtnOwner, tabBtnReg].forEach(btn => {
-          if (btn) btn.className = 'flex-1 py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1.5 font-bold';
-        });
-        [panelAdmin, panelOwner, panelReg].forEach(p => {
-          if (p) p.classList.add('hidden');
-        });
-
-        if (active === 'admin') {
-          if (tabBtnAdmin) tabBtnAdmin.className = 'flex-1 py-2.5 rounded-xl bg-white text-indigo-700 shadow-sm transition flex items-center justify-center gap-1.5 font-bold';
-          if (panelAdmin) panelAdmin.classList.remove('hidden');
-        } else if (active === 'owner') {
-          if (tabBtnOwner) tabBtnOwner.className = 'flex-1 py-2.5 rounded-xl bg-white text-indigo-700 shadow-sm transition flex items-center justify-center gap-1.5 font-bold';
-          if (panelOwner) panelOwner.classList.remove('hidden');
-        } else if (active === 'register') {
-          if (tabBtnReg) tabBtnReg.className = 'flex-1 py-2.5 rounded-xl bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-1.5 font-bold';
-          if (panelReg) panelReg.classList.remove('hidden');
-        }
-      }
-
-      tabBtnAdmin?.addEventListener('click', () => switchAuthTab('admin'));
-      tabBtnOwner?.addEventListener('click', () => switchAuthTab('owner'));
-      tabBtnReg?.addEventListener('click', () => switchAuthTab('register'));
-
-
-
-      // PIN Visibility Toggles
-      document.getElementById('btn-toggle-admin-pin')?.addEventListener('click', () => {
-        const inp = document.getElementById('auth-admin-pin');
-        inp.type = inp.type === 'password' ? 'text' : 'password';
-      });
-      document.getElementById('btn-toggle-owner-pin')?.addEventListener('click', () => {
-        const inp = document.getElementById('auth-owner-pin');
-        inp.type = inp.type === 'password' ? 'text' : 'password';
-      });
-
-      // Form Submit: Super Admin Login
-      document.getElementById('form-auth-admin')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const pin = document.getElementById('auth-admin-pin').value.trim();
-        const master = (appState.auth && appState.auth.adminPin) ? appState.auth.adminPin : '1234';
-        if (pin !== master && pin !== '1234') {
-          showToast('Incorrect Admin PIN! Default PIN is 1234', 'error');
-          return;
-        }
-        quickAuthAdmin();
-      });
-
-      // Form Submit: Store Owner Login
-      document.getElementById('form-auth-owner')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const selStoreId = document.getElementById('auth-owner-store-select').value;
-        const pin = document.getElementById('auth-owner-pin').value.trim();
-        const store = (appState.stores || []).find(s => s.id === selStoreId);
-        if (!store) {
-          showToast('Store account not found!', 'error');
-          return;
-        }
-        if (store.pin && store.pin !== pin && pin !== '1234') {
-          showToast('Incorrect Store PIN! Default PIN is 1234', 'error');
-          return;
-        }
-        quickAuthOwner(selStoreId);
-      });
-
-      // Forgot PIN Toggle & Submit (Store Owner -> Super Admin)
-      document.getElementById('btn-forgot-pin-toggle')?.addEventListener('click', () => {
-        const box = document.getElementById('forgot-pin-box');
-        if (box) box.classList.toggle('hidden');
-      });
-      document.getElementById('btn-close-forgot-pin')?.addEventListener('click', () => {
-        const box = document.getElementById('forgot-pin-box');
-        if (box) box.classList.add('hidden');
-      });
-      document.getElementById('btn-submit-forgot-pin')?.addEventListener('click', () => {
-        const selStoreId = document.getElementById('auth-owner-store-select')?.value;
-        const store = (appState.stores || []).find(s => s.id === selStoreId);
-        if (!store) return;
-        const note = document.getElementById('forgot-pin-note')?.value.trim() || '';
-
-        if (!appState.pinResetRequests) appState.pinResetRequests = [];
-        const nowStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        appState.pinResetRequests.unshift({
-          id: 'PIN-' + Math.floor(1000 + Math.random() * 9000),
-          storeId: store.id,
-          storeName: store.name,
-          ownerName: store.owner,
-          phone: store.phone,
-          note: note,
-          requestedAt: nowStr
-        });
-
-        saveState();
-        const confirmEl = document.getElementById('forgot-pin-confirm-msg');
-        const lang = getLang();
-        if (confirmEl) {
-          confirmEl.classList.remove('hidden');
-          confirmEl.textContent = lang === 'ar'
-            ? `✓ تم إرسال طلب إعادة تعيين الـ PIN لمتجر "${store.name}" إلى الـ Super Admin!`
-            : `✓ PIN reset request for "${store.name}" sent to Super Admin!`;
-        }
-        if (document.getElementById('forgot-pin-note')) document.getElementById('forgot-pin-note').value = '';
-        showToast(lang === 'ar' ? 'تم إرسال طلب تغيير الـ PIN إلى الـ Admin بنجاح!' : 'PIN reset request sent to Super Admin!');
-      });
-
-      // Form Submit: Request New Store (Sends Request to Super Admin for Approval)
-      document.getElementById('form-auth-register')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('auth-reg-name').value.trim();
-        const owner = document.getElementById('auth-reg-owner').value.trim();
-        const phone = document.getElementById('auth-reg-phone').value.trim();
-        const city = document.getElementById('auth-reg-city').value.trim();
-        const whishId = document.getElementById('auth-reg-whish').value.trim() || 'WH-' + Math.floor(10000 + Math.random() * 90000);
-        const usdDrawer = Number(document.getElementById('auth-reg-usd').value || 1500);
-        const whishFloat = Number(document.getElementById('auth-reg-float').value || 2500);
-        const pin = document.getElementById('auth-reg-pin').value.trim() || '1234';
-
-        if (!appState.storeRequests) appState.storeRequests = [];
-        const nowStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const reqId = 'REQ-' + Math.floor(1000 + Math.random() * 9000);
-
-        appState.storeRequests.unshift({
-          id: reqId,
-          name, owner, phone, city, whishId,
-          usdDrawer, whishFloat, pin,
-          requestedAt: nowStr
-        });
-
-        saveState();
-        document.getElementById('form-auth-register').reset();
-
-        const banner = document.getElementById('auth-reg-success-banner');
-        const lang = getLang();
-        if (banner) {
-          banner.classList.remove('hidden');
-          const tEl = document.getElementById('auth-reg-success-title');
-          const dEl = document.getElementById('auth-reg-success-text');
-          if (tEl) tEl.textContent = lang === 'ar' ? `تم إرسال طلب متجر "${name}" إلى الـ Super Admin!` : `Request for "${name}" sent to Super Admin!`;
-          if (dEl) dEl.textContent = lang === 'ar'
-            ? 'سيظهر الطلب الآن عند الـ Super Admin في قسم Store Accounts للموافقة عليه وتفعيله.'
-            : 'The Super Admin can now review and approve your store inside the Store Accounts (Admin) hub.';
-        }
-
-        showToast(lang === 'ar' ? `تم إرسال طلب إضافة "${name}" إلى الـ Admin للموافقة!` : `Store request for "${name}" sent to Super Admin for approval!`);
+        showToast('Create a separate account from the sign-in screen for another owner.', 'info');
       });
 
       // Drag and Drop for POS Cart
@@ -5973,15 +5395,15 @@
         const whishId = document.getElementById('store-reg-whish').value.trim() || 'WH-NEW';
         const usdDrawer = Number(document.getElementById('store-reg-usd').value || 0);
         const whishFloat = Number(document.getElementById('store-reg-float').value || 0);
-        const pin = document.getElementById('store-reg-pin').value.trim() || '1234';
 
-        const newStoreId = 'store-' + (appState.stores.length + 1).toString().padStart(2, '0');
+
+        const newStoreId = 'store-' + crypto.randomUUID();
         const lbpDrawer = usdDrawer * (appState.settings.exchangeRate || 89500);
         const newStore = {
           id: newStoreId,
           name, owner, phone, city, whishId,
           usdDrawer, lbpDrawer,
-          whishFloat, pin
+          whishFloat
         };
 
         if (!appState.storeData) appState.storeData = {};
@@ -6826,11 +6248,8 @@
 
     }
     
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', setupApp);
-    } else {
-      setupApp();
-    }
   </script>
+  <script src="vendor/supabase-2.57.4.js" crossorigin="anonymous"></script>
+  <script src="cloud.js"></script>
 </body>
 </html>
